@@ -3,11 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/loginFragment">
-
+    app:startDestination="@id/listArventureFragment">
     <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.arventurepath.ui.login_fragment.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        android:id="@+id/listArventureFragment"
+        android:name="com.example.arventurepath.ui.list_arventure_fragment.ListArventureFragment"
+        android:label="fragment_list_arventure"
+        tools:layout="@layout/fragment_list_arventure" />
 </navigation>
