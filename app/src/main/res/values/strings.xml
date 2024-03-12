@@ -2,8 +2,12 @@
     <string name="app_name">ARventurePath</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="titleApp">ARventure Path</string>
+    <string name="titleApp">ARVENTURE PATH</string>
     <string name="password">Contraseña</string>
     <string name="email">Email</string>
     <string name="repeatPassword">Repetir Contraseña</string>
+    <string name="register">Registrarse</string>
+    <string name="tutorial">TUTORIAL</string>
+    <string name="noSkipTutorial">Te recomendamos no saltarte el tutorial</string>
+    <string name="skip">Saltar</string>
 </resources>
