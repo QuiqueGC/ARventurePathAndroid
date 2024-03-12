@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import com.example.arventurepath.R
 import com.example.arventurepath.databinding.FragmentTutorialBinding
 
 class TutorialFragment : Fragment() {
@@ -20,5 +22,7 @@ class TutorialFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        Glide.with(requireContext()).asGif().load(R.drawable.prueba).into(binding.gif)
     }
 }
