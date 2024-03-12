@@ -10,7 +10,7 @@
     <string name="titleArventure">Nombre de la aventura</string>
     <string name="distanceArventure">Distancia</string>
     <string name="minutesArventure">Minutos</string>
-    <string name="originArventure">Origen</string>
-    <string name="storyArventure">Historia</string>
-    <string name="summaryArventure">"Primer Fragmento/Resumen: "</string>
+    <string name="originArventure">ORIGEN</string>
+    <string name="storyArventure">HISTORIA</string>
+    <string name="summaryArventure">"PRIMER FRAGMENTO/RESUMEN: "</string>
 </resources>

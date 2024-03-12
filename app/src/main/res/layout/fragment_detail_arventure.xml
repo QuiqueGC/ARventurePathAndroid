@@ -1,156 +1,204 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".ui.detail_arventure_fragment.DetailArventureFragment">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/arventureTitle"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/titleArventure"
-            android:gravity="center"
-            style="@style/titleStyle"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/imgArventure"
-            android:layout_width="wrap_content"
-            android:layout_height="250dp"
-            android:src="@drawable/aventura"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/smallMargin"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="@dimen/smallMargin">
-
-        <TextView
-            android:id="@+id/distanceArventure"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/distanceArventure"
-            android:layout_marginLeft="@dimen/smallMargin"
-            style="@style/appTextStyle"/>
-
-        <TextView
-            android:id="@+id/minutesArventure"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/minutesArventure"
-            android:textAlignment="textEnd"
-            android:layout_marginRight="@dimen/smallMargin"
-            style="@style/appTextStyle"/>
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:backgroundTint="@color/black"
-        android:layout_marginBottom="@dimen/smallMargin"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="@dimen/smallMargin">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/originArventure"
-            android:layout_marginLeft="@dimen/smallMargin"
-            style="@style/appTextStyle"/>
-
-        <TextView
-            android:id="@+id/originArventure"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Plaza Cataluña"
-            style="@style/appTextStyle"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="@dimen/smallMargin">
-
-        <TextView
-            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/storyArventure"
-            android:layout_marginLeft="@dimen/smallMargin"
-            style="@style/appTextStyle"/>
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/storyNameArventure"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Nombre de la historia"
-            style="@style/appTextStyle"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/arventureTitle"
+                    style="@style/titleStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/titleArventure" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginBottom="@dimen/smallMargin">
+            </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/summaryArventure"
-            android:layout_marginLeft="@dimen/smallMargin"
-            android:layout_marginBottom="@dimen/smallMargin"
-            style="@style/appTextStyle"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/summaryArventure"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/resumen"
-            android:layout_marginLeft="@dimen/smallMargin"
-            android:layout_marginBottom="@dimen/smallMargin"
-            style="@style/appTextStyle"/>
+                <ImageView
+                    android:id="@+id/imgArventure"
+                    android:layout_width="wrap_content"
+                    android:layout_height="250dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/smallMargin"
+                    android:src="@drawable/aventura" />
 
-    </LinearLayout>
+            </LinearLayout>
 
-    <Button
-        android:id="@+id/btnPlay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Jugar"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:fontFamily="@font/elianto_regular"
-        />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/smallMargin"
+                android:orientation="horizontal">
 
-</LinearLayout>
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/distancia" />
+
+                <TextView
+                    android:id="@+id/distanceArventure"
+                    style="@style/appTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/smallMargin"
+                    android:layout_weight="1"
+                    android:text="@string/distanceArventure" />
+
+
+                <TextView
+                    android:id="@+id/minutesArventure"
+                    style="@style/appTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/smallMargin"
+                    android:layout_weight="1"
+                    android:text="@string/minutesArventure"
+                    android:textAlignment="textEnd" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/cronografo" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginBottom="@dimen/smallMargin"
+                android:background="@color/white" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/smallMargin"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/mapa" />
+
+                <TextView
+                    style="@style/appTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/smallMargin"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/elianto_regular"
+                    android:text="@string/originArventure" />
+
+                <TextView
+                    android:id="@+id/originArventure"
+                    style="@style/appTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Plaza Cataluña" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/lugares" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/smallMargin"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/historia" />
+
+                <TextView
+                    style="@style/appTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/smallMargin"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/elianto_regular"
+                    android:text="@string/storyArventure" />
+
+                <TextView
+                    android:id="@+id/storyNameArventure"
+                    style="@style/appTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Nombre de la historia" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/nombre_historia" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginBottom="@dimen/smallMargin"
+                android:background="@color/white" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/smallMargin"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/appTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/smallMargin"
+                    android:layout_marginBottom="@dimen/smallMargin"
+                    android:fontFamily="@font/elianto_regular"
+                    android:text="@string/summaryArventure" />
+
+                <TextView
+                    android:id="@+id/summaryArventure"
+                    style="@style/appTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/smallMargin"
+                    android:layout_marginBottom="@dimen/smallMargin"
+                    android:text="@string/resumen" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnPlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|bottom"
+                android:fontFamily="@font/elianto_regular"
+                android:text="Jugar" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+</ScrollView>
