@@ -6,4 +6,11 @@
     <string name="password">Contraseña</string>
     <string name="email">Email</string>
     <string name="repeatPassword">Repetir Contraseña</string>
+    <string name="resumen">En un pequeño pueblo rodeado de naturaleza, cuatro niños jugaban cerca del bosque. Se llamaban Anita, Gustavo, Alicia y César. Esta pandilla siempre había sentido una conexión especial con la naturaleza, pero desconocían que eran observados por seres mágicos.</string>
+    <string name="titleArventure">Nombre de la aventura</string>
+    <string name="distanceArventure">Distancia</string>
+    <string name="minutesArventure">Minutos</string>
+    <string name="originArventure">Origen</string>
+    <string name="storyArventure">Historia</string>
+    <string name="summaryArventure">"Primer Fragmento/Resumen: "</string>
 </resources>
