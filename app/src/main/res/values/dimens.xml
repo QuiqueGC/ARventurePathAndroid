@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="minMargin">4dp</dimen>
+    <dimen name="smallMargin">8dp</dimen>
+    <dimen name="commonMargin">16dp</dimen>
+    <dimen name="largeMargin">24dp</dimen>
+    <dimen name="maxMargin">32dp</dimen>
+    <dimen name="titleSize">25sp</dimen>
+    <dimen name="commonTextSize">18sp</dimen>
+    <dimen name="subtitleSize">20sp</dimen>
+</resources>
