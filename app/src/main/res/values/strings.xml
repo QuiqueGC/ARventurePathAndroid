@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ARventurePath</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="titleApp">ARventure Path</string>
+    <string name="titleApp">ARVENTURE \nPATH</string>
     <string name="password">Contraseña</string>
     <string name="email">Email</string>
     <string name="repeatPassword">Repetir Contraseña</string>
