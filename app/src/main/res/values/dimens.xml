@@ -6,6 +6,6 @@
     <dimen name="largeMargin">24dp</dimen>
     <dimen name="maxMargin">32dp</dimen>
     <dimen name="titleSize">38sp</dimen>
-    <dimen name="commonTextSize">15sp</dimen>
+    <dimen name="commonTextSize">18sp</dimen>
     <dimen name="subtitleSize">20sp</dimen>
 </resources>
