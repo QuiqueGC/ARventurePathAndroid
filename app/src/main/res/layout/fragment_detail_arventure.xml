@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/imagen_fondo2"
     tools:context=".ui.detail_arventure_fragment.DetailArventureFragment">
 
     <FrameLayout
@@ -14,9 +15,11 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/background_gradient"
                 android:orientation="vertical">
 
                 <TextView
@@ -29,6 +32,7 @@
                     android:text="@string/titleArventure" />
 
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -117,11 +121,6 @@
                     android:layout_weight="1"
                     android:text="Plaza Cataluña" />
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/lugares" />
-
             </LinearLayout>
 
             <LinearLayout
@@ -151,11 +150,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Nombre de la historia" />
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/nombre_historia" />
 
             </LinearLayout>
 
