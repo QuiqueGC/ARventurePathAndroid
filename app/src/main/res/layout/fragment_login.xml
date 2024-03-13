@@ -6,41 +6,82 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.login_fragment.LoginFragment"
-    android:background="@drawable/background_gradient">
+    android:background="@drawable/imagen_fondo2">
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.10"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.90"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.30"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glBot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.70"/>
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glBotTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.20"/>
+    <View
+        android:id="@+id/viewTitle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/maxMargin"
+        app:layout_constraintStart_toStartOf="@id/glLeft"
+        app:layout_constraintEnd_toEndOf="@id/glRight"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/glBotTitle"
+        android:background="@drawable/background_gradient"/>
+    <View
+        android:id="@+id/viewLogin"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="@id/glLeft"
+        app:layout_constraintEnd_toEndOf="@id/glRight"
+        app:layout_constraintTop_toTopOf="@id/glTop"
+        app:layout_constraintBottom_toBottomOf="@id/glBot"
+        android:background="@drawable/background_gradient"/>
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/titleStyle"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         android:text="@string/titleApp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="410dp"
-        android:layout_height="248dp"
-        android:layout_marginTop="16dp"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/ic_launcher"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toTopOf="@id/viewTitle"
+        app:layout_constraintBottom_toBottomOf="@id/viewTitle"/>
 
     <EditText
         android:id="@+id/editTextEmail"
         android:layout_width="212dp"
         android:layout_height="50dp"
-        android:layout_marginTop="24dp"
         android:background="@color/white"
+        android:layout_marginTop="@dimen/largeMargin"
         android:hint="@string/email"
         android:padding="@dimen/smallMargin"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toTopOf="@id/viewLogin"/>
 
     <EditText
         android:id="@+id/editTextPassword"
@@ -84,12 +125,12 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="147dp"
-        android:layout_height="44dp"
+        android:layout_width="162dp"
+        android:layout_height="56dp"
         android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/white"
         android:text="LoginRegistro"
         android:textColor="@color/black"
-        android:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -108,18 +149,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/register"
-        android:textColor="@color/lightBlue"
+        android:textColor="#F2B366"
+        android:textStyle="bold"
         android:textSize="@dimen/commonTextSize"
         android:layout_marginTop="@dimen/smallMargin"
         app:layout_constraintStart_toStartOf="@+id/editTextPassword"
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="126dp"
-        android:layout_height="264dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/rudeus"
-        app:layout_constraintTop_toBottomOf="@id/imageView"
-        app:layout_constraintStart_toEndOf="@id/editTextEmail"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
