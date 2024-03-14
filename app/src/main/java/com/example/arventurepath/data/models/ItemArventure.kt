@@ -9,6 +9,6 @@ data class ItemArventure(
     val title: String = "",
     val summary: String = "",
     val time: String = "",
-    val distance: Double = 0.0,
+    val distance: String = "",
     val img: String = ""
 ) : Parcelable

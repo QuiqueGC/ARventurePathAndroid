@@ -15,7 +15,7 @@ import java.util.Locale
 class ArventurePagerAdapter(
     private val context: Context,
     private val listener: ArventureListener,
-    private val arventures: MutableList<ItemArventure> = mutableListOf()
+    private var arventures: List<ItemArventure> = listOf()
 ) : RecyclerView.Adapter<ArventurePagerAdapter.ViewHolder>() {
 
 
@@ -47,9 +47,8 @@ class ArventurePagerAdapter(
             tvSummaryContent.text = arventures[position].summary
         }
 
-        // TODO: hay que chequear este cargado de imagen
         Glide.with(context)
-            .load(arventures[position].img)
+            .load("http://abp-politecnics.com/2024/DAM01/filesToServer/imgStory/" + arventures[position].img)
             .error(R.drawable.aventura)
             .apply(RequestOptions().centerCrop())
             .into(holder.binding.imgArventure)
@@ -57,4 +56,9 @@ class ArventurePagerAdapter(
     }
 
     override fun getItemCount() = arventures.count()
+
+    fun updateList(arventuresList: List<ItemArventure>) {
+        arventures = arventuresList
+        notifyDataSetChanged()
+    }
 }
