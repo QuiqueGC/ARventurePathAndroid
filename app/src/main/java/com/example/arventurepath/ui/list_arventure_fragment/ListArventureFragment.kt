@@ -38,8 +38,15 @@ class ListArventureFragment : Fragment(), ArventurePagerAdapter.ArventureListene
 
     private fun observeViewModel() {
         lifecycleScope.launch {
-            viewModel.listArventures.collect {
-                adapter.updateList(it)
+            viewModel.listArventures.collect { arventuresList ->
+                adapter.updateList(arventuresList)
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.loading.collect { isLoading ->
+                if (!isLoading) {
+                    binding.progressBar.visibility = View.GONE
+                }
             }
         }
     }
