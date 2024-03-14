@@ -1,30 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.list_arventure_fragment.ListArventureFragment"
-    android:background="@drawable/imagen_fondo2">
+    android:background="@drawable/imagen_fondo2"
+    tools:context=".ui.list_arventure_fragment.ListArventureFragment">
 
-    <ImageView
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.10" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.90" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glBotTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.20" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glTopViewPager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.30" />
+
+    <ImageButton
         android:id="@+id/icProfile"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="@dimen/commonMargin"
         android:layout_marginStart="@dimen/commonMargin"
+        android:layout_marginTop="@dimen/commonMargin"
+        android:background="#00FFFFFF"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_account_circle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/icSettings"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginEnd="@dimen/commonMargin"
+        android:background="#00FFFFFF"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_settings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/icProfile" />
+
+    <View
+        android:id="@+id/vTitle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/maxMargin"
+        app:layout_constraintStart_toStartOf="@id/glLeft"
+        app:layout_constraintEnd_toEndOf="@id/glRight"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/glBotTitle"
+        android:background="@drawable/background_gradient" />
 
     <TextView
         android:id="@+id/tvTitle"
@@ -33,26 +76,45 @@
         android:layout_height="wrap_content"
         android:text="@string/pickYourAventure"
         android:textAlignment="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/icProfile" />
+        app:layout_constraintEnd_toEndOf="@id/vTitle"
+        app:layout_constraintStart_toStartOf="@id/vTitle"
+        app:layout_constraintTop_toTopOf="@id/vTitle"
+        app:layout_constraintBottom_toBottomOf="@id/vTitle" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/maxMargin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+        app:layout_constraintTop_toTopOf="@id/glTopViewPager" />
 
-    <Button
-        android:layout_width="wrap_content"
+    <!-- con tabStripEnabled debería quitarse la línea, pero no -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ver más aventuras"
-        android:backgroundTint="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
+        app:tabBackground="@drawable/tab_selector"
+        android:background="#00FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/viewPager"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:tabGravity="center"
+        app:tabIndicatorHeight="0dp" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button"
+        android:fontFamily="@font/elianto_regular"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/background_gradient"
+        android:text="VER MÁS\n AVENTURAS"
+        android:textSize="@dimen/subtitleSize"
+        android:textColor="#F2B366"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
