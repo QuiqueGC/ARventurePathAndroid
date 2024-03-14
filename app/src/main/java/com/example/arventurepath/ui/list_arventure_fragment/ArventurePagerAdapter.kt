@@ -15,7 +15,7 @@ import java.util.Locale
 class ArventurePagerAdapter(
     private val context: Context,
     private val listener: ArventureListener,
-    private var arventures: List<ItemArventure> = listOf()
+    private var arventures: MutableList<ItemArventure> = mutableListOf()
 ) : RecyclerView.Adapter<ArventurePagerAdapter.ViewHolder>() {
 
 
@@ -58,7 +58,10 @@ class ArventurePagerAdapter(
     override fun getItemCount() = arventures.count()
 
     fun updateList(arventuresList: List<ItemArventure>) {
-        arventures = arventuresList
+        arventures.clear()
+        for (i in 0 until 5) {
+            arventures.add(arventuresList[i])
+        }
         notifyDataSetChanged()
     }
 }

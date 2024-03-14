@@ -39,7 +39,9 @@ class ListArventureFragment : Fragment(), ArventurePagerAdapter.ArventureListene
     private fun observeViewModel() {
         lifecycleScope.launch {
             viewModel.listArventures.collect { arventuresList ->
-                adapter.updateList(arventuresList)
+                if (arventuresList.isNotEmpty()) {
+                    adapter.updateList(arventuresList)
+                }
             }
         }
         lifecycleScope.launch {
