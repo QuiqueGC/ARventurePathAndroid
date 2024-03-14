@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.example.arventurepath.R
-import com.example.arventurepath.data.ItemArventure
+import com.example.arventurepath.data.models.ItemArventure
 import com.example.arventurepath.databinding.FragmentListArventureBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
