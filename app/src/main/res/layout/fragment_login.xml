@@ -75,7 +75,7 @@
         android:id="@+id/editTextEmail"
         android:layout_width="212dp"
         android:layout_height="50dp"
-        android:background="@color/white"
+        android:background="@drawable/edit_text_rounded_border"
         android:layout_marginTop="@dimen/largeMargin"
         android:hint="@string/email"
         android:padding="@dimen/smallMargin"
@@ -89,7 +89,7 @@
         android:layout_width="212dp"
         android:layout_height="50dp"
         android:layout_marginTop="44dp"
-        android:background="@color/white"
+        android:background="@drawable/edit_text_rounded_border"
         android:hint="@string/password"
         android:inputType="textPassword"
         android:padding="@dimen/smallMargin"
@@ -104,21 +104,26 @@
         android:layout_width="44dp"
         android:layout_height="50dp"
         android:src="@drawable/password_logo"
+        android:layout_margin="@dimen/minMargin"
         app:layout_constraintBottom_toBottomOf="@+id/editTextPassword"
         app:layout_constraintEnd_toStartOf="@+id/editTextPassword"
         app:layout_constraintTop_toTopOf="@+id/editTextPassword"
         app:layout_constraintVertical_bias="1.0" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
 
     <EditText
         android:id="@+id/editText3"
         android:layout_width="212dp"
         android:layout_height="50dp"
         android:layout_marginTop="44dp"
-        android:background="@color/white"
+        android:background="@drawable/edit_text_rounded_border"
         android:hint="@string/repeatPassword"
         android:inputType="textPassword"
         android:padding="@dimen/smallMargin"
-        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -144,6 +149,7 @@
         android:layout_width="44dp"
         android:layout_height="50dp"
         android:src="@drawable/email_logo"
+        android:layout_margin="@dimen/minMargin"
         app:layout_constraintBottom_toBottomOf="@+id/editTextEmail"
         app:layout_constraintEnd_toStartOf="@+id/editTextEmail"
         app:layout_constraintTop_toTopOf="@+id/editTextEmail" />
