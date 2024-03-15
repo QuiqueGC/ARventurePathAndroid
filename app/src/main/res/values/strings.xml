@@ -12,7 +12,7 @@
     <string name="originArventure">ORIGEN: </string>
     <string name="storyArventure">HISTORIA: </string>
     <string name="summaryArventure">RESUMEN: </string>
-    <string name="register">Registrarse</string>
+    <string name="registerText">No tienes cuenta? Regístrate</string>
     <string name="tutorial">TUTORIAL</string>
     <string name="noSkipTutorial">Te recomendamos no saltarte el tutorial</string>
     <string name="skip">Saltar</string>
@@ -21,4 +21,7 @@
     <string name="distance">DISTANCIA</string>
     <string name="time">TIEMPO</string>
     <string name="summary">RESUMEN</string>
+    <string name="login">LOGIN</string>
+    <string name="noregisterText">Ya tienes cuenta? Inicia sesión</string>
+    <string name="register">REGISTRARSE</string>
 </resources>

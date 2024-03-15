@@ -106,7 +106,7 @@
 
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button"
+        android:id="@+id/buttonSkip"
         android:fontFamily="@font/elianto_regular"
         android:layout_width="162dp"
         android:layout_height="56dp"

@@ -25,12 +25,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.35"/>
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glBot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.75"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/glBotTitle"
@@ -55,7 +49,7 @@
         app:layout_constraintStart_toStartOf="@id/glLeft"
         app:layout_constraintEnd_toEndOf="@id/glRight"
         app:layout_constraintTop_toTopOf="@id/glTop"
-        app:layout_constraintBottom_toBottomOf="@id/glBot"
+        app:layout_constraintBottom_toBottomOf="@id/barrier"
         android:background="@drawable/background_gradient"/>
     <TextView
         android:id="@+id/textView"
@@ -76,6 +70,7 @@
         android:layout_width="212dp"
         android:layout_height="50dp"
         android:background="@drawable/edit_text_rounded_border"
+        android:inputType="textEmailAddress"
         android:layout_marginTop="@dimen/largeMargin"
         android:hint="@string/email"
         android:padding="@dimen/smallMargin"
@@ -100,7 +95,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/imageViewLock"
         android:layout_width="44dp"
         android:layout_height="50dp"
         android:src="@drawable/password_logo"
@@ -111,12 +106,15 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        />
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="textViewRegister,editTextPasswordRepeat" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/editTextPasswordRepeat"
+        android:visibility="gone"
         android:layout_width="212dp"
         android:layout_height="50dp"
         android:layout_marginTop="44dp"
@@ -124,19 +122,20 @@
         android:hint="@string/repeatPassword"
         android:inputType="textPassword"
         android:padding="@dimen/smallMargin"
+        android:layout_marginBottom="@dimen/largeMargin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
+        app:layout_constraintBottom_toBottomOf="@id/viewLogin"/>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button"
+        android:id="@+id/buttonLogin"
         android:fontFamily="@font/elianto_regular"
-        android:layout_width="162dp"
+        android:layout_width="170dp"
         android:layout_height="56dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/background_gradient"
-        android:text="LOGIN"
+        android:text="@string/login"
         android:textSize="@dimen/subtitleSize"
         android:textColor="#F2B366"
         android:textStyle="bold"
@@ -145,7 +144,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imageViewEmail"
         android:layout_width="44dp"
         android:layout_height="50dp"
         android:src="@drawable/email_logo"
@@ -158,11 +157,12 @@
         android:id="@+id/textViewRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/register"
+        android:text="@string/registerText"
+        android:paddingBottom="@dimen/smallMargin"
+        android:layout_marginTop="@dimen/minMargin"
         android:textColor="#F2B366"
         android:textStyle="bold"
-        android:textSize="@dimen/commonTextSize"
-        android:layout_marginTop="@dimen/smallMargin"
+        android:textSize="@dimen/skipTutoTextSize"
         app:layout_constraintStart_toStartOf="@+id/editTextPassword"
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
