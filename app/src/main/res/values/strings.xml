@@ -4,7 +4,7 @@
     <string name="titleApp">ARVENTURE \nPATH</string>
     <string name="password">Contraseña</string>
     <string name="email">Email</string>
-    <string name="repeatPassword">Repetir Contraseña</string>
+    <string name="repeatPassword">Repetir contraseña</string>
     <string name="resumen">En un pequeño pueblo rodeado de naturaleza, cuatro niños jugaban cerca del bosque.Esta pandilla siempre había sentido una conexión especial con la naturaleza, pero desconocían que eran observados por seres mágicos.</string>
     <string name="titleArventure">Nombre de la aventura</string>
     <string name="distanceArventure">DISTANCIA</string>
@@ -12,7 +12,7 @@
     <string name="originArventure">ORIGEN: </string>
     <string name="storyArventure">HISTORIA: </string>
     <string name="summaryArventure">RESUMEN: </string>
-    <string name="registerText">No tienes cuenta? Regístrate</string>
+    <string name="registerText">¿No tienes cuenta? Regístrate</string>
     <string name="tutorial">TUTORIAL</string>
     <string name="noSkipTutorial">Te recomendamos no saltarte el tutorial</string>
     <string name="skip">Saltar</string>
@@ -22,6 +22,6 @@
     <string name="time">TIEMPO</string>
     <string name="summary">RESUMEN</string>
     <string name="login">LOGIN</string>
-    <string name="noregisterText">Ya tienes cuenta? Inicia sesión</string>
+    <string name="noregisterText">¿Ya tienes cuenta? Inicia sesión</string>
     <string name="register">REGISTRARSE</string>
 </resources>
