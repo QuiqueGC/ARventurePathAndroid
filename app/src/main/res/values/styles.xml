@@ -7,7 +7,6 @@
     </style>
 
     <style name="appTextStyle" >
-
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/commonTextSize</item>
         <item name="android:fontFamily">@font/merienda_regular</item>

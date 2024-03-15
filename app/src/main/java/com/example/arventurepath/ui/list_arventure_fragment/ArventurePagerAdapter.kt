@@ -49,7 +49,7 @@ class ArventurePagerAdapter(
 
         Glide.with(context)
             .load("http://abp-politecnics.com/2024/DAM01/filesToServer/imgStory/" + arventures[position].img)
-            .error(R.drawable.aventura)
+            .error(R.drawable.aventura2)
             .apply(RequestOptions().centerCrop())
             .into(holder.binding.imgArventure)
 

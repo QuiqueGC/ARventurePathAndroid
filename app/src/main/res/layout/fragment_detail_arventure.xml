@@ -20,11 +20,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_gradient"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_margin="8dp">
 
                 <TextView
                     android:id="@+id/arventureTitle"
                     style="@style/titleStyle"
+                    android:textSize="35sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -33,21 +35,29 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="10dp"
+                android:background="@drawable/background_gradient">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_gravity="center">
 
                 <ImageView
                     android:id="@+id/imgArventure"
-                    android:layout_width="wrap_content"
-                    android:layout_height="250dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/smallMargin"
+                    android:layout_width="350dp"
+                    android:layout_height="230dp"
+                    android:layout_margin="5dp"
                     android:src="@drawable/aventura2" />
 
             </LinearLayout>
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -58,6 +68,8 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="8dp"
                     android:src="@drawable/distancia" />
 
                 <TextView
@@ -67,6 +79,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/smallMargin"
                     android:layout_weight="1"
+                    android:layout_marginTop="8dp"
                     android:text="@string/distanceArventure" />
 
 
@@ -77,21 +90,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/smallMargin"
                     android:layout_weight="1"
+                    android:layout_marginTop="8dp"
                     android:text="@string/minutesArventure"
                     android:textAlignment="textEnd" />
 
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="10dp"
                     android:src="@drawable/cronografo" />
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:layout_marginBottom="@dimen/smallMargin"
-                android:background="@color/white" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -102,6 +113,8 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="8dp"
                     android:src="@drawable/mapa" />
 
                 <TextView
@@ -118,7 +131,7 @@
                     style="@style/appTextStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:text="Plaza Cataluña" />
 
             </LinearLayout>
@@ -132,6 +145,8 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="8dp"
                     android:src="@drawable/historia" />
 
                 <TextView
@@ -140,6 +155,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/smallMargin"
                     android:layout_weight="1"
+                    android:layout_marginTop="8dp"
                     android:fontFamily="@font/elianto_regular"
                     android:text="@string/storyArventure" />
 
@@ -148,50 +164,65 @@
                     style="@style/appTextStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:text="Nombre de la historia" />
 
             </LinearLayout>
 
-            <View
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:layout_marginBottom="@dimen/smallMargin"
-                android:background="@color/white" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="10dp"
+                android:background="@drawable/background_gradient">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/smallMargin"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_margin="5dp">
 
                 <TextView
                     style="@style/appTextStyle"
+                    android:textSize="17sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/smallMargin"
-                    android:layout_marginBottom="@dimen/smallMargin"
+                    android:layout_margin="5dp"
+                    android:layout_gravity="center"
                     android:fontFamily="@font/elianto_regular"
                     android:text="@string/summaryArventure" />
 
                 <TextView
                     android:id="@+id/summaryArventure"
                     style="@style/appTextStyle"
+                    android:textSize="15sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/smallMargin"
-                    android:layout_marginBottom="@dimen/smallMargin"
-                    android:text="@string/resumen" />
+                    android:layout_margin="5dp"
+                    android:text="@string/resumen"
+                    android:gravity="center"/>
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btnPlay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|bottom"
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button"
                 android:fontFamily="@font/elianto_regular"
-                android:text="Jugar" />
+                android:layout_width="155dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="14dp"
+                android:background="@drawable/background_gradient"
+                android:text="JUGAR"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textSize="@dimen/subtitleSize"
+                android:textColor="#F2B366"
+                android:textStyle="bold"/>
 
         </LinearLayout>
 

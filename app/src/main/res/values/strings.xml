@@ -7,11 +7,11 @@
     <string name="repeatPassword">Repetir Contraseña</string>
     <string name="resumen">En un pequeño pueblo rodeado de naturaleza, cuatro niños jugaban cerca del bosque.Esta pandilla siempre había sentido una conexión especial con la naturaleza, pero desconocían que eran observados por seres mágicos.</string>
     <string name="titleArventure">Nombre de la aventura</string>
-    <string name="distanceArventure">Distancia</string>
-    <string name="minutesArventure">Minutos</string>
-    <string name="originArventure">ORIGEN</string>
-    <string name="storyArventure">HISTORIA</string>
-    <string name="summaryArventure">"PRIMER FRAGMENTO/RESUMEN: "</string>
+    <string name="distanceArventure">DISTANCIA</string>
+    <string name="minutesArventure">MINUTOS</string>
+    <string name="originArventure">ORIGEN: </string>
+    <string name="storyArventure">HISTORIA: </string>
+    <string name="summaryArventure">RESUMEN: </string>
     <string name="register">Registrarse</string>
     <string name="tutorial">TUTORIAL</string>
     <string name="noSkipTutorial">Te recomendamos no saltarte el tutorial</string>
