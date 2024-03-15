@@ -3,7 +3,7 @@ package com.example.arventurepath.data.remote.responses
 import com.google.gson.annotations.SerializedName
 
 data class ArventuresResponse(
-    @SerializedName("achievement") var achievement: String?,
+    @SerializedName("achievement") var achievement: AchievementResponse?,
     @SerializedName("route") var routeResponse: RouteResponse?,
     @SerializedName("story") var storyResponse: StoryResponse?,
     @SerializedName("happening") var happening: ArrayList<HappeningResponse>?,

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.login_fragment.LoginFragment"
+    tools:context=".ui.tutorial_fragment.TutorialFragment"
     android:background="@drawable/imagen_fondo2">
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/glLeft"
