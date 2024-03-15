@@ -22,7 +22,5 @@ class TutorialFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        Glide.with(requireContext()).asGif().load(R.drawable.prueba).into(binding.gif)
     }
 }
