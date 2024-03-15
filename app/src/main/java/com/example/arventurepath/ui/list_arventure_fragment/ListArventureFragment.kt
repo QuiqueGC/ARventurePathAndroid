@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.example.arventurepath.R
 import com.example.arventurepath.databinding.FragmentListArventureBinding
@@ -17,6 +19,7 @@ class ListArventureFragment : Fragment(), ArventurePagerAdapter.ArventureListene
     private lateinit var binding: FragmentListArventureBinding
     private lateinit var adapter: ArventurePagerAdapter
     private val viewModel = ListArventureViewModel()
+    private val args: ListArventureFragmentArgs by navArgs()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -93,7 +96,14 @@ class ListArventureFragment : Fragment(), ArventurePagerAdapter.ArventureListene
         viewPager.addItemDecoration(itemDecoration)
     }
 
-    override fun onArventureClick(id: Int) {
-        // TODO: implementar la navegación
+    override fun onArventureClick(idArventure: Int) {
+
+        findNavController().navigate(
+            ListArventureFragmentDirections
+                .actionListArventureFragment3ToDetailArventureFragment(
+                    idUser = args.idUser,
+                    idArventure = idArventure
+                )
+        )
     }
 }

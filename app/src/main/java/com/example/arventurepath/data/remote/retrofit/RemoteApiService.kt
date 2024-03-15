@@ -15,7 +15,7 @@ interface RemoteApiService {
     suspend fun getListArventures(): Response<List<ArventuresResponse>>
 
     @GET("arventures/{idArventure}")
-    suspend fun getListArventures(
+    suspend fun getArventureDetail(
         @Path("idArventure") idArventure: Int
     ): Response<ArventuresResponse>
 

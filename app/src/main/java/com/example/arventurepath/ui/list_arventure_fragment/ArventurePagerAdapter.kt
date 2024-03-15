@@ -46,6 +46,7 @@ class ArventurePagerAdapter(
             tvTimeContent.text = arventures[position].time
             tvSummaryContent.text = arventures[position].summary
         }
+        holder.setupListener(arventures[position].id)
 
         Glide.with(context)
             .load("http://abp-politecnics.com/2024/DAM01/filesToServer/imgStory/" + arventures[position].img)
