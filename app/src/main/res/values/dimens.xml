@@ -8,4 +8,6 @@
     <dimen name="titleSize">38sp</dimen>
     <dimen name="commonTextSize">18sp</dimen>
     <dimen name="subtitleSize">20sp</dimen>
+    <dimen name="viewpager_next_item_visible">26dp</dimen>
+    <dimen name="viewpager_current_item_horizontal_margin">42dp</dimen>
 </resources>

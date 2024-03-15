@@ -4,108 +4,112 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gradient">
+    android:background="@drawable/background_gradient"
+    android:paddingBottom="@dimen/commonMargin">
 
     <ImageView
         android:id="@+id/imgArventure"
-        android:layout_width="190dp"
-        android:layout_height="190dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:layout_marginStart="@dimen/commonMargin"
-        android:layout_marginTop="@dimen/commonMargin"
+        android:layout_marginTop="@dimen/smallMargin"
         android:src="@drawable/img_background"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
     <TextView
         android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/commonMargin"
+        android:layout_marginTop="@dimen/commonMargin"
         android:fontFamily="@font/elianto_regular"
         android:text="@string/title"
         android:textColor="@color/white"
         android:textSize="@dimen/commonTextSize"
-        app:layout_constraintStart_toEndOf="@id/imgArventure"
-        app:layout_constraintTop_toTopOf="@id/imgArventure" />
+        android:textAlignment="center"
+        android:ellipsize="end"
+        android:layout_marginEnd="@dimen/commonMargin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <TextView
-        android:id="@+id/tvTitleContent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/minMargin"
-        android:textColor="@color/white"
-        android:textSize="@dimen/commonTextSize"
-        app:layout_constraintStart_toStartOf="@id/tvTitle"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle"
-        tools:text="Un título cualquiera" />
 
     <TextView
         android:id="@+id/tvDistance"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/commonMargin"
         android:fontFamily="@font/elianto_regular"
         android:text="@string/distance"
         android:textColor="@color/white"
-        android:textSize="@dimen/commonTextSize"
-        app:layout_constraintStart_toStartOf="@id/tvTitle"
-        app:layout_constraintTop_toBottomOf="@id/tvTitleContent" />
+        android:layout_marginTop="@dimen/smallMargin"
+        android:textSize="16dp"
+        android:layout_marginStart="@dimen/commonMargin"
+        app:layout_constraintStart_toEndOf="@id/imgArventure"
+        app:layout_constraintEnd_toEndOf="@id/tvTitle"
+        app:layout_constraintTop_toTopOf="@id/imgArventure" />
 
     <TextView
         android:id="@+id/tvDistanceContent"
-        android:layout_width="wrap_content"
+        style="@style/appTextStyle"
+        android:layout_width="0dp"
+        android:textSize="16dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/minMargin"
-        android:text="@string/distance"
-        android:textColor="@color/white"
-        android:textSize="@dimen/commonTextSize"
-        app:layout_constraintStart_toStartOf="@id/tvTitle"
+        tools:text="3km"
+        app:layout_constraintStart_toStartOf="@id/tvDistance"
+        app:layout_constraintEnd_toEndOf="@id/tvDistance"
         app:layout_constraintTop_toBottomOf="@id/tvDistance" />
 
     <TextView
         android:id="@+id/tvTime"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/commonMargin"
         android:fontFamily="@font/elianto_regular"
         android:text="@string/time"
         android:textColor="@color/white"
-        android:textSize="@dimen/commonTextSize"
-        app:layout_constraintStart_toStartOf="@id/tvTitle"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="@id/tvDistance"
+        app:layout_constraintEnd_toEndOf="@id/tvDistance"
         app:layout_constraintTop_toBottomOf="@id/tvDistanceContent" />
 
     <TextView
         android:id="@+id/tvTimeContent"
-        android:layout_width="wrap_content"
+        style="@style/appTextStyle"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/minMargin"
-        android:text="@string/time"
-        android:textColor="@color/white"
-        android:textSize="@dimen/commonTextSize"
-        app:layout_constraintStart_toStartOf="@id/tvTitle"
-        app:layout_constraintTop_toBottomOf="@id/tvTime" />
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="@id/tvDistance"
+        app:layout_constraintEnd_toEndOf="@id/tvDistance"
+        app:layout_constraintTop_toBottomOf="@id/tvTime"
+        tools:text="3.35" />
 
     <TextView
         android:id="@+id/tvSummary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/commonMargin"
+        android:layout_marginTop="@dimen/largeMargin"
         android:fontFamily="@font/elianto_regular"
         android:text="@string/summary"
         android:textColor="@color/white"
-        android:textSize="@dimen/commonTextSize"
+        android:textSize="16dp"
         app:layout_constraintStart_toStartOf="@id/imgArventure"
-        app:layout_constraintTop_toBottomOf="@id/imgArventure" />
+        app:layout_constraintTop_toBottomOf="@id/tvTimeContent" />
 
     <TextView
         android:id="@+id/tvSummaryContent"
-        android:layout_width="wrap_content"
+        style="@style/appTextStyle"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/minMargin"
         android:text="@string/summary"
-        android:textColor="@color/white"
-        android:textSize="@dimen/commonTextSize"
+        android:maxLines="3"
+        android:textSize="16dp"
+        android:ellipsize="end"
         app:layout_constraintStart_toStartOf="@id/imgArventure"
+        app:layout_constraintEnd_toEndOf="@id/tvTitle"
         app:layout_constraintTop_toBottomOf="@id/tvSummary"
         tools:text="sdasd asdasdasd asdasdasd asdasd asdas dasdasd asd asdasd asdasd asdasd asdasd asdasd asdasd  asdasd asdasd asdasd  asdasd asd asdasd asd asd" />
 </androidx.constraintlayout.widget.ConstraintLayout>
