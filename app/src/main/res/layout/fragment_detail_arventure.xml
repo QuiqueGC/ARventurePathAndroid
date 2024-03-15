@@ -183,7 +183,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/smallMargin"
                 android:orientation="vertical"
-                android:layout_margin="5dp">
+                android:layout_margin="8dp">
 
                 <TextView
                     style="@style/appTextStyle"
