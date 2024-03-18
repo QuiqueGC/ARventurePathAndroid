@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.arventurepath.R
 import com.example.arventurepath.databinding.FragmentDetailArventureBinding
+import com.example.arventurepath.ui.login_fragment.LoginFragmentDirections
 import kotlinx.coroutines.launch
 
 class DetailArventureFragment : Fragment() {
@@ -33,6 +35,13 @@ class DetailArventureFragment : Fragment() {
         observeViewModel()
 
         viewModel.getArventureDetail(args.idArventure)
+        binding.button.setOnClickListener{
+            findNavController().navigate(
+                DetailArventureFragmentDirections.actionDetailArventureFragmentToInGameFragment(
+                    idUser = args.idUser,
+                    idArventure = args.idArventure)
+            )
+        }
     }
 
     private fun observeViewModel() {
