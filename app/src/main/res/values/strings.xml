@@ -24,4 +24,8 @@
     <string name="login">LOGIN</string>
     <string name="noregisterText">¿Ya tienes cuenta? Inicia sesión</string>
     <string name="register">REGISTRARSE</string>
+    <string name="stepsArventure">PASOS: </string>
+    <string name="timeArventure">TIEMPO: </string>
+    <string name="routeArventure">RUTA: </string>
+    <string name="titleAchievement">LOGROS DESBLOQUEADOS</string>
 </resources>
