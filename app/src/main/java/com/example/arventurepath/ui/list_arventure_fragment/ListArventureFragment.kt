@@ -20,6 +20,7 @@ class ListArventureFragment : Fragment(), ArventurePagerAdapter.ArventureListene
     private lateinit var adapter: ArventurePagerAdapter
     private val viewModel = ListArventureViewModel()
     private val args: ListArventureFragmentArgs by navArgs()
+    private var isListScreen = false
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,6 +37,16 @@ class ListArventureFragment : Fragment(), ArventurePagerAdapter.ArventureListene
         viewModel.getListArventures()
 
         binding.btnGetList.setOnClickListener {
+            if (!isListScreen) {
+                binding.constraintRecycler.visibility = View.VISIBLE
+                binding.viewPager.visibility = View.GONE
+                binding.btnGetList.text = getString(R.string.back)
+            } else {
+                binding.constraintRecycler.visibility = View.GONE
+                binding.viewPager.visibility = View.VISIBLE
+                binding.btnGetList.text = getString(R.string.seeMoreArventures)
+            }
+            isListScreen = !isListScreen
         }
     }
 

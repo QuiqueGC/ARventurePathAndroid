@@ -27,4 +27,6 @@
     <string name="nextStop">Próximo destino:</string>
     <string name="steps">Pasos:</string>
     <string name="timeInGame">Tiempo:</string>
+    <string name="seeMoreArventures">VER MÁS\n ARVENTURES</string>
+    <string name="back">Volver</string>
 </resources>

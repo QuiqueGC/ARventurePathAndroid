@@ -60,8 +60,14 @@ class ArventurePagerAdapter(
 
     fun updateList(arventuresList: List<ItemArventure>) {
         arventures.clear()
-        for (i in 0 until 5) {
-            arventures.add(arventuresList[i])
+        if (arventuresList.count() > 6) {
+            for (i in 0 until 6) {
+                arventures.add(arventuresList[i])
+            }
+        } else {
+            for (arventure in arventuresList) {
+                arventures.add(arventure)
+            }
         }
         notifyDataSetChanged()
     }
