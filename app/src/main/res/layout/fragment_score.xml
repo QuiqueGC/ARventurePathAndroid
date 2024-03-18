@@ -200,39 +200,6 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/smallMargin"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="8dp"
-                    android:src="@drawable/ruta" />
-
-                <TextView
-                    style="@style/appTextStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/smallMargin"
-                    android:layout_marginTop="8dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/elianto_regular"
-                    android:text="@string/routeArventure" />
-
-                <TextView
-                    android:id="@+id/routeArventure"
-                    style="@style/appTextStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="Nombre de la ruta"/>
-
-            </LinearLayout>
-
         </LinearLayout>
 
             <LinearLayout
@@ -240,10 +207,17 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <ImageView
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/frgmntMap"
+                    xmlns:map="http://schemas.android.com/tools"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/maps"/>
+                    android:layout_height="220dp"
+                    android:layout_margin="5dp"
+                    map:cameraZoom="10"
+                    map:uiRotateGestures="false"
+                    map:uiZoomControls="true"
+                    map:uiScrollGesture="false"/>
 
             </LinearLayout>
 
@@ -308,7 +282,6 @@
                         android:layout_height="50dp"
                         android:src="@drawable/logro"/>
 
-
                 </LinearLayout>
 
             </HorizontalScrollView>
@@ -331,8 +304,6 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
-
-
 
     </FrameLayout>
 
