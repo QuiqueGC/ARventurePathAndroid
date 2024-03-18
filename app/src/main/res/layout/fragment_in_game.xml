@@ -1,9 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/imagen_fondo2"
+    xmlns:map="http://schemas.android.com/tools"
     tools:context=".ui.in_game_fragment.InGameFragment">
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glBotMap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.8" />
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glBotTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.13" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glBotTextHappening"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.55" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glTopTextHappening"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.45" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/mapInGame"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            map:cameraZoom="13"
+            map:uiRotateGestures="true"
+            map:uiZoomControls="true" />
+
+
+        <ImageView
+            android:id="@+id/imgHappening"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:src="@drawable/aventura2"
+            android:scaleType="centerCrop"
+            app:layout_constraintTop_toBottomOf="@id/linearTitle"
+            app:layout_constraintBottom_toTopOf="@id/viewInGameDetails"
+            android:layout_margin="@dimen/maxMargin"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/appTextStyle"
+            android:visibility="gone"
+            android:background="@drawable/background_gradient"
+            android:gravity="center"
+            android:padding="@dimen/largeMargin"
+            android:layout_marginStart="@dimen/largeMargin"
+            android:layout_marginEnd="@dimen/commonMargin"
+            app:layout_constraintTop_toTopOf="@id/glTopTextHappening"
+            app:layout_constraintBottom_toBottomOf="@id/glBotTextHappening"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <LinearLayout
+            android:id="@+id/linearTitle"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/background_gradient"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/glBotTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+            <TextView
+                android:id="@+id/arventureTitle"
+                style="@style/titleStyle"
+                android:textSize="35sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:padding="@dimen/smallMargin"
+                android:text="@string/titleArventure" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/viewInGameDetails"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/glBotMap"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/background_gradient"/>
+        <TextView
+            android:id="@+id/nextStopText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/appTextStyle"
+            android:text="@string/nextStop"
+            android:layout_margin="@dimen/smallMargin"
+            android:paddingStart="@dimen/commonMargin"
+            android:paddingEnd="@dimen/commonMargin"
+            app:layout_constraintTop_toTopOf="@id/viewInGameDetails"
+            app:layout_constraintStart_toStartOf="@id/viewInGameDetails"
+            app:layout_constraintBottom_toTopOf="@id/stepsText"/>
+        <TextView
+            android:id="@+id/stepsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/appTextStyle"
+            android:text="@string/steps"
+            android:layout_margin="@dimen/smallMargin"
+            android:paddingStart="@dimen/commonMargin"
+            android:paddingEnd="@dimen/commonMargin"
+            app:layout_constraintTop_toBottomOf="@id/nextStopText"
+            app:layout_constraintStart_toStartOf="@id/viewInGameDetails"
+            app:layout_constraintBottom_toTopOf="@id/timeText"/>
+        <TextView
+            android:id="@+id/timeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/appTextStyle"
+            android:text="@string/timeInGame"
+            android:layout_margin="@dimen/smallMargin"
+            android:paddingStart="@dimen/commonMargin"
+            android:paddingEnd="@dimen/commonMargin"
+            app:layout_constraintTop_toBottomOf="@id/stepsText"
+            app:layout_constraintStart_toStartOf="@id/viewInGameDetails"
+            app:layout_constraintBottom_toBottomOf="@id/viewInGameDetails"/>
+        <TextView
+            android:id="@+id/nextStopValueText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/appTextStyle"
+            android:text="Plaza Cataluña"
+            android:layout_margin="@dimen/smallMargin"
+            android:paddingStart="@dimen/commonMargin"
+            android:paddingEnd="@dimen/commonMargin"
+            app:layout_constraintTop_toTopOf="@id/nextStopText"
+            app:layout_constraintEnd_toEndOf="@id/viewInGameDetails"
+            app:layout_constraintBottom_toBottomOf="@id/nextStopText"/>
+        <TextView
+            android:id="@+id/stepsValueText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/appTextStyle"
+            android:text="45"
+            android:layout_margin="@dimen/smallMargin"
+            android:paddingStart="@dimen/commonMargin"
+            android:paddingEnd="@dimen/commonMargin"
+            app:layout_constraintTop_toTopOf="@id/stepsText"
+            app:layout_constraintEnd_toEndOf="@id/viewInGameDetails"
+            app:layout_constraintBottom_toBottomOf="@id/stepsText"/>
+        <TextView
+            android:id="@+id/timeValueText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/appTextStyle"
+            android:text="25 min"
+            android:layout_margin="@dimen/smallMargin"
+            android:paddingStart="@dimen/commonMargin"
+            android:paddingEnd="@dimen/commonMargin"
+            app:layout_constraintTop_toTopOf="@id/timeText"
+            app:layout_constraintEnd_toEndOf="@id/viewInGameDetails"
+            app:layout_constraintBottom_toBottomOf="@id/timeText"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

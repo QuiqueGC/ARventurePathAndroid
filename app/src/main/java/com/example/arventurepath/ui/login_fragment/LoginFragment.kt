@@ -13,7 +13,8 @@ import com.example.arventurepath.databinding.FragmentLoginBinding
 class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
-    private var register: Boolean = true
+    private var register: Boolean = false
+    private val viewModel = LoginViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,23 +27,49 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.getListUsers()
+
         binding.buttonLogin.setOnClickListener {
+            if (register){
+                if (isEditTextBlank()){
+
+                }
+            }
             findNavController().navigate(
                 LoginFragmentDirections.actionLoginFragmentToListArventureFragment3(idUser = 0)
             )
         }
         binding.textViewRegister.setOnClickListener {
-            if (register){
+            binding.editTextEmail.setText("")
+            binding.editTextPassword.setText("")
+            binding.editTextPasswordRepeat.setText("")
+            if (!register){
                 binding.editTextPasswordRepeat.visibility = View.VISIBLE
                 binding.textViewRegister.text = getString(R.string.noregisterText)
                 binding.buttonLogin.text = getString(R.string.register)
-                register = false
+                register = true
             }else{
                 binding.editTextPasswordRepeat.visibility = View.GONE
                 binding.textViewRegister.text = getString(R.string.registerText)
                 binding.buttonLogin.text = getString(R.string.login)
-                register = true
+                register = false
             }
         }
     }
+
+    private fun isEditTextBlank():Boolean{
+        if (binding.editTextEmail.text.equals("")){
+            return false
+        }
+        if (binding.editTextPassword.text.equals("")){
+            return false
+        }
+        if (register){
+            if (binding.editTextPasswordRepeat.text.equals("")){
+                return false
+            }
+        }
+        return true
+    }
+
 }

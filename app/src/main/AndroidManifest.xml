@@ -17,11 +17,9 @@
         android:theme="@style/Theme.ARventurePath"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/googleMapsKey" />
-
+            android:value="@string/googleMapsKey"/>
         <activity
             android:name=".ui.main_activity.MainActivity"
             android:exported="true">

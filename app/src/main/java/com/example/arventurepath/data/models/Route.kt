@@ -4,13 +4,12 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class ArventureDetail(
+data class Route(
     val id: Int = 0,
     val name: String = "",
     val time: String = "",
-    val distance: String = "",
-    val img: String = "",
-    val summary: String = "",
-    val origin: String = "",
-    val nameStory: String = "",
-) : Parcelable
+    val steps: Int = 0,
+    val distance: Double = 0.0,
+    val stops: List<Stop> = listOf(),
+
+    ) : Parcelable

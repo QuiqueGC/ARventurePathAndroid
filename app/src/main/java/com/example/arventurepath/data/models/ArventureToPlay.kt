@@ -5,12 +5,10 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class ArventureToPlay(
-    var id: Int = 0,
-    var name: String = "",
-    val time: String = "",
-    val distance: String = "",
-    val img: String = "",
-    val summary: String = "",
-    val origin: String = "",
-    val nameStory: String = "",
+    val id: Int = 0,
+    val name: String = "",
+    val route: Route = Route(),
+    val story: Story = Story(),
+    val achievement: Achievement = Achievement(),
+    val happenings: List<Happening> = listOf()
 ) : Parcelable
