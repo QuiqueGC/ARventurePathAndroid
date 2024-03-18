@@ -53,6 +53,10 @@ dependencies {
     //para poder usar supportFragmentmanager
     implementation("androidx.fragment:fragment-ktx:1.6.2")
 
+    //Para poder acceder a la localización
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+    implementation("com.google.android.gms:play-services-location:21.1.0")
+
     //navComponent
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
