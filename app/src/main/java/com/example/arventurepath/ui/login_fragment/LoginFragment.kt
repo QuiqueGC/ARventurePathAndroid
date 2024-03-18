@@ -13,7 +13,7 @@ import com.example.arventurepath.databinding.FragmentLoginBinding
 class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
-    private var register: Boolean = true
+    private var register: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,17 +32,35 @@ class LoginFragment : Fragment() {
             )
         }
         binding.textViewRegister.setOnClickListener {
-            if (register){
+            binding.editTextEmail.setText("")
+            binding.editTextPassword.setText("")
+            binding.editTextPasswordRepeat.setText("")
+            if (!register){
                 binding.editTextPasswordRepeat.visibility = View.VISIBLE
                 binding.textViewRegister.text = getString(R.string.noregisterText)
                 binding.buttonLogin.text = getString(R.string.register)
-                register = false
+                register = true
             }else{
                 binding.editTextPasswordRepeat.visibility = View.GONE
                 binding.textViewRegister.text = getString(R.string.registerText)
                 binding.buttonLogin.text = getString(R.string.login)
-                register = true
+                register = false
             }
         }
     }
+    fun checkEditTextBlank():Boolean{
+        if (!binding.editTextEmail.text.equals("")){
+            return true
+        }
+        if (!binding.editTextPassword.text.equals("")){
+            return true
+        }
+        if (register){
+            if (!binding.editTextPasswordRepeat.text.equals("")){
+                return true
+            }
+        }
+        return false
+    }
+
 }
