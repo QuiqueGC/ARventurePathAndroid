@@ -45,6 +45,7 @@ object DataProvider {
         usersListResponse.forEach {userResponse ->
         usersList.add(
             UserToRegister(
+                    userResponse.id ?: 0,
                     userResponse.name ?: "",
                     userResponse.mail ?: "",
                     userResponse.passwd ?: "",

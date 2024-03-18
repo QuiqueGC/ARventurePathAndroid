@@ -74,7 +74,6 @@
         android:layout_marginTop="@dimen/largeMargin"
         android:hint="@string/email"
         android:padding="@dimen/smallMargin"
-        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/viewLogin"/>
@@ -88,7 +87,6 @@
         android:hint="@string/password"
         android:inputType="textPassword"
         android:padding="@dimen/smallMargin"
-        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"

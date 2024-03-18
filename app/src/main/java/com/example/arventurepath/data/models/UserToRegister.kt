@@ -5,6 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class UserToRegister(
+    val id: Int = 0,
     val name: String = "",
     val mail: String = "",
     val passwd: String = "",
