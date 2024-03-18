@@ -26,6 +26,7 @@ object DataProvider {
         return arventuresList
     }
 
+
     suspend fun getArventureDetail(idArventure: Int): ArventureDetail {
         val arventureResponse = remoteApiService.getArventureDetail(idArventure).body()!!
         return ArventureDetail(
