@@ -1,6 +1,6 @@
 package com.example.arventurepath.data.remote.retrofit
 
-import com.example.arventurepath.data.models.User
+import com.example.arventurepath.data.models.UserToRegister
 import com.example.arventurepath.data.remote.responses.AchievementResponse
 import com.example.arventurepath.data.remote.responses.ArventuresResponse
 import com.example.arventurepath.data.remote.responses.UserResponse
@@ -15,7 +15,7 @@ interface RemoteApiService {
     suspend fun getListArventures(): Response<List<ArventuresResponse>>
 
     @GET("arventures/{idArventure}")
-    suspend fun getArventureDetail(
+    suspend fun getArventureById(
         @Path("idArventure") idArventure: Int
     ): Response<ArventuresResponse>
 
@@ -27,10 +27,15 @@ interface RemoteApiService {
     suspend fun getListUsers(
     ): Response<List<UserResponse>>
 
+    @GET("users/{idUser}")
+    suspend fun getUserById(
+        @Path("idUser") idUser: Int
+    ): Response<UserResponse>
+
     @POST("users")
     suspend fun registerUser(
-        @Body user: User
-    ): Response<List<UserResponse>>
+        @Body userToRegister: UserToRegister
+    ): Response<UserResponse>
 
 
 }
