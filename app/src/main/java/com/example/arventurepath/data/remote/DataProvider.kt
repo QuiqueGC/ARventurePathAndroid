@@ -10,6 +10,7 @@ import com.example.arventurepath.data.models.Stop
 import com.example.arventurepath.data.models.Story
 import com.example.arventurepath.data.models.StoryFragment
 import com.example.arventurepath.data.models.UserToPlay
+import com.example.arventurepath.data.models.UserToRegister
 import com.example.arventurepath.data.remote.responses.AchievementResponse
 import com.example.arventurepath.data.remote.responses.HappeningResponse
 import com.example.arventurepath.data.remote.responses.RouteResponse
@@ -36,6 +37,24 @@ object DataProvider {
             )
         }
         return arventuresList
+    }
+    suspend fun getListUsers(): List<UserToRegister>{
+        val usersListResponse = remoteApiService.getListUsers().body()!!
+        val usersList = mutableListOf<UserToRegister>()
+
+        usersListResponse.forEach {userResponse ->
+        usersList.add(
+            UserToRegister(
+                    userResponse.name ?: "",
+                    userResponse.mail ?: "",
+                    userResponse.passwd ?: "",
+                    userResponse.img ?: "",
+                    userResponse.distance ?: 0.0,
+                    userResponse.steps ?: -1
+                )
+            )
+        }
+        return usersList
     }
 
     suspend fun getArventureDetail(idArventure: Int): ArventureDetail {

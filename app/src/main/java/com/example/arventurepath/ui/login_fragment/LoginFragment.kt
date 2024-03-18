@@ -14,6 +14,7 @@ class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
     private var register: Boolean = false
+    private val viewModel = LoginViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,7 +27,14 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.getListUsers()
+
         binding.buttonLogin.setOnClickListener {
+            if (register){
+                if (isEditTextBlank()){
+
+                }
+            }
             findNavController().navigate(
                 LoginFragmentDirections.actionLoginFragmentToListArventureFragment3(idUser = 0)
             )
@@ -48,19 +56,20 @@ class LoginFragment : Fragment() {
             }
         }
     }
-    fun checkEditTextBlank():Boolean{
-        if (!binding.editTextEmail.text.equals("")){
-            return true
+
+    private fun isEditTextBlank():Boolean{
+        if (binding.editTextEmail.text.equals("")){
+            return false
         }
-        if (!binding.editTextPassword.text.equals("")){
-            return true
+        if (binding.editTextPassword.text.equals("")){
+            return false
         }
         if (register){
-            if (!binding.editTextPasswordRepeat.text.equals("")){
-                return true
+            if (binding.editTextPasswordRepeat.text.equals("")){
+                return false
             }
         }
-        return false
+        return true
     }
 
 }
