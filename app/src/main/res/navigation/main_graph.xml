@@ -71,5 +71,18 @@
         android:id="@+id/scoreFragment2"
         android:name="com.example.arventurepath.ui.score_fragment.ScoreFragment"
         android:label="fragment_score"
-        tools:layout="@layout/fragment_score" />
+        tools:layout="@layout/fragment_score" >
+        <action
+            android:id="@+id/action_scoreFragment2_to_listArventureFragment"
+            app:destination="@id/listArventureFragment" />
+        <argument
+            android:name="idUser"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="idArventure"
+            app:argType="integer"
+            android:defaultValue="100001" />
+    </fragment>
+
 </navigation>

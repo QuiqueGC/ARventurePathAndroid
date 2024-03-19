@@ -159,7 +159,7 @@
                         android:text="@string/timeArventure" />
 
                     <TextView
-                        android:id="@+id/timeArventure"
+                        android:id="@+id/estimateTimeArventure"
                         style="@style/appTextStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -255,6 +255,7 @@
                     android:layout_height="wrap_content">
 
                     <LinearLayout
+                        android:id="@+id/linearImgAchievement"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -293,7 +294,7 @@
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button"
+                android:id="@+id/buttonAccept"
                 android:layout_width="155dp"
                 android:layout_height="48dp"
                 android:layout_gravity="center"
