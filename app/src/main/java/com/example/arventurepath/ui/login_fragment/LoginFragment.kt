@@ -1,13 +1,18 @@
 package com.example.arventurepath.ui.login_fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.arventurepath.R
 import com.example.arventurepath.databinding.FragmentLoginBinding
+import kotlinx.coroutines.launch
+import org.mindrot.jbcrypt.BCrypt
 
 
 class LoginFragment : Fragment() {
@@ -15,7 +20,6 @@ class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private var register: Boolean = false
     private val viewModel = LoginViewModel()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -28,13 +32,18 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getListUsers()
-
         binding.buttonLogin.setOnClickListener {
             if (!isEditTextBlank()){
                 if (register){
                     if(!viewModel.isEmailRegistered(binding.editTextEmail.text.toString())){
                         if(binding.editTextPasswordRepeat.text.toString() == binding.editTextPassword.text.toString()){
-                            Toast.makeText(context,"REGISTRO EFECTUADO",Toast.LENGTH_SHORT).show()
+                            val emailUser = binding.editTextEmail.text.toString()
+                            val password = binding.editTextPassword.text.toString()
+                            if (verifyPassword(password)){
+                                val passwordEncrypted  = viewModel.hashPassword(password)
+                                viewModel.registerUser(emailUser,passwordEncrypted)
+                                registerUser()
+                            }
                         }else{
                             Toast.makeText(context,"Las contraseñas no coinciden.",Toast.LENGTH_SHORT).show()
                         }
@@ -44,9 +53,12 @@ class LoginFragment : Fragment() {
 
                 }else{
                     val emailUser = binding.editTextEmail.text.toString()
-                    val passwordEncrypted = viewModel.hashPassword(binding.editTextPassword.text.toString())
-                    if (viewModel.userExist(emailUser,passwordEncrypted) != -1){
-                        Toast.makeText(context,"LOGIN EFECTUADO",Toast.LENGTH_SHORT).show()
+                    val password = binding.editTextPassword.text.toString()
+                    val userId = viewModel.userExist(emailUser,password)
+                    if (userId != -1){
+                        findNavController().navigate(
+                            LoginFragmentDirections.actionLoginFragmentToListArventureFragment3(idUser = userId)
+                        )
                     }else{
                         Toast.makeText(context,"Usuario no encontrado",Toast.LENGTH_SHORT).show()
                     }
@@ -54,9 +66,7 @@ class LoginFragment : Fragment() {
                 }
             }
 
-            //findNavController().navigate(
-            //    LoginFragmentDirections.actionLoginFragmentToListArventureFragment3(idUser = 0)
-            //)
+
         }
         binding.textViewRegister.setOnClickListener {
             binding.editTextEmail.setText("")
@@ -76,6 +86,44 @@ class LoginFragment : Fragment() {
         }
     }
 
+    private fun registerUser(){
+        lifecycleScope.launch {
+            viewModel.idUser.collect{ idRegisterUser ->
+                if (idRegisterUser!=-1){
+                    findNavController().navigate(
+                        LoginFragmentDirections.actionLoginFragmentToTutorialFragment(idUser = idRegisterUser )
+                    )
+                }
+            }
+        }
+    }
+
+    private fun verifyPassword(password: String): Boolean {
+        val minLength = 8 // Cambia este valor según tu política
+        val allowedCharacters = Regex("^[a-zA-Z0-9.!@#\$%^&*()_+=-]*\$") // Caracteres permitidos: letras, números, y algunos especiales
+
+        // Verificar longitud mínima
+        if (password.length < minLength) {
+            Toast.makeText(context,"La contraseña debe tener al menos $minLength caracteres.",Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        // Verificar caracteres permitidos
+        if (!password.matches(allowedCharacters)) {
+            Toast.makeText(context,"La contraseña contiene caracteres no permitidos.",Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        // Verificar al menos un carácter especial
+        val specialCharacters = Regex("[.!@#\$%^&*()_+=-]")
+        if (!password.contains(specialCharacters)) {
+            Toast.makeText(context,"La contraseña debe contener al menos un carácter especial: !@#\$%^&*()_+=-",Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        // Si pasa todas las verificaciones, la contraseña es válida
+        return true
+    }
     private fun isEditTextBlank():Boolean{
         if (binding.editTextEmail.text.toString() == ""){
             return true
