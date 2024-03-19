@@ -16,6 +16,7 @@ import com.example.arventurepath.data.remote.responses.AchievementResponse
 import com.example.arventurepath.data.remote.responses.HappeningResponse
 import com.example.arventurepath.data.remote.responses.RouteResponse
 import com.example.arventurepath.data.remote.responses.StoryResponse
+import com.example.arventurepath.data.remote.responses.UserResponse
 import com.example.arventurepath.data.remote.retrofit.RetrofitClient
 
 object DataProvider {
@@ -46,6 +47,7 @@ object DataProvider {
         usersListResponse.forEach {userResponse ->
         usersList.add(
             UserToRegister(
+                    userResponse.id ?: 0,
                     userResponse.name ?: "",
                     userResponse.mail ?: "",
                     userResponse.passwd ?: "",
@@ -115,6 +117,33 @@ object DataProvider {
         return timeToTransform.substring(0, 2) + "h " + timeToTransform.substring(3, 5) + "min"
     }
 
+    suspend fun registerUser(userToRegister: UserToRegister): UserToPlay {
+        val userResponse = remoteApiService.registerUser(userToRegister).body()!!
+        val achievements = mutableListOf<Achievement>()
+
+        if (!userResponse.achievement.isNullOrEmpty()) {
+            userResponse.achievement!!.forEach {
+                achievements.add(
+                    Achievement(
+                        it.id ?: 0,
+                        it.name ?: "",
+                        it.img ?: ""
+                    )
+                )
+            }
+        }
+
+        return UserToPlay(
+            userResponse.id ?: 0,
+            userResponse.name ?: "",
+            userResponse.mail ?: "",
+            userResponse.passwd ?: "",
+            userResponse.img ?: "",
+            userResponse.distance ?: 0.0,
+            userResponse.steps ?: 0,
+            achievements
+        )
+    }
     suspend fun getUserById(idUser: Int): UserToPlay {
         val userResponse = remoteApiService.getUserById(idUser).body()!!
         val achievements = mutableListOf<Achievement>()
