@@ -23,11 +23,9 @@ class ScoreFragmentViewModel : ViewModel() {
             val deferred = async {
                 val response = DataProvider.getArventureScore(idArventure)
                 _arventureFinal.emit(response)
-
             }
             deferred.await()
             _loading.emit(false)
         }
     }
-
 }
