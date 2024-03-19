@@ -1,4 +1,4 @@
-package com.example.arventurepath.ui.list_arventure_fragment
+package com.example.arventurepath.ui.list_arventure_fragment.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,19 +9,19 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.arventurepath.R
 import com.example.arventurepath.data.models.ItemArventure
-import com.example.arventurepath.databinding.ItemViewpagerBinding
+import com.example.arventurepath.databinding.ItemRecyclerviewBinding
+import com.example.arventurepath.ui.list_arventure_fragment.ArventureListListener
 import java.util.Locale
 
-class ArventurePagerAdapter(
+class ArventureListAdapter(
     private val context: Context,
     private val listener: ArventureListListener,
     private var arventures: MutableList<ItemArventure> = mutableListOf()
-) : RecyclerView.Adapter<ArventurePagerAdapter.ViewHolder>() {
-
+) : RecyclerView.Adapter<ArventureListAdapter.ViewHolder>() {
 
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val binding = ItemViewpagerBinding.bind(view)
+        val binding = ItemRecyclerviewBinding.bind(view)
 
         fun setupListener(id: Int) {
             binding.root.setOnClickListener {
@@ -32,16 +32,13 @@ class ArventurePagerAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_viewpager, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_recyclerview, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder.binding) {
             tvTitle.text = arventures[position].title.uppercase(Locale.getDefault())
-            tvDistanceContent.text = arventures[position].distance.toString()
-            tvTimeContent.text = arventures[position].time
-            tvSummaryContent.text = arventures[position].summary
         }
         holder.setupListener(arventures[position].id)
 
@@ -56,16 +53,7 @@ class ArventurePagerAdapter(
     override fun getItemCount() = arventures.count()
 
     fun updateList(arventuresList: List<ItemArventure>) {
-        arventures.clear()
-        if (arventuresList.count() > 6) {
-            for (i in 0 until 6) {
-                arventures.add(arventuresList[i])
-            }
-        } else {
-            for (arventure in arventuresList) {
-                arventures.add(arventure)
-            }
-        }
+        arventures = arventuresList as MutableList<ItemArventure>
         notifyDataSetChanged()
     }
 }

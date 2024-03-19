@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.arventurepath.R
 import com.example.arventurepath.databinding.FragmentListArventureBinding
+import com.example.arventurepath.ui.list_arventure_fragment.adapters.ArventureListAdapter
+import com.example.arventurepath.ui.list_arventure_fragment.adapters.ArventurePagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.launch
 
