@@ -20,6 +20,7 @@ import com.example.arventurepath.data.remote.retrofit.RetrofitClient
 object DataProvider {
 
     private val remoteApiService = RetrofitClient.getApiServices()
+
     suspend fun getListArventures(): List<ItemArventure> {
         val arventuresListResponse = remoteApiService.getListArventures().body()!!
         val arventuresList = mutableListOf<ItemArventure>()
@@ -38,13 +39,14 @@ object DataProvider {
         }
         return arventuresList
     }
-    suspend fun getListUsers(): List<UserToRegister>{
+
+    suspend fun getListUsers(): List<UserToRegister> {
         val usersListResponse = remoteApiService.getListUsers().body()!!
         val usersList = mutableListOf<UserToRegister>()
 
-        usersListResponse.forEach {userResponse ->
-        usersList.add(
-            UserToRegister(
+        usersListResponse.forEach { userResponse ->
+            usersList.add(
+                UserToRegister(
                     userResponse.name ?: "",
                     userResponse.mail ?: "",
                     userResponse.passwd ?: "",
@@ -110,7 +112,7 @@ object DataProvider {
                 )
             }
         }
-        
+
         return UserToPlay(
             userResponse.id ?: 0,
             userResponse.name ?: "",
@@ -226,5 +228,4 @@ object DataProvider {
         }
 
     }
-
 }

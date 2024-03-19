@@ -12,5 +12,5 @@ data class UserToPlay(
     val img: String = "",
     val distance: Double = 0.0,
     val steps: Int = 0,
-    val achievements: MutableList<Achievement>
+    val achievements: MutableList<Achievement> = mutableListOf()
 ) : Parcelable

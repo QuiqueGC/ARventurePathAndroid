@@ -8,16 +8,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.arventurepath.R
 import com.example.arventurepath.databinding.FragmentListArventureBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.launch
 
-class ListArventureFragment : Fragment(), ArventurePagerAdapter.ArventureListener {
+class ListArventureFragment : Fragment(), ArventureListListener {
 
     private lateinit var binding: FragmentListArventureBinding
-    private lateinit var adapter: ArventurePagerAdapter
+    private lateinit var pagerAdapter: ArventurePagerAdapter
+    private lateinit var listAdapter: ArventureListAdapter
     private val viewModel = ListArventureViewModel()
     private val args: ListArventureFragmentArgs by navArgs()
     private var isListScreen = false
@@ -32,7 +34,8 @@ class ListArventureFragment : Fragment(), ArventurePagerAdapter.ArventureListene
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupAdapter()
+        setupPagerAdapter()
+        setupListAdapter()
         observeViewModel()
         viewModel.getListArventures()
 
@@ -54,7 +57,9 @@ class ListArventureFragment : Fragment(), ArventurePagerAdapter.ArventureListene
         lifecycleScope.launch {
             viewModel.listArventures.collect { arventuresList ->
                 if (arventuresList.isNotEmpty()) {
-                    adapter.updateList(arventuresList)
+                    pagerAdapter.updateList(arventuresList)
+                    listAdapter.updateList(arventuresList)
+                    binding.constraintRecycler.visibility = View.GONE
                 }
             }
         }
@@ -67,14 +72,21 @@ class ListArventureFragment : Fragment(), ArventurePagerAdapter.ArventureListene
         }
     }
 
-    private fun setupAdapter() {
-        adapter = ArventurePagerAdapter(requireContext(), this)
+    private fun setupPagerAdapter() {
+        pagerAdapter = ArventurePagerAdapter(requireContext(), this)
 
-        binding.viewPager.adapter = adapter
+        binding.viewPager.adapter = pagerAdapter
 
         setupCardsVisionConfig(binding.viewPager)
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { _, _ -> }.attach()
+    }
+
+    private fun setupListAdapter() {
+        listAdapter = ArventureListAdapter(requireContext(), this)
+        binding.recyclerView.setHasFixedSize(true)
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.adapter = listAdapter
     }
 
 
