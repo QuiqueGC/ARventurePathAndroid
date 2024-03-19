@@ -59,6 +59,23 @@ object DataProvider {
         return usersList
     }
 
+    suspend fun getListAchievements(): List<Achievement> {
+        val achievements = mutableListOf<Achievement>()
+        val achievementsResponse = remoteApiService.getListAchievements().body()!!
+        if (!achievementsResponse.isNullOrEmpty()) {
+            achievementsResponse.forEach {
+                achievements.add(
+                    Achievement(
+                        it.id ?: 0,
+                        it.name ?: "",
+                        it.img ?: ""
+                    )
+                )
+            }
+        }
+        return achievements
+    }
+
     suspend fun getArventureDetail(idArventure: Int): ArventureDetail {
         val arventureResponse = remoteApiService.getArventureById(idArventure).body()!!
         return ArventureDetail(
@@ -138,10 +155,10 @@ object DataProvider {
     suspend fun getArventureToPlay(idArventure: Int): ArventureToPlay {
         val arventureResponse = remoteApiService.getArventureById(idArventure).body()!!
 
-        val route = takeRouteFromResponse(arventureResponse.routeResponse)
-        val story = takeStoryFromResponse(arventureResponse.storyResponse)
-        val achievement = takeAchievementFromResponse(arventureResponse.achievement)
-        val happenings = takeHappeningsFromResponse(arventureResponse.happening)
+        val route = takeRouteFromArventureResponse(arventureResponse.routeResponse)
+        val story = takeStoryFromArventureResponse(arventureResponse.storyResponse)
+        val achievement = takeAchievementFromArventureResponse(arventureResponse.achievement)
+        val happenings = takeHappeningsFromArventureResponse(arventureResponse.happening)
 
         return ArventureToPlay(
             arventureResponse.id ?: 0,
@@ -153,7 +170,7 @@ object DataProvider {
         )
     }
 
-    private fun takeHappeningsFromResponse(happeningsResponse: ArrayList<HappeningResponse>?): List<Happening> {
+    private fun takeHappeningsFromArventureResponse(happeningsResponse: ArrayList<HappeningResponse>?): List<Happening> {
         val happenings = mutableListOf<Happening>()
         if (!happeningsResponse.isNullOrEmpty()) {
             happeningsResponse.forEach {
@@ -171,7 +188,7 @@ object DataProvider {
         return happenings
     }
 
-    private fun takeAchievementFromResponse(achievementResponse: AchievementResponse?): Achievement {
+    private fun takeAchievementFromArventureResponse(achievementResponse: AchievementResponse?): Achievement {
         return if (achievementResponse != null) {
             Achievement(
                 achievementResponse.id ?: 0,
@@ -183,7 +200,7 @@ object DataProvider {
         }
     }
 
-    private fun takeStoryFromResponse(storyResponse: StoryResponse?): Story {
+    private fun takeStoryFromArventureResponse(storyResponse: StoryResponse?): Story {
         val storyFragments = mutableListOf<StoryFragment>()
         if (!storyResponse?.fragment.isNullOrEmpty()) {
             storyResponse?.fragment?.forEach {
@@ -209,7 +226,7 @@ object DataProvider {
         }
     }
 
-    private fun takeRouteFromResponse(routeResponse: RouteResponse?): Route {
+    private fun takeRouteFromArventureResponse(routeResponse: RouteResponse?): Route {
         val stops = mutableListOf<Stop>()
 
         if (!routeResponse?.stop.isNullOrEmpty()) {
