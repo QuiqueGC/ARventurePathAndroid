@@ -73,6 +73,25 @@ class DetailArventureFragment : Fragment() {
                 }
             }
         }
+
+        lifecycleScope.launch {
+            viewModel.isNear.collect { isNear ->
+                if (isNear) {
+                    findNavController().navigate(
+                        DetailArventureFragmentDirections.actionDetailArventureFragmentToInGameFragment(
+                            idUser = args.idUser,
+                            idArventure = args.idArventure
+                        )
+                    )
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Debes acercarte al origen de la Arventure.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
     }
 
     private fun checkPermissions() {
@@ -92,14 +111,15 @@ class DetailArventureFragment : Fragment() {
             // Al menos uno de los permisos no está concedido
             requestPermissions()
         } else {
+            // TODO: aquí la magia
+            viewModel.getLocation(requireContext())
             // Ambos permisos están concedidos, puedes acceder a lo que sea
-
-            findNavController().navigate(
+            /*findNavController().navigate(
                 DetailArventureFragmentDirections.actionDetailArventureFragmentToInGameFragment(
                     idUser = args.idUser,
                     idArventure = args.idArventure
                 )
-            )
+            )*/
         }
     }
 
@@ -148,13 +168,14 @@ class DetailArventureFragment : Fragment() {
         if (requestCode == REQUEST_PERMISSION) {
             if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
 
+                viewModel.getLocation(requireContext())
                 // Ambos permisos concedidos, puedes acceder a lo que sea
-                findNavController().navigate(
+                /*findNavController().navigate(
                     DetailArventureFragmentDirections.actionDetailArventureFragmentToInGameFragment(
                         idUser = args.idUser,
                         idArventure = args.idArventure
                     )
-                )
+                )*/
 
             } else {
                 Toast.makeText(

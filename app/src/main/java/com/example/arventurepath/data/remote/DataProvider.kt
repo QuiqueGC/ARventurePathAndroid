@@ -86,7 +86,9 @@ object DataProvider {
             arventureResponse.storyResponse?.img ?: "",
             arventureResponse.storyResponse?.summary ?: "",
             arventureResponse.routeResponse?.stop?.get(0)?.name ?: "",
-            arventureResponse.storyResponse?.name ?: ""
+            arventureResponse.storyResponse?.name ?: "",
+            arventureResponse.routeResponse?.stop?.get(0)?.latitude ?: 0.0,
+            arventureResponse.routeResponse?.stop?.get(0)?.longitude ?: 0.0
         )
     }
 

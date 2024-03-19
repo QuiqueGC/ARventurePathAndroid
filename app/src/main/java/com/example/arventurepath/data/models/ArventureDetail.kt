@@ -13,4 +13,6 @@ data class ArventureDetail(
     val summary: String = "",
     val origin: String = "",
     val nameStory: String = "",
+    val latitude: Double = 0.0,
+    val longitude: Double = 0.0
 ) : Parcelable
