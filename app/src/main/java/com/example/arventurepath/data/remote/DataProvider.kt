@@ -15,6 +15,7 @@ import com.example.arventurepath.data.remote.responses.AchievementResponse
 import com.example.arventurepath.data.remote.responses.HappeningResponse
 import com.example.arventurepath.data.remote.responses.RouteResponse
 import com.example.arventurepath.data.remote.responses.StoryResponse
+import com.example.arventurepath.data.remote.responses.UserResponse
 import com.example.arventurepath.data.remote.retrofit.RetrofitClient
 
 object DataProvider {
@@ -39,14 +40,14 @@ object DataProvider {
         }
         return arventuresList
     }
-
-    suspend fun getListUsers(): List<UserToRegister> {
+    suspend fun getListUsers(): List<UserToRegister>{
         val usersListResponse = remoteApiService.getListUsers().body()!!
         val usersList = mutableListOf<UserToRegister>()
 
-        usersListResponse.forEach { userResponse ->
-            usersList.add(
-                UserToRegister(
+        usersListResponse.forEach {userResponse ->
+        usersList.add(
+            UserToRegister(
+                    userResponse.id ?: 0,
                     userResponse.name ?: "",
                     userResponse.mail ?: "",
                     userResponse.passwd ?: "",
@@ -86,9 +87,25 @@ object DataProvider {
             arventureResponse.storyResponse?.img ?: "",
             arventureResponse.storyResponse?.summary ?: "",
             arventureResponse.routeResponse?.stop?.get(0)?.name ?: "",
-            arventureResponse.storyResponse?.name ?: "",
-            arventureResponse.routeResponse?.stop?.get(0)?.latitude ?: 0.0,
-            arventureResponse.routeResponse?.stop?.get(0)?.longitude ?: 0.0
+            arventureResponse.storyResponse?.name ?: ""
+        )
+    }
+    suspend fun getArventureScore(idArventure: Int): ArventureFinal {
+        val arventuresResponse = remoteApiService.getArventureById(idArventure).body()!!
+        val route = takeRouteFromArventureResponse(arventuresResponse.routeResponse)
+        val achievement = takeAchievementFromArventureResponse(arventuresResponse.achievement)
+
+        return ArventureFinal(
+            arventuresResponse.id ?: 0,
+            arventuresResponse.name ?: "",
+            transformTime(arventuresResponse.routeResponse?.time ?: ""),
+            transformDistance(arventuresResponse.routeResponse?.distance ?: 0.0),
+            arventuresResponse.storyResponse?.img ?: "",
+            0,
+            "",
+            arventuresResponse.storyResponse?.name ?: "",
+            route.stops,
+            listOf(achievement)
         )
     }
 
@@ -100,6 +117,33 @@ object DataProvider {
         return timeToTransform.substring(0, 2) + "h " + timeToTransform.substring(3, 5) + "min"
     }
 
+    suspend fun registerUser(userToRegister: UserToRegister): UserToPlay {
+        val userResponse = remoteApiService.registerUser(userToRegister).body()!!
+        val achievements = mutableListOf<Achievement>()
+
+        if (!userResponse.achievement.isNullOrEmpty()) {
+            userResponse.achievement!!.forEach {
+                achievements.add(
+                    Achievement(
+                        it.id ?: 0,
+                        it.name ?: "",
+                        it.img ?: ""
+                    )
+                )
+            }
+        }
+
+        return UserToPlay(
+            userResponse.id ?: 0,
+            userResponse.name ?: "",
+            userResponse.mail ?: "",
+            userResponse.passwd ?: "",
+            userResponse.img ?: "",
+            userResponse.distance ?: 0.0,
+            userResponse.steps ?: 0,
+            achievements
+        )
+    }
     suspend fun getUserById(idUser: Int): UserToPlay {
         val userResponse = remoteApiService.getUserById(idUser).body()!!
         val achievements = mutableListOf<Achievement>()
@@ -114,7 +158,7 @@ object DataProvider {
                 )
             }
         }
-
+        
         return UserToPlay(
             userResponse.id ?: 0,
             userResponse.name ?: "",
@@ -230,4 +274,5 @@ object DataProvider {
         }
 
     }
+
 }

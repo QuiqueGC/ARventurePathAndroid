@@ -47,6 +47,9 @@ dependencies {
 
     val nav_version = "2.7.7"
 
+    // para cifrar con bcrypt
+    implementation("org.mindrot:jbcrypt:0.4")
+
     //para google maps
     implementation("com.google.android.gms:play-services-maps:18.2.0")
 
