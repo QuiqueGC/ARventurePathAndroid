@@ -2,6 +2,7 @@ package com.example.arventurepath.data.remote
 
 import com.example.arventurepath.data.models.Achievement
 import com.example.arventurepath.data.models.ArventureDetail
+import com.example.arventurepath.data.models.ArventureFinal
 import com.example.arventurepath.data.models.ArventureToPlay
 import com.example.arventurepath.data.models.Happening
 import com.example.arventurepath.data.models.ItemArventure
@@ -85,6 +86,24 @@ object DataProvider {
             arventureResponse.storyResponse?.summary ?: "",
             arventureResponse.routeResponse?.stop?.get(0)?.name ?: "",
             arventureResponse.storyResponse?.name ?: ""
+        )
+    }
+    suspend fun getArventureScore(idArventure: Int): ArventureFinal {
+        val arventuresResponse = remoteApiService.getArventureById(idArventure).body()!!
+        val route = takeRouteFromArventureResponse(arventuresResponse.routeResponse)
+        val achievement = takeAchievementFromArventureResponse(arventuresResponse.achievement)
+
+        return ArventureFinal(
+            arventuresResponse.id ?: 0,
+            arventuresResponse.name ?: "",
+            transformTime(arventuresResponse.routeResponse?.time ?: ""),
+            transformDistance(arventuresResponse.routeResponse?.distance ?: 0.0),
+            arventuresResponse.storyResponse?.img ?: "",
+            0,
+            "",
+            arventuresResponse.storyResponse?.name ?: "",
+            route.stops,
+            listOf(achievement)
         )
     }
 
