@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.arventurepath.data.models.UserToRegister
 import com.example.arventurepath.data.remote.DataProvider
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -15,6 +16,8 @@ class LoginViewModel: ViewModel() {
     private var listUsers: List<UserToRegister> = listOf()
     private val _idUser = MutableStateFlow(-1)
     val idUser: StateFlow<Int> = _idUser
+    private val _loading = MutableStateFlow(true)
+    val loading: StateFlow<Boolean> = _loading
 
     fun getListUsers(){
         viewModelScope.launch(Dispatchers.IO) {
@@ -46,7 +49,9 @@ class LoginViewModel: ViewModel() {
         val userRegister = UserToRegister(mail = mail, passwd = hashPass)
         viewModelScope.launch(Dispatchers.IO) {
             val valor = DataProvider.registerUser(userRegister)
-            _idUser.emit(valor.id)
+            val deferred = async{_idUser.emit(valor.id) }
+            deferred.await()
+            _loading.emit(false)
         }
     }
 }

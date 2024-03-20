@@ -33,6 +33,7 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getListUsers()
+        registerUser()
         binding.buttonLogin.setOnClickListener {
             if (!isEditTextBlank()){
                 if (register){
@@ -40,10 +41,12 @@ class LoginFragment : Fragment() {
                         if(binding.editTextPasswordRepeat.text.toString() == binding.editTextPassword.text.toString()){
                             val emailUser = binding.editTextEmail.text.toString()
                             val password = binding.editTextPassword.text.toString()
-                            if (verifyPassword(password)){
-                                val passwordEncrypted  = viewModel.hashPassword(password)
-                                viewModel.registerUser(emailUser,passwordEncrypted)
-                                registerUser()
+                            if (verifyEmail(emailUser)){
+                                if (verifyPassword(password)){
+                                    val passwordEncrypted  = viewModel.hashPassword(password)
+                                    hideElements()
+                                    viewModel.registerUser(emailUser,passwordEncrypted)
+                                }
                             }
                         }else{
                             Toast.makeText(context,"Las contraseñas no coinciden.",Toast.LENGTH_SHORT).show()
@@ -57,6 +60,7 @@ class LoginFragment : Fragment() {
                     val password = binding.editTextPassword.text.toString()
                     val userId = viewModel.userExist(emailUser,password)
                     if (userId != -1){
+                        hideElements()
                         findNavController().navigate(
                             LoginFragmentDirections.actionLoginFragmentToListArventureFragment3(idUser = userId)
                         )
@@ -96,6 +100,39 @@ class LoginFragment : Fragment() {
                     )
                 }
             }
+        }
+        lifecycleScope.launch {
+            viewModel.loading.collect { isLoading ->
+                if (!isLoading) {
+                    binding.progressBar.visibility = View.GONE
+                }
+            }
+        }
+    }
+
+    private fun hideElements(){
+        binding.viewLogin.visibility = View.GONE
+        binding.editTextPassword.visibility = View.GONE
+        binding.editTextEmail.visibility = View.GONE
+        binding.editTextPasswordRepeat.visibility = View.GONE
+        binding.textViewRegister.visibility = View.GONE
+        binding.imageViewEmail.visibility = View.GONE
+        binding.imageViewLock.visibility = View.GONE
+        binding.buttonLogin.isEnabled = false
+    }
+
+    private fun verifyEmail(mail: String): Boolean {
+        // Patrón de expresión regular para verificar el correo electrónico
+        val mailPattern = Regex("^[\\w\\.-]+@[a-zA-Z0-9\\.-]+\\.[a-zA-Z]{2,}$")
+
+        // Si es válido, devolvemos true
+        return if (mailPattern.matches(mail)) {
+            true
+        } else {
+            // Si no es válido, mostramos un Toast con el mensaje correspondiente
+            val errorMessage = "El formato del correo electrónico es incorrecto."
+            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+            false
         }
     }
 
