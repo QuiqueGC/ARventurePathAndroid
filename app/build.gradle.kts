@@ -47,6 +47,10 @@ dependencies {
 
     val nav_version = "2.7.7"
 
+    // para contador de pasos
+    implementation("com.google.android.gms:play-services-fitness:21.1.0")
+    implementation("com.google.android.gms:play-services-auth:21.0.0")
+
     // para cifrar con bcrypt
     implementation("org.mindrot:jbcrypt:0.4")
 
