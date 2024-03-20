@@ -2,6 +2,7 @@ package com.example.arventurepath.data.remote
 
 import com.example.arventurepath.data.models.Achievement
 import com.example.arventurepath.data.models.ArventureDetail
+import com.example.arventurepath.data.models.ArventureFinal
 import com.example.arventurepath.data.models.ArventureToPlay
 import com.example.arventurepath.data.models.Happening
 import com.example.arventurepath.data.models.ItemArventure
@@ -15,7 +16,6 @@ import com.example.arventurepath.data.remote.responses.AchievementResponse
 import com.example.arventurepath.data.remote.responses.HappeningResponse
 import com.example.arventurepath.data.remote.responses.RouteResponse
 import com.example.arventurepath.data.remote.responses.StoryResponse
-import com.example.arventurepath.data.remote.responses.UserResponse
 import com.example.arventurepath.data.remote.retrofit.RetrofitClient
 
 object DataProvider {
@@ -87,7 +87,9 @@ object DataProvider {
             arventureResponse.storyResponse?.img ?: "",
             arventureResponse.storyResponse?.summary ?: "",
             arventureResponse.routeResponse?.stop?.get(0)?.name ?: "",
-            arventureResponse.storyResponse?.name ?: ""
+            arventureResponse.storyResponse?.name ?: "",
+            arventureResponse.routeResponse?.stop?.get(0)?.latitude ?: 0.0,
+            arventureResponse.routeResponse?.stop?.get(0)?.longitude ?: 0.0,
         )
     }
     suspend fun getArventureScore(idArventure: Int): ArventureFinal {

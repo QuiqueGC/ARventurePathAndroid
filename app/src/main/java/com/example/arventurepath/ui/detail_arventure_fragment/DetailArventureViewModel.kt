@@ -31,7 +31,9 @@ class DetailArventureViewModel : ViewModel() {
     fun getArventureDetail(idArventure: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             val deferred =
-                async { _arventureDetail.emit(DataProvider.getArventureDetail(idArventure)) }
+                async {
+                    _arventureDetail.emit(DataProvider.getArventureDetail(idArventure))
+                }
             deferred.await()
             _loading.emit(false)
         }
@@ -41,6 +43,7 @@ class DetailArventureViewModel : ViewModel() {
 
         viewModelScope.launch(Dispatchers.IO) {
             myLocation = myLocationServices.getUserLocation(context)
+
             if (myLocation != null &&
                 checkIfIsNear(myLocation!!.latitude, _arventureDetail.value.latitude) &&
                 checkIfIsNear(myLocation!!.longitude, _arventureDetail.value.longitude)
@@ -53,6 +56,6 @@ class DetailArventureViewModel : ViewModel() {
     }
 
     private fun checkIfIsNear(myPosition: Double, destinyPosition: Double): Boolean {
-        return myPosition > destinyPosition - 0.005 && myPosition < destinyPosition + 0.005
+        return myPosition > destinyPosition - 0.001 && myPosition < destinyPosition + 0.001
     }
 }
