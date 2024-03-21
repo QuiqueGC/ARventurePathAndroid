@@ -58,19 +58,20 @@ class LoginFragment : Fragment() {
                 }else{
                     val emailUser = binding.editTextEmail.text.toString()
                     val password = binding.editTextPassword.text.toString()
-                    val userId = viewModel.userExist(emailUser,password)
-                    if (userId != -1){
-                        hideElements()
-                        findNavController().navigate(
-                            LoginFragmentDirections.actionLoginFragmentToListArventureFragment3(idUser = userId)
-                        )
-                    }else{
-                        Toast.makeText(context,"Usuario no encontrado",Toast.LENGTH_SHORT).show()
+                    if(viewModel.isEmailRegistered(emailUser)){
+                        val userId = viewModel.userExist(emailUser,password)
+                        if (userId != -1){
+                            hideElements()
+                            findNavController().navigate(
+                                LoginFragmentDirections.actionLoginFragmentToListArventureFragment3(idUser = userId)
+                            )
+                        }else{
+                            Toast.makeText(context,"Contraseña incorrecta.",Toast.LENGTH_SHORT).show()
+                        }
                     }
-
                 }
             }else{
-                Toast.makeText(context,"Rellena todos los campos",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"Email no encontrado.",Toast.LENGTH_SHORT).show()
             }
 
 

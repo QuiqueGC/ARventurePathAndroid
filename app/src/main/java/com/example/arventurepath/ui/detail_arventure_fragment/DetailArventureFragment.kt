@@ -133,11 +133,12 @@ class DetailArventureFragment : Fragment() {
             .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
             .build()
 
-        if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(requireContext()), fitnessOptions)) {
+        val account = GoogleSignIn.getLastSignedInAccount(requireContext())
+        if (account != null && !GoogleSignIn.hasPermissions(account, fitnessOptions)) {
             GoogleSignIn.requestPermissions(
                 this,
                 fitnessPermissionsRequestCode,
-                GoogleSignIn.getLastSignedInAccount(requireContext()),
+                account,
                 fitnessOptions
             )
         }
