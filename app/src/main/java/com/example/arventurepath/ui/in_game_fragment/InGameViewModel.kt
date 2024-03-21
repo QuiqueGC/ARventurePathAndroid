@@ -4,9 +4,9 @@ import android.location.Location
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.arventurepath.data.models.ArventureToPlay
+import com.example.arventurepath.data.models.Stop
 import com.example.arventurepath.data.remote.DataProvider
 import com.example.arventurepath.ui.detail_arventure_fragment.MyLocationServices
-import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -23,22 +23,34 @@ class InGameViewModel() : ViewModel() {
     private val _loading = MutableStateFlow(true)
     val loading: StateFlow<Boolean> = _loading
 
-    private val _latLng = MutableSharedFlow<LatLng>()
-    private val latLng: SharedFlow<LatLng> = _latLng
+    private val _stop = MutableSharedFlow<Stop>()
+    val stop: SharedFlow<Stop> = _stop
 
     private val myLocationServices = MyLocationServices()
     private var myLocation: Location? = null
+
+    private val stops = mutableListOf<Stop>()
 
     fun getArventureDetail(idArventure: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             val deferred =
                 async {
                     _arventureDetail.emit(DataProvider.getArventureToPlay(idArventure))
+                    stops.addAll(_arventureDetail.value.route.stops)
                 }
             deferred.await()
             _loading.emit(false)
         }
     }
 
+    fun getStop() {
+        viewModelScope.launch {
+            if (stops.isNotEmpty()) {
+                _stop.emit(stops[0])
+                stops.removeAt(0)
+            }
+        }
+
+    }
 
 }
