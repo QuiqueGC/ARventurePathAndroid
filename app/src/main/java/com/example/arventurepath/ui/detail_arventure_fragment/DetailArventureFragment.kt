@@ -111,15 +111,8 @@ class DetailArventureFragment : Fragment() {
             // Al menos uno de los permisos no está concedido
             requestPermissions()
         } else {
-            // TODO: aquí la magia
-            viewModel.getLocation(requireContext())
             // Ambos permisos están concedidos, puedes acceder a lo que sea
-            /*findNavController().navigate(
-                DetailArventureFragmentDirections.actionDetailArventureFragmentToInGameFragment(
-                    idUser = args.idUser,
-                    idArventure = args.idArventure
-                )
-            )*/
+            viewModel.getLocation(requireContext())
         }
     }
 
@@ -167,15 +160,8 @@ class DetailArventureFragment : Fragment() {
 
         if (requestCode == REQUEST_PERMISSION) {
             if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
-
-                viewModel.getLocation(requireContext())
                 // Ambos permisos concedidos, puedes acceder a lo que sea
-                /*findNavController().navigate(
-                    DetailArventureFragmentDirections.actionDetailArventureFragmentToInGameFragment(
-                        idUser = args.idUser,
-                        idArventure = args.idArventure
-                    )
-                )*/
+                viewModel.getLocation(requireContext())
 
             } else {
                 Toast.makeText(

@@ -1,13 +1,10 @@
 package com.example.arventurepath.ui.in_game_fragment
 
-import android.content.Context
-import android.location.Location
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.arventurepath.data.models.ArventureToPlay
 import com.example.arventurepath.data.models.Stop
 import com.example.arventurepath.data.remote.DataProvider
-import com.example.arventurepath.utils.MyLocationServices
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -27,11 +24,8 @@ class InGameViewModel() : ViewModel() {
     private val _stop = MutableSharedFlow<Stop>()
     val stop: SharedFlow<Stop> = _stop
 
-    private val myLocationServices = MyLocationServices()
-
-    //private var myLocation: Location? = null
-    private val _myLocation: MutableSharedFlow<Location> = MutableSharedFlow()
-    val myLocation: SharedFlow<Location> = _myLocation
+    private val _win = MutableStateFlow(false)
+    val win: StateFlow<Boolean> = _win
 
     private val stops = mutableListOf<Stop>()
 
@@ -51,17 +45,15 @@ class InGameViewModel() : ViewModel() {
         viewModelScope.launch {
             if (stops.isNotEmpty()) {
                 _stop.emit(stops[0])
-                stops.removeAt(0)
+
+            } else {
+                _win.emit(true)
             }
         }
     }
 
-    fun getMyLocation(context: Context) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val myLocation = myLocationServices.getUserLocation(context)
-            if (myLocation != null) {
-                _myLocation.emit(myLocation)
-            }
-        }
+    fun removeStop() {
+        stops.removeAt(0)
     }
+
 }
