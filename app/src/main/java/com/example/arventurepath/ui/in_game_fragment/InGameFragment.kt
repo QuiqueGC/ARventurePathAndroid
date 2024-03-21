@@ -31,17 +31,16 @@ class InGameFragment : Fragment(), OnMapReadyCallback {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         binding = FragmentInGameBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setMap()
         viewModel.getArventureDetail(args.idArventure)
         observeViewModel()
-        setMap()
     }
 
     private fun observeViewModel() {
@@ -57,7 +56,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback {
 
         lifecycleScope.launch {
             viewModel.stop.collect {
-                createMarker(it)
+                createNextStopMarker(it)
             }
         }
 
@@ -69,18 +68,17 @@ class InGameFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        //createMarkers()
+        viewModel.getStop()
     }
 
-    private fun createMarker(stop: Stop) {
+    private fun createNextStopMarker(stop: Stop) {
 
         val coordinates = LatLng(stop.latitude, stop.longitude)
         val marker: MarkerOptions = MarkerOptions().position(coordinates).title(stop.name)
         map.addMarker(marker)
         map.animateCamera(
-            CameraUpdateFactory.newLatLngZoom(coordinates, 11.8f), 4000, null
+            CameraUpdateFactory.newLatLngZoom(coordinates, 18.75f), 4000, null
         )
-
     }
 }
 
