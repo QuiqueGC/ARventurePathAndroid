@@ -51,8 +51,8 @@ class InGameFragment : Fragment(), OnMapReadyCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        handler = Handler(Looper.getMainLooper())
 
+        handler = Handler(Looper.getMainLooper())
         setMap()
         viewModel.getArventureDetail(args.idArventure)
         observeViewModel()
@@ -142,7 +142,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun checkIfIsNear(myPosition: Double, destinyPosition: Double): Boolean {
-        return myPosition > destinyPosition - 0.001 && myPosition < destinyPosition + 0.001
+        return myPosition > destinyPosition - 0.0001 && myPosition < destinyPosition + 0.0001
     }
 
     private fun createNextStopMarker() {
