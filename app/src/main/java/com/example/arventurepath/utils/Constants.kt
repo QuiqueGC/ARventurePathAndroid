@@ -1,4 +1,4 @@
-package com.example.arventurepath.data
+package com.example.arventurepath.utils
 
 object Constants {
     const val BASE_URL = "http://abp-politecnics.com/2024/dam01/api/"

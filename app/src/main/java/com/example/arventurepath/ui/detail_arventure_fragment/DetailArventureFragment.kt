@@ -16,8 +16,8 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.arventurepath.R
-import com.example.arventurepath.data.Constants.REQUEST_PERMISSION
 import com.example.arventurepath.databinding.FragmentDetailArventureBinding
+import com.example.arventurepath.utils.Constants.REQUEST_PERMISSION
 import kotlinx.coroutines.launch
 
 class DetailArventureFragment : Fragment() {

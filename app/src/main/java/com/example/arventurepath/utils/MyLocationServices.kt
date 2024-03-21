@@ -1,4 +1,4 @@
-package com.example.arventurepath.ui.detail_arventure_fragment
+package com.example.arventurepath.utils
 
 import android.annotation.SuppressLint
 import android.content.Context

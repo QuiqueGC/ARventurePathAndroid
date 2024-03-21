@@ -1,5 +1,6 @@
 package com.example.arventurepath.ui.in_game_fragment
 
+import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -59,6 +60,11 @@ class InGameFragment : Fragment(), OnMapReadyCallback {
                 createNextStopMarker(it)
             }
         }
+        lifecycleScope.launch {
+            viewModel.myLocation.collect {
+                setMyLocation(it)
+            }
+        }
 
     }
 
@@ -69,12 +75,22 @@ class InGameFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         viewModel.getStop()
+        viewModel.getMyLocation(requireContext())
     }
 
     private fun createNextStopMarker(stop: Stop) {
 
         val coordinates = LatLng(stop.latitude, stop.longitude)
         val marker: MarkerOptions = MarkerOptions().position(coordinates).title(stop.name)
+        map.addMarker(marker)
+        map.animateCamera(
+            CameraUpdateFactory.newLatLngZoom(coordinates, 18.75f), 1, null
+        )
+    }
+
+    private fun setMyLocation(myLocation: Location) {
+        val coordinates = LatLng(myLocation.latitude, myLocation.longitude)
+        val marker: MarkerOptions = MarkerOptions().position(coordinates).title("Este soy yo")
         map.addMarker(marker)
         map.animateCamera(
             CameraUpdateFactory.newLatLngZoom(coordinates, 18.75f), 4000, null
