@@ -126,7 +126,7 @@
             android:paddingStart="@dimen/commonMargin"
             android:paddingEnd="@dimen/commonMargin"
             app:layout_constraintTop_toBottomOf="@id/nextStopText"
-            app:layout_constraintStart_toStartOf="@id/viewInGameDetails"
+            app:layout_constraintEnd_toEndOf="@id/nextStopText"
             app:layout_constraintBottom_toTopOf="@id/timeText"/>
         <TextView
             android:id="@+id/timeText"
@@ -138,7 +138,7 @@
             android:paddingStart="@dimen/commonMargin"
             android:paddingEnd="@dimen/commonMargin"
             app:layout_constraintTop_toBottomOf="@id/stepsText"
-            app:layout_constraintStart_toStartOf="@id/viewInGameDetails"
+            app:layout_constraintEnd_toEndOf="@id/nextStopText"
             app:layout_constraintBottom_toBottomOf="@id/viewInGameDetails"/>
         <TextView
             android:id="@+id/nextStopValueText"
@@ -147,22 +147,19 @@
             style="@style/appTextStyle"
             android:text="Plaza Cataluña"
             android:layout_margin="@dimen/smallMargin"
-            android:paddingStart="@dimen/commonMargin"
             android:paddingEnd="@dimen/commonMargin"
             app:layout_constraintTop_toTopOf="@id/nextStopText"
-            app:layout_constraintEnd_toEndOf="@id/viewInGameDetails"
+            app:layout_constraintStart_toEndOf="@id/nextStopText"
             app:layout_constraintBottom_toBottomOf="@id/nextStopText"/>
+
         <TextView
             android:id="@+id/stepsValueText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/appTextStyle"
             android:text="45"
-            android:layout_margin="@dimen/smallMargin"
-            android:paddingStart="@dimen/commonMargin"
-            android:paddingEnd="@dimen/commonMargin"
             app:layout_constraintTop_toTopOf="@id/stepsText"
-            app:layout_constraintEnd_toEndOf="@id/viewInGameDetails"
+            app:layout_constraintStart_toStartOf="@id/nextStopValueText"
             app:layout_constraintBottom_toBottomOf="@id/stepsText"/>
         <TextView
             android:id="@+id/timeValueText"
@@ -170,11 +167,8 @@
             android:layout_height="wrap_content"
             style="@style/appTextStyle"
             android:text="25 min"
-            android:layout_margin="@dimen/smallMargin"
-            android:paddingStart="@dimen/commonMargin"
-            android:paddingEnd="@dimen/commonMargin"
             app:layout_constraintTop_toTopOf="@id/timeText"
-            app:layout_constraintEnd_toEndOf="@id/viewInGameDetails"
+            app:layout_constraintStart_toStartOf="@id/nextStopValueText"
             app:layout_constraintBottom_toBottomOf="@id/timeText"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
