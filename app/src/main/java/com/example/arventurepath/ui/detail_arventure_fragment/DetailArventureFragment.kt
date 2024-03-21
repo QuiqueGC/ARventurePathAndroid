@@ -2,6 +2,7 @@ package com.example.arventurepath.ui.detail_arventure_fragment
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -107,7 +108,15 @@ class DetailArventureFragment : Fragment() {
             requireContext(), Manifest.permission.CAMERA
         ) == PackageManager.PERMISSION_GRANTED
 
-        if (!fineLocationPermissionGranted || !coarseLocationPermissionGranted || !cameraPermissionGranted) {
+        val activityRecognitionPermissionGranted = ContextCompat.checkSelfPermission(
+            requireContext(), Manifest.permission.ACTIVITY_RECOGNITION
+        ) == PackageManager.PERMISSION_GRANTED
+
+        if (!fineLocationPermissionGranted ||
+            !coarseLocationPermissionGranted ||
+            !cameraPermissionGranted ||
+            !activityRecognitionPermissionGranted
+        ) {
             // Al menos uno de los permisos no está concedido
             requestPermissions()
         } else {
@@ -129,7 +138,21 @@ class DetailArventureFragment : Fragment() {
             requireActivity(), Manifest.permission.CAMERA
         )
 
-        if (fineLocationPermissionGranted || storagePermissionGranted || cameraPermissionGranted) {
+        val activityRecognitionPermissionGranted =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(), Manifest.permission.ACTIVITY_RECOGNITION
+                )
+            } else {
+                // TODO: Revisar esto, que puse un true por poner algo
+                true
+            }
+
+        if (fineLocationPermissionGranted ||
+            storagePermissionGranted ||
+            cameraPermissionGranted ||
+            activityRecognitionPermissionGranted
+        ) {
             // El usuario ya ha rechazado los permisos
             Toast.makeText(
                 requireContext(),
@@ -144,7 +167,8 @@ class DetailArventureFragment : Fragment() {
                 arrayOf(
                     Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.CAMERA
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.ACTIVITY_RECOGNITION
                 ),
                 REQUEST_PERMISSION
             )
