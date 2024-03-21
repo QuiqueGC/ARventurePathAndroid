@@ -1,10 +1,5 @@
 package com.example.arventurepath.ui.in_game_fragment
 
-import android.content.Context
-import android.hardware.Sensor
-import android.hardware.SensorEvent
-import android.hardware.SensorEventListener
-import android.hardware.SensorManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -18,11 +13,14 @@ import androidx.navigation.fragment.navArgs
 import com.example.arventurepath.data.models.Stop
 import com.example.arventurepath.databinding.FragmentInGameBinding
 import com.example.arventurepath.ui.detail_arventure_fragment.DetailArventureFragmentArgs
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.launch
 
@@ -31,12 +29,17 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
 
     private lateinit var binding: FragmentInGameBinding
     private val args: DetailArventureFragmentArgs by navArgs()
+    private var stepCounter: StepCounter? = null
     private var totalSeconds: Int = 0
     private lateinit var handlerTime: Handler
 
     private val viewModel = InGameViewModel()
 
     private lateinit var map: GoogleMap
+    private lateinit var nextStop: Stop
+    private lateinit var destinyMarker: Marker
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private var sensorManager: SensorManager? = null
     private var stepSensor: Sensor? = null
@@ -47,6 +50,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         binding = FragmentInGameBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -56,16 +60,16 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
 
         //Timer tiempo
         handlerTime = Handler(Looper.getMainLooper())
-        startTimer()
 
         //Contador de pasos
         sensorManager = requireActivity().getSystemService(Context.SENSOR_SERVICE) as SensorManager
         stepSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
         startStepCounter()
 
+        setMap()
         viewModel.getArventureDetail(args.idArventure)
         observeViewModel()
-        setMap()
+        startTimer()
     }
 
     private fun startStepCounter() {
@@ -130,40 +134,72 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
     }
 
     private fun observeViewModel() {
-        lifecycleScope.launch {
+        /*lifecycleScope.launch {
             viewModel.arventureDetail.collect {
                 if (it.route.stops.isNotEmpty()) {
-                    binding.nextStopValueText.text = it.route.stops[0].name
+
                 }
                 binding.timeValueText.text = "0"
                 binding.stepsValueText.text = "0"
             }
-        }
+        }*/
 
         lifecycleScope.launch {
             viewModel.stop.collect {
-                createMarker(it)
+                binding.nextStopValueText.text = it.name
+                nextStop = it
+                createNextStopMarker()
             }
         }
-
     }
 
+
     private fun setMap() {
+        // Inicializar el cliente de ubicación fusionada
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         binding.mapInGame.getFragment<SupportMapFragment>().getMapAsync(this)
     }
 
+    @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        //createMarkers()
+        viewModel.getStop()
+        //viewModel.getMyLocation(requireContext())
+
+        // Habilitar el botón "Mi ubicación" en el mapa
+        map.isMyLocationEnabled = true
+
+        // Obtener la última ubicación conocida del dispositivo y mover la cámara al marcador
+        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+            location?.let {
+                //userLocation = it
+                checkIfComeToMark(it)
+                val latLng = LatLng(it.latitude, it.longitude)
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18.75f))
+            }
+        }
     }
 
-    private fun createMarker(stop: Stop) {
+    private fun checkIfComeToMark(userLocation: Location) {
+        if (checkIfIsNear(userLocation.latitude, destinyMarker.position.latitude) &&
+            checkIfIsNear(userLocation.longitude, destinyMarker.position.longitude)
+        ) {
+            destinyMarker.remove()
+            viewModel.removeStop()
+            viewModel.getStop()
+        }
+    }
 
-        val coordinates = LatLng(stop.latitude, stop.longitude)
-        val marker: MarkerOptions = MarkerOptions().position(coordinates).title(stop.name)
-        map.addMarker(marker)
+    private fun checkIfIsNear(myPosition: Double, destinyPosition: Double): Boolean {
+        return myPosition > destinyPosition - 0.001 && myPosition < destinyPosition + 0.001
+    }
+
+    private fun createNextStopMarker() {
+        val coordinates = LatLng(nextStop.latitude, nextStop.longitude)
+        val markerOptions = MarkerOptions().position(coordinates).title(nextStop.name)
+        destinyMarker = map.addMarker(markerOptions)!!
         map.animateCamera(
-            CameraUpdateFactory.newLatLngZoom(coordinates, 11.8f), 4000, null
+            CameraUpdateFactory.newLatLngZoom(coordinates, 18.75f), 1, null
         )
 
     }

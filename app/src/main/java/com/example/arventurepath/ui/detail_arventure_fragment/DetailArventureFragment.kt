@@ -2,6 +2,7 @@ package com.example.arventurepath.ui.detail_arventure_fragment
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,12 +17,8 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.arventurepath.R
-import com.example.arventurepath.data.Constants.REQUEST_PERMISSION
-import com.example.arventurepath.data.Constants.fitnessPermissionsRequestCode
 import com.example.arventurepath.databinding.FragmentDetailArventureBinding
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.fitness.FitnessOptions
-import com.google.android.gms.fitness.data.DataType
+import com.example.arventurepath.utils.Constants.REQUEST_PERMISSION
 import kotlinx.coroutines.launch
 
 class DetailArventureFragment : Fragment() {
@@ -45,7 +42,6 @@ class DetailArventureFragment : Fragment() {
 
         viewModel.getArventureDetail(args.idArventure)
         binding.button.setOnClickListener{
-            requestFitnessPermissions()
             checkPermissions()
         }
     }
@@ -112,35 +108,20 @@ class DetailArventureFragment : Fragment() {
             requireContext(), Manifest.permission.CAMERA
         ) == PackageManager.PERMISSION_GRANTED
 
-        if (!fineLocationPermissionGranted || !coarseLocationPermissionGranted || !cameraPermissionGranted) {
+        val activityRecognitionPermissionGranted = ContextCompat.checkSelfPermission(
+            requireContext(), Manifest.permission.ACTIVITY_RECOGNITION
+        ) == PackageManager.PERMISSION_GRANTED
+
+        if (!fineLocationPermissionGranted ||
+            !coarseLocationPermissionGranted ||
+            !cameraPermissionGranted ||
+            !activityRecognitionPermissionGranted
+        ) {
             // Al menos uno de los permisos no está concedido
             requestPermissions()
         } else {
-            // TODO: aquí la magia
-            viewModel.getLocation(requireContext())
             // Ambos permisos están concedidos, puedes acceder a lo que sea
-            /*findNavController().navigate(
-                DetailArventureFragmentDirections.actionDetailArventureFragmentToInGameFragment(
-                    idUser = args.idUser,
-                    idArventure = args.idArventure
-                )
-            )*/
-        }
-    }
-
-    private fun requestFitnessPermissions() {
-        val fitnessOptions = FitnessOptions.builder()
-            .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
-            .build()
-
-        val account = GoogleSignIn.getLastSignedInAccount(requireContext())
-        if (account != null && !GoogleSignIn.hasPermissions(account, fitnessOptions)) {
-            GoogleSignIn.requestPermissions(
-                this,
-                fitnessPermissionsRequestCode,
-                account,
-                fitnessOptions
-            )
+            viewModel.getLocation(requireContext())
         }
     }
 
@@ -157,7 +138,21 @@ class DetailArventureFragment : Fragment() {
             requireActivity(), Manifest.permission.CAMERA
         )
 
-        if (fineLocationPermissionGranted || storagePermissionGranted || cameraPermissionGranted) {
+        val activityRecognitionPermissionGranted =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(), Manifest.permission.ACTIVITY_RECOGNITION
+                )
+            } else {
+                // TODO: Revisar esto, que puse un true por poner algo
+                true
+            }
+
+        if (fineLocationPermissionGranted ||
+            storagePermissionGranted ||
+            cameraPermissionGranted ||
+            activityRecognitionPermissionGranted
+        ) {
             // El usuario ya ha rechazado los permisos
             Toast.makeText(
                 requireContext(),
@@ -172,7 +167,8 @@ class DetailArventureFragment : Fragment() {
                 arrayOf(
                     Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.CAMERA
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.ACTIVITY_RECOGNITION
                 ),
                 REQUEST_PERMISSION
             )
@@ -188,15 +184,8 @@ class DetailArventureFragment : Fragment() {
 
         if (requestCode == REQUEST_PERMISSION) {
             if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
-
-                viewModel.getLocation(requireContext())
                 // Ambos permisos concedidos, puedes acceder a lo que sea
-                /*findNavController().navigate(
-                    DetailArventureFragmentDirections.actionDetailArventureFragmentToInGameFragment(
-                        idUser = args.idUser,
-                        idArventure = args.idArventure
-                    )
-                )*/
+                viewModel.getLocation(requireContext())
 
             } else {
                 Toast.makeText(

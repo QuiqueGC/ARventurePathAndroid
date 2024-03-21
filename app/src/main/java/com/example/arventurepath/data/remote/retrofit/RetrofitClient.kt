@@ -1,6 +1,6 @@
 package com.example.arventurepath.data.remote.retrofit
 
-import com.example.arventurepath.data.Constants.BASE_URL
+import com.example.arventurepath.utils.Constants.BASE_URL
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.arventurepath.data.models.ArventureDetail
 import com.example.arventurepath.data.remote.DataProvider
+import com.example.arventurepath.utils.MyLocationServices
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableSharedFlow
