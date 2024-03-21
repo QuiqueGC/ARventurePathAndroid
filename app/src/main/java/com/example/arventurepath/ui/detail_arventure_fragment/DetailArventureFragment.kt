@@ -17,11 +17,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.arventurepath.R
 import com.example.arventurepath.data.Constants.REQUEST_PERMISSION
-import com.example.arventurepath.data.Constants.fitnessPermissionsRequestCode
 import com.example.arventurepath.databinding.FragmentDetailArventureBinding
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.fitness.FitnessOptions
-import com.google.android.gms.fitness.data.DataType
 import kotlinx.coroutines.launch
 
 class DetailArventureFragment : Fragment() {
@@ -45,7 +41,6 @@ class DetailArventureFragment : Fragment() {
 
         viewModel.getArventureDetail(args.idArventure)
         binding.button.setOnClickListener{
-            requestFitnessPermissions()
             checkPermissions()
         }
     }
@@ -125,22 +120,6 @@ class DetailArventureFragment : Fragment() {
                     idArventure = args.idArventure
                 )
             )*/
-        }
-    }
-
-    private fun requestFitnessPermissions() {
-        val fitnessOptions = FitnessOptions.builder()
-            .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
-            .build()
-
-        val account = GoogleSignIn.getLastSignedInAccount(requireContext())
-        if (account != null && !GoogleSignIn.hasPermissions(account, fitnessOptions)) {
-            GoogleSignIn.requestPermissions(
-                this,
-                fitnessPermissionsRequestCode,
-                account,
-                fitnessOptions
-            )
         }
     }
 
