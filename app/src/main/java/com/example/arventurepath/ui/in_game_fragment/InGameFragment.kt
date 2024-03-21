@@ -78,9 +78,6 @@ class InGameFragment : Fragment(), OnMapReadyCallback {
         binding.timeValueText.text = timeString
     }
 
-}
-
-
     private fun observeViewModel() {
         lifecycleScope.launch {
             viewModel.arventureDetail.collect {
