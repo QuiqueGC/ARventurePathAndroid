@@ -10,11 +10,9 @@ import android.location.Location
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -53,6 +51,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
     private var running = false
     private var totalSteps = 0f
     private var previousTotalSteps = 0f
+    private var isFirstStop = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -76,10 +75,26 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         setMap()
         viewModel.getArventureDetail(args.idArventure)
         observeViewModel()
-        startTimer()
+        //startTimer()
+        binding.buttonStart.setOnClickListener {
+
+            // TODO: inicializar el contador de pasos
+            startTimer()
+            destinyMarker.remove()
+            viewModel.removeStop()
+            viewModel.getStop()
+            binding.nextStopText.visibility = View.VISIBLE
+            binding.nextStopValueText.visibility = View.VISIBLE
+            binding.timeText.visibility = View.VISIBLE
+            binding.timeValueText.visibility = View.VISIBLE
+            binding.stepsText.visibility = View.VISIBLE
+            binding.stepsValueText.visibility = View.VISIBLE
+            binding.buttonStart.visibility = View.GONE
+            binding.tvGoToStart.visibility = View.GONE
+        }
     }
 
-    private fun resetSteps(){
+    private fun resetSteps() {
 
         totalSteps = 0f
         previousTotalSteps = 0f
@@ -87,7 +102,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
 
     }
 
-    private fun startTimer(){
+    private fun startTimer() {
         // Ejecutar un Runnable cada segundo para contar los segundos
         handlerTime.post(object : Runnable {
             override fun run() {
@@ -160,9 +175,15 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         if (checkIfIsNear(userLocation.latitude, destinyMarker.position.latitude) &&
             checkIfIsNear(userLocation.longitude, destinyMarker.position.longitude)
         ) {
-            destinyMarker.remove()
+            if (isFirstStop) {
+                binding.buttonStart.visibility = View.VISIBLE
+                binding.tvGoToStart.text = "Pulsa en empezar y... Allá vamos!"
+                isFirstStop = false
+            }
+
+            /*destinyMarker.remove()
             viewModel.removeStop()
-            viewModel.getStop()
+            viewModel.getStop()*/
         }
     }
 
@@ -208,7 +229,11 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
 
         if (stepSensor == null) {
             // This will give a toast message to the user if there is no sensor in the device
-            Toast.makeText(requireContext(), "No sensor detected on this device", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                "No sensor detected on this device",
+                Toast.LENGTH_SHORT
+            ).show()
         } else {
             // Rate suitable for the user interface
             sensorManager?.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_UI)
