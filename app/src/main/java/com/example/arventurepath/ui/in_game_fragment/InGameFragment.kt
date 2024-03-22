@@ -52,7 +52,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
     private var sensorManager: SensorManager? = null
     private var running = false
     private var totalSteps = 0f
-    private var previousTotalSteps = 0f
+    private var i = 1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,7 +69,6 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         handlerTime = Handler(Looper.getMainLooper())
 
         //Contador de pasos
-        resetSteps()
         sensorManager = requireContext().getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
 
@@ -79,12 +78,45 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         startTimer()
     }
 
-    private fun resetSteps(){
 
-        totalSteps = 0f
-        previousTotalSteps = 0f
-        binding.stepsValueText.text = 0.toString()
 
+    override fun onSensorChanged(event: SensorEvent?) {
+
+        if (running) {
+                                            // i = 2
+            totalSteps = event!!.values[0] // 11
+            val steps = event.values[0] + i // 13
+
+            // Current steps are calculated by taking the difference of total steps
+            // and previous steps
+            val currentSteps = steps.toInt() - totalSteps.toInt() //  13 - 11 = 2
+
+            // It will show the current steps to the user
+            binding.stepsValueText.text = ("$currentSteps")
+            i++
+        }
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+    }
+
+    override fun onResume() {
+        super.onResume()
+        running = true
+
+        // Returns the number of steps taken by the user since the last reboot while activated
+        // This sensor requires permission android.permission.ACTIVITY_RECOGNITION.
+        // So don't forget to add the following permission in AndroidManifest.xml present in manifest folder of the app.
+        val stepSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
+
+
+        if (stepSensor == null) {
+            // This will give a toast message to the user if there is no sensor in the device
+            Toast.makeText(requireContext(), "No sensor detected on this device", Toast.LENGTH_SHORT).show()
+        } else {
+            // Rate suitable for the user interface
+            sensorManager?.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_UI)
+        }
     }
 
     private fun startTimer(){
@@ -177,42 +209,6 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         map.animateCamera(
             CameraUpdateFactory.newLatLngZoom(coordinates, 18.75f), 1, null
         )
-    }
-
-    override fun onSensorChanged(event: SensorEvent?) {
-
-        if (running) {
-            totalSteps = event!!.values[0]
-
-            // Current steps are calculated by taking the difference of total steps
-            // and previous steps
-            val currentSteps = totalSteps.toInt() - previousTotalSteps.toInt()
-
-            // It will show the current steps to the user
-            binding.stepsValueText.text = ("$currentSteps")
-        }
-    }
-
-    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-    }
-
-    override fun onResume() {
-        super.onResume()
-        running = true
-
-        // Returns the number of steps taken by the user since the last reboot while activated
-        // This sensor requires permission android.permission.ACTIVITY_RECOGNITION.
-        // So don't forget to add the following permission in AndroidManifest.xml present in manifest folder of the app.
-        val stepSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
-
-
-        if (stepSensor == null) {
-            // This will give a toast message to the user if there is no sensor in the device
-            Toast.makeText(requireContext(), "No sensor detected on this device", Toast.LENGTH_SHORT).show()
-        } else {
-            // Rate suitable for the user interface
-            sensorManager?.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_UI)
-        }
     }
 
 }
