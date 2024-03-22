@@ -58,7 +58,6 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         binding = FragmentInGameBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -102,7 +101,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         })
     }
 
-    private fun updateUI(){
+    private fun updateUI() {
         val hours = totalSeconds / 3600
         val minutes = (totalSeconds % 3600) / 60
         val seconds = totalSeconds % 60
@@ -113,15 +112,13 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
     }
 
     private fun observeViewModel() {
-        /*lifecycleScope.launch {
+        lifecycleScope.launch {
             viewModel.arventureDetail.collect {
-                if (it.route.stops.isNotEmpty()) {
-
-                }
                 binding.timeValueText.text = "0"
                 binding.stepsValueText.text = "0"
+                binding.arventureTitle.text = it.name.uppercase()
             }
-        }*/
+        }
 
         lifecycleScope.launch {
             viewModel.stop.collect {
@@ -170,7 +167,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
     }
 
     private fun checkIfIsNear(myPosition: Double, destinyPosition: Double): Boolean {
-        return myPosition > destinyPosition - 0.001 && myPosition < destinyPosition + 0.001
+        return myPosition > destinyPosition - 0.0001 && myPosition < destinyPosition + 0.0001
     }
 
     private fun createNextStopMarker() {
@@ -180,7 +177,6 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         map.animateCamera(
             CameraUpdateFactory.newLatLngZoom(coordinates, 18.75f), 1, null
         )
-
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
