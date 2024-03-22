@@ -1,7 +1,6 @@
 package com.example.arventurepath.ui.login_fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.arventurepath.R
 import com.example.arventurepath.databinding.FragmentLoginBinding
 import kotlinx.coroutines.launch
-import org.mindrot.jbcrypt.BCrypt
 
 
 class LoginFragment : Fragment() {
@@ -95,16 +93,16 @@ class LoginFragment : Fragment() {
     }
 
     private fun registerUser(){
-        lifecycleScope.launch {
-            viewModel.idUser.collect{ idRegisterUser ->
-                if (idRegisterUser!=-1){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.idUser.collect { idRegisterUser ->
+                if (idRegisterUser != -1) {
                     findNavController().navigate(
-                        LoginFragmentDirections.actionLoginFragmentToTutorialFragment(idUser = idRegisterUser )
+                        LoginFragmentDirections.actionLoginFragmentToTutorialFragment(idUser = idRegisterUser)
                     )
                 }
             }
         }
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.loading.collect { isLoading ->
                 if (!isLoading) {
                     binding.progressBar.visibility = View.GONE

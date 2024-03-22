@@ -85,7 +85,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun observeViewModel() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.arventureDetail.collect {
                 binding.timeValueText.text = "0"
                 binding.stepsValueText.text = "0"
@@ -93,7 +93,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.stop.collect {
                 binding.nextStopValueText.text = it.name
                 nextStop = it

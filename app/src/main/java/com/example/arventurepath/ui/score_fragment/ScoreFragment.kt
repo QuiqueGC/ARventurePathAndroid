@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -14,14 +13,12 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.arventurepath.R
 import com.example.arventurepath.data.models.Stop
 import com.example.arventurepath.databinding.FragmentScoreBinding
-import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class ScoreFragment : Fragment(), OnMapReadyCallback {
@@ -59,7 +56,7 @@ class ScoreFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun observedViewModel() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.arventureFinal.collect {
                 binding.arventureTitle.text = it.name
                 binding.distanceArventure.text = it.distance
@@ -77,9 +74,9 @@ class ScoreFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
-        lifecycleScope.launch {
-            viewModel.loading.collect{ isLoading ->
-                if(!isLoading){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.loading.collect { isLoading ->
+                if (!isLoading) {
                     binding.progressBar.visibility = View.GONE
                     binding.linearTitle.visibility = View.VISIBLE
                     binding.linearImg.visibility = View.VISIBLE

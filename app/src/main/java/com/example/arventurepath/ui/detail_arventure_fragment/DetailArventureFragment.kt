@@ -47,7 +47,7 @@ class DetailArventureFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.arventureDetail.collect {
                 binding.arventureTitle.text = it.name
                 binding.summaryArventure.text = it.summary
@@ -64,7 +64,7 @@ class DetailArventureFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.loading.collect { isLoading ->
                 if (!isLoading) {
                     binding.progressBar.visibility = View.GONE
