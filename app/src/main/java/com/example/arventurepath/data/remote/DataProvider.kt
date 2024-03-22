@@ -107,7 +107,7 @@ object DataProvider {
             "",
             arventuresResponse.storyResponse?.name ?: "",
             route.stops,
-            listOf(achievement)
+            mutableListOf(achievement)
         )
     }
 

@@ -55,7 +55,7 @@
                         android:id="@+id/imgArventure"
                         android:layout_width="350dp"
                         android:layout_height="200dp"
-                        android:layout_margin="5dp"
+                        android:layout_marginTop="10dp"
                         android:src="@drawable/aventura2" />
 
                 </LinearLayout>
@@ -84,7 +84,7 @@
                         android:text="@string/distanceArventure" />
 
                     <TextView
-                        android:id="@+id/minutesArventure"
+                        android:id="@+id/estimateTimeArventure"
                         style="@style/appTextStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -159,7 +159,7 @@
                         android:text="@string/timeArventure" />
 
                     <TextView
-                        android:id="@+id/estimateTimeArventure"
+                        android:id="@+id/timeArventure"
                         style="@style/appTextStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -227,7 +227,7 @@
                 android:id="@+id/linearAchievement"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
-                android:layout_margin="8dp"
+                android:layout_margin="5dp"
                 android:background="@drawable/background_gradient"
                 android:orientation="vertical"
                 android:visibility="invisible">
@@ -252,7 +252,8 @@
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp">
 
                     <LinearLayout
                         android:id="@+id/linearImgAchievement"
