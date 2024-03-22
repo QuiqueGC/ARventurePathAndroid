@@ -1,5 +1,12 @@
 package com.example.arventurepath.ui.in_game_fragment
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
+import android.location.Location
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -7,6 +14,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -29,7 +38,6 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
 
     private lateinit var binding: FragmentInGameBinding
     private val args: DetailArventureFragmentArgs by navArgs()
-    private var stepCounter: StepCounter? = null
     private var totalSeconds: Int = 0
     private lateinit var handlerTime: Handler
 
@@ -42,9 +50,9 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private var sensorManager: SensorManager? = null
-    private var stepSensor: Sensor? = null
-    private var stepCount = 0
-
+    private var running = false
+    private var totalSteps = 0f
+    private var previousTotalSteps = 0f
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,9 +70,9 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         handlerTime = Handler(Looper.getMainLooper())
 
         //Contador de pasos
-        sensorManager = requireActivity().getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        stepSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
-        startStepCounter()
+        resetSteps()
+        sensorManager = requireContext().getSystemService(Context.SENSOR_SERVICE) as SensorManager
+
 
         setMap()
         viewModel.getArventureDetail(args.idArventure)
@@ -72,43 +80,14 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         startTimer()
     }
 
-    private fun startStepCounter() {
-        stepSensor?.let { sensor ->
-            sensorManager?.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
-        }
-    }
-    override fun onSensorChanged(event: SensorEvent?) {
-        Log.e("ON SENSOR CHANGED" , " antes del IF y del event.let")
-        event?.let {
-            Log.e("ON SENSOR CHANGED" , " antes del IF y DENTRO event.let")
-            if (it.sensor == stepSensor) {
-                stepCount = it.values[0].toInt()
-                Log.e("ON SENSOR CHANGED" , " ENTRÓ EN EL IF$stepCount")
-                updateStepCount()
-            }
-        }    }
+    private fun resetSteps(){
 
-    private fun updateStepCount() {
-        Log.e("updateStepCount" , "ANTES DE ENTRAR EN RUNONUITHREAD")
-        requireActivity().runOnUiThread {
-            Log.e("updateStepCount" , "DESPÚES DE ENTRAR EN RUNONUITHREAD")
-            binding.stepsValueText.text = "$stepCount"
-        }
+        totalSteps = 0f
+        previousTotalSteps = 0f
+        binding.stepsValueText.text = 0.toString()
+
     }
 
-    override fun onResume() {
-        super.onResume()
-        startStepCounter()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        sensorManager?.unregisterListener(this)
-    }
-
-    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        TODO("Not yet implemented")
-    }
     private fun startTimer(){
         // Ejecutar un Runnable cada segundo para contar los segundos
         handlerTime.post(object : Runnable {
@@ -203,5 +182,42 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         )
 
     }
+
+    override fun onSensorChanged(event: SensorEvent?) {
+
+        if (running) {
+            totalSteps = event!!.values[0]
+
+            // Current steps are calculated by taking the difference of total steps
+            // and previous steps
+            val currentSteps = totalSteps.toInt() - previousTotalSteps.toInt()
+
+            // It will show the current steps to the user
+            binding.stepsValueText.text = ("$currentSteps")
+        }
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+    }
+
+    override fun onResume() {
+        super.onResume()
+        running = true
+
+        // Returns the number of steps taken by the user since the last reboot while activated
+        // This sensor requires permission android.permission.ACTIVITY_RECOGNITION.
+        // So don't forget to add the following permission in AndroidManifest.xml present in manifest folder of the app.
+        val stepSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
+
+
+        if (stepSensor == null) {
+            // This will give a toast message to the user if there is no sensor in the device
+            Toast.makeText(requireContext(), "No sensor detected on this device", Toast.LENGTH_SHORT).show()
+        } else {
+            // Rate suitable for the user interface
+            sensorManager?.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_UI)
+        }
+    }
+
 }
 
