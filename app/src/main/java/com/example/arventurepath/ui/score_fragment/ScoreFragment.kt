@@ -12,7 +12,9 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.arventurepath.R
+import com.example.arventurepath.data.models.Achievement
 import com.example.arventurepath.data.models.Stop
+import com.example.arventurepath.data.models.UserToPlay
 import com.example.arventurepath.databinding.FragmentScoreBinding
 import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -31,6 +33,7 @@ class ScoreFragment : Fragment(), OnMapReadyCallback {
     private val args: ScoreFragmentArgs by navArgs()
     private val viewModel = ScoreFragmentViewModel()
     private var stops = listOf<Stop>()
+    //private var achievements = mutableListOf<Achievement>()
     private val idArventure = 100001
 
     override fun onCreateView(
@@ -63,11 +66,12 @@ class ScoreFragment : Fragment(), OnMapReadyCallback {
             viewModel.arventureFinal.collect {
                 binding.arventureTitle.text = it.name
                 binding.distanceArventure.text = it.distance
-                binding.minutesArventure.text = it.time
-                binding.stepsArventure.text = it.steps.toString()
                 binding.estimateTimeArventure.text = it.estimateTime
+                //binding.stepsArventure.text = args.steps.toString()
+                //binding.timeArventure.text = args.time
                 binding.storyNameArventure.text = it.storyName
                 stops = it.stops
+                //achievements = args.achievements
 
                 Glide.with(requireContext())
                     .load("http://abp-politecnics.com/2024/DAM01/filesToServer/imgStory/" + it.img)
@@ -113,4 +117,5 @@ class ScoreFragment : Fragment(), OnMapReadyCallback {
             )
         }
     }
+
 }
