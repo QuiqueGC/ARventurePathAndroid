@@ -30,8 +30,8 @@ class DetailArventureFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentDetailArventureBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
@@ -74,25 +74,6 @@ class DetailArventureFragment : Fragment() {
                 }
             }
         }
-
-        lifecycleScope.launch {
-            viewModel.isNear.collect { isNear ->
-                if (isNear) {
-                    findNavController().navigate(
-                        DetailArventureFragmentDirections.actionDetailArventureFragmentToInGameFragment(
-                            idUser = args.idUser,
-                            idArventure = args.idArventure
-                        )
-                    )
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "Debes acercarte al origen de la Arventure.",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
-        }
     }
 
     private fun checkPermissions() {
@@ -108,9 +89,15 @@ class DetailArventureFragment : Fragment() {
             requireContext(), Manifest.permission.CAMERA
         ) == PackageManager.PERMISSION_GRANTED
 
-        val activityRecognitionPermissionGranted = ContextCompat.checkSelfPermission(
-            requireContext(), Manifest.permission.ACTIVITY_RECOGNITION
-        ) == PackageManager.PERMISSION_GRANTED
+        val activityRecognitionPermissionGranted =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                ContextCompat.checkSelfPermission(
+                    requireContext(), Manifest.permission.ACTIVITY_RECOGNITION
+                ) == PackageManager.PERMISSION_GRANTED
+            } else {
+                // TODO: Revisar esto, que puse un true por poner algo
+                true
+            }
 
         if (!fineLocationPermissionGranted ||
             !coarseLocationPermissionGranted ||
@@ -121,7 +108,12 @@ class DetailArventureFragment : Fragment() {
             requestPermissions()
         } else {
             // Ambos permisos están concedidos, puedes acceder a lo que sea
-            viewModel.getLocation(requireContext())
+            findNavController().navigate(
+                DetailArventureFragmentDirections.actionDetailArventureFragmentToInGameFragment(
+                    idUser = args.idUser,
+                    idArventure = args.idArventure
+                )
+            )
         }
     }
 
@@ -185,7 +177,12 @@ class DetailArventureFragment : Fragment() {
         if (requestCode == REQUEST_PERMISSION) {
             if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
                 // Ambos permisos concedidos, puedes acceder a lo que sea
-                viewModel.getLocation(requireContext())
+                findNavController().navigate(
+                    DetailArventureFragmentDirections.actionDetailArventureFragmentToInGameFragment(
+                        idUser = args.idUser,
+                        idArventure = args.idArventure
+                    )
+                )
 
             } else {
                 Toast.makeText(

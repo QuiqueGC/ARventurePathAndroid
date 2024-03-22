@@ -85,15 +85,13 @@ class InGameFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun observeViewModel() {
-        /*lifecycleScope.launch {
+        lifecycleScope.launch {
             viewModel.arventureDetail.collect {
-                if (it.route.stops.isNotEmpty()) {
-
-                }
                 binding.timeValueText.text = "0"
                 binding.stepsValueText.text = "0"
+                binding.arventureTitle.text = it.name.uppercase()
             }
-        }*/
+        }
 
         lifecycleScope.launch {
             viewModel.stop.collect {
