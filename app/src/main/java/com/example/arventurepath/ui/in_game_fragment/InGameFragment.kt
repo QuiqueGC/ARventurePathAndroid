@@ -7,9 +7,11 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.location.Location
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,6 +65,8 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
     private var randomSecondHappening = 0
     private var happenings: MutableList<Happening> = arrayListOf()
     private var showingHappening = false
+    private lateinit var mediaPlayer: MediaPlayer
+    private var audioURL = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -78,6 +82,9 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         //Timer tiempo
         handlerTime = Handler(Looper.getMainLooper())
         handlerHappening = Handler(Looper.getMainLooper())
+
+        //Reproductor Audio
+        mediaPlayer = MediaPlayer()
 
         setMap()
         viewModel.getArventureDetail(args.idArventure)
@@ -223,6 +230,18 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
                                 .error(R.drawable.aventura2)
                                 .apply(RequestOptions().centerCrop())
                                 .into(binding.imgHappening)
+                        }
+                        "audio" -> {
+                            audioURL = "http://abp-politecnics.com/2024/DAM01/filesToServer/audioHappening/${selectedHappening.img}"
+                            try {
+                                mediaPlayer.setDataSource(audioURL)
+                                mediaPlayer.prepare()
+                                mediaPlayer.start()
+                            } catch (e: Exception) {
+                                Toast.makeText(requireContext(), "Ha habido un problema al intentar reproducir el audio", Toast.LENGTH_LONG).show()
+                            }
+                            Toast.makeText(requireContext(), "Audio en reproducción", Toast.LENGTH_LONG).show()
+
                         }
                     }
 
