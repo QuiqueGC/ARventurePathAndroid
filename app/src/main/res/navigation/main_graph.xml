@@ -70,6 +70,9 @@
             android:name="idUser"
             app:argType="integer"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_inGameFragment_to_scoreFragment2"
+            app:destination="@id/scoreFragment2" />
     </fragment>
     <fragment
         android:id="@+id/scoreFragment2"
@@ -87,6 +90,16 @@
             android:name="idArventure"
             app:argType="integer"
             android:defaultValue="100001" />
+        <argument
+            android:name="steps"
+            app:argType="float" />
+        <argument
+            android:name="totalSeconds"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="achievements"
+            app:argType="com.example.arventurepath.data.models.ListAchievements" />
     </fragment>
 
 </navigation>

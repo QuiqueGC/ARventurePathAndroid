@@ -1,10 +1,10 @@
 package com.example.arventurepath.ui.in_game_fragment
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.arventurepath.data.models.Achievement
 import com.example.arventurepath.data.models.ArventureToPlay
+import com.example.arventurepath.data.models.ListAchievements
 import com.example.arventurepath.data.models.Stop
 import com.example.arventurepath.data.models.StoryFragment
 import com.example.arventurepath.data.remote.DataProvider
@@ -29,13 +29,13 @@ class InGameViewModel() : ViewModel() {
     private val _storyFragment = MutableSharedFlow<StoryFragment>()
     val storyFragment: SharedFlow<StoryFragment> = _storyFragment
 
-    private val _win = MutableSharedFlow<List<Achievement>>()
-    val win: SharedFlow<List<Achievement>> = _win
+    private val _win = MutableSharedFlow<ListAchievements>()
+    val win: SharedFlow<ListAchievements> = _win
 
     private val stops = mutableListOf<Stop>()
     private val storyFragments = mutableListOf<StoryFragment>()
 
-    private var achievements = mutableListOf<Achievement>()
+    private var achievements = ListAchievements(mutableListOf())
 
     fun getArventureDetail(idArventure: Int) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -52,15 +52,10 @@ class InGameViewModel() : ViewModel() {
 
     fun getListAchievements() {
         viewModelScope.launch(Dispatchers.IO) {
-            achievements = DataProvider.getListAchievements() as MutableList<Achievement>
-            Log.i(">", achievements.count().toString())
-            achievements.forEach {
-                Log.i(">", it.name)
-                Log.i(">", it.img)
-                Log.i(">", it.id.toString())
-            }
+            achievements.achievements.addAll(DataProvider.getListAchievements() as MutableList<Achievement>)
         }
     }
+
 
     fun getStoryFragment() {
         viewModelScope.launch {
@@ -82,7 +77,7 @@ class InGameViewModel() : ViewModel() {
                 _stop.emit(stops[0])
 
             } else {
-                achievements.add(_arventureDetail.value.achievement)
+                achievements.achievements.add(_arventureDetail.value.achievement)
                 _win.emit(achievements)
             }
         }
