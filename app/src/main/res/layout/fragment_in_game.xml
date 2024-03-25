@@ -77,6 +77,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/glTopTextHappening" />
 
+    <TextView
+        android:id="@+id/tvTxtInGame"
+        style="@style/appTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/largeMargin"
+        android:layout_marginEnd="@dimen/commonMargin"
+        android:background="@drawable/background_gradient"
+        android:gravity="center"
+        android:padding="@dimen/largeMargin"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/glBotTextHappening"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/glTopTextHappening" />
+
     <LinearLayout
         android:id="@+id/linearTitle"
         android:layout_width="match_parent"
