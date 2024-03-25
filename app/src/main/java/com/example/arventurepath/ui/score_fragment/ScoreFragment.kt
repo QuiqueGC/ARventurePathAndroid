@@ -29,8 +29,6 @@ class ScoreFragment : Fragment(), OnMapReadyCallback {
     private val args: ScoreFragmentArgs by navArgs()
     private val viewModel = ScoreFragmentViewModel()
     private var stops = listOf<Stop>()
-    //private var achievements = mutableListOf<Achievement>()
-    //private val idArventure = 100001
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
