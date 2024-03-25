@@ -19,6 +19,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.example.arventurepath.R
 import com.example.arventurepath.data.models.Stop
 import com.example.arventurepath.databinding.FragmentInGameBinding
 import com.example.arventurepath.ui.detail_arventure_fragment.DetailArventureFragmentArgs
@@ -32,6 +35,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 
 class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
@@ -40,6 +44,8 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
     private val args: DetailArventureFragmentArgs by navArgs()
     private var totalSeconds: Int = 0
     private lateinit var handlerTime: Handler
+    private lateinit var handlerHappening: Handler
+    private var secondsHappening: Int = 0
 
     private val viewModel = InGameViewModel()
 
@@ -54,6 +60,8 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
     private var totalSteps = 0f
     private var i = 1
     private var isFirstStop = true
+    private var isOnStop = false
+    private var randomSecondHappening = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,16 +77,14 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         //Timer tiempo
         handlerTime = Handler(Looper.getMainLooper())
 
-        //Contador de pasos
-        sensorManager = requireContext().getSystemService(Context.SENSOR_SERVICE) as SensorManager
-
-
         setMap()
         viewModel.getArventureDetail(args.idArventure)
         observeViewModel()
         //startTimer()
         binding.buttonStart.setOnClickListener {
             // TODO: inicializar el contador de pasos
+            //Contador de pasos
+            sensorManager = requireContext().getSystemService(Context.SENSOR_SERVICE) as SensorManager
             startTimer()
             destinyMarker.remove()
             viewModel.removeStop()
@@ -96,6 +102,13 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
             }
         }
         startCheckMarkerTimer()
+
+        binding.textHappening.setOnClickListener {
+            binding.textHappening.visibility = View.GONE
+        }
+        binding.imgHappening.setOnClickListener{
+            binding.imgHappening.visibility = View.GONE
+        }
     }
 
 
@@ -151,6 +164,51 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
                 handlerTime.postDelayed(this, 1000)
             }
         })
+
+        handlerHappening.post(object : Runnable {
+            override fun run() {
+                if (randomSecondHappening == 0){
+                    randomSecondHappening = Random.nextInt(120, 301)
+                }
+                randomHappening()
+                secondsHappening++
+                handlerHappening.postDelayed(this, 1000)
+            }
+        })
+    }
+
+    private fun randomHappening() {
+        if (secondsHappening >= randomSecondHappening) {
+            val happenings = viewModel.arventureDetail.value.happenings.toMutableList()
+
+            if (happenings.isNotEmpty()) {
+                val randomHappeningNum = Random.nextInt(happenings.size)
+                val selectedHappening = happenings[randomHappeningNum]
+
+
+                when (selectedHappening.type) {
+                    "text" -> {
+                        binding.textHappening.visibility = View.VISIBLE
+                        binding.textHappening.text = selectedHappening.text
+                    }
+                    "image" -> {
+                        binding.imgHappening.visibility = View.VISIBLE
+                        Glide.with(requireContext())
+                            .load("http://abp-politecnics.com/2024/DAM01/filesToServer/imgHappening/${selectedHappening.img}")
+                            .error(R.drawable.aventura2)
+                            .apply(RequestOptions().centerCrop())
+                            .into(binding.imgHappening)
+                    }
+                }
+
+                // Remover el happening seleccionado para que no se vuelva a utilizar
+                happenings.removeAt(randomHappeningNum)
+            }
+            if (secondsHappening - randomSecondHappening >= 20){
+                binding.textHappening.visibility = View.GONE
+                binding.imgHappening.visibility = View.GONE
+            }
+        }
     }
 
     private fun updateUI() {
