@@ -20,6 +20,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.arventurepath.R
+import com.example.arventurepath.data.models.Happening
 import com.example.arventurepath.data.models.Stop
 import com.example.arventurepath.databinding.FragmentInGameBinding
 import com.example.arventurepath.ui.detail_arventure_fragment.DetailArventureFragmentArgs
@@ -60,6 +61,8 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
     private var isFirstStop = true
     private var isOnStop = false
     private var randomSecondHappening = 0
+    private var happenings: MutableList<Happening> = arrayListOf()
+    private var showingHappening = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,6 +89,8 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
             isFirstStop = false
             //Contador de pasos
             sensorManager = requireContext().getSystemService(Context.SENSOR_SERVICE) as SensorManager
+            val stepSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
+            sensorManager?.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_UI)
             startTimer()
             viewModel.getStoryFragment()
 
@@ -112,14 +117,21 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         startCheckMarkerTimer()
 
         binding.textHappening.setOnClickListener {
-            binding.textHappening.visibility = View.GONE
+            restartHappening()
         }
         binding.imgHappening.setOnClickListener{
-            binding.imgHappening.visibility = View.GONE
+            restartHappening()
         }
     }
 
 
+    private fun restartHappening(){
+        binding.imgHappening.visibility = View.GONE
+        binding.textHappening.visibility = View.GONE
+        showingHappening = false
+        randomSecondHappening = 0
+        secondsHappening = 0
+    }
 
     override fun onSensorChanged(event: SensorEvent?) {
 
@@ -177,8 +189,14 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
             override fun run() {
                 if (randomSecondHappening == 0){
                     randomSecondHappening = Random.nextInt(120, 301)
+                    //randomSecondHappening = 20
                 }
-                randomHappening()
+                if (secondsHappening - randomSecondHappening >= 20){
+                    restartHappening()
+                }
+                if (!showingHappening){
+                    randomHappening()
+                }
                 secondsHappening++
                 handlerHappening.postDelayed(this, 1000)
             }
@@ -186,37 +204,35 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
     }
 
     private fun randomHappening() {
-        if (secondsHappening >= randomSecondHappening) {
-            val happenings = viewModel.arventureDetail.value.happenings.toMutableList()
+        if(!isOnStop){
+            if (secondsHappening >= randomSecondHappening) {
+                if (happenings.isNotEmpty()) {
+                    showingHappening = true
+                    val randomHappeningNum = Random.nextInt(happenings.size)
+                    val selectedHappening = happenings[randomHappeningNum]
 
-            if (happenings.isNotEmpty()) {
-                val randomHappeningNum = Random.nextInt(happenings.size)
-                val selectedHappening = happenings[randomHappeningNum]
-
-
-                when (selectedHappening.type) {
-                    "text" -> {
-                        binding.textHappening.visibility = View.VISIBLE
-                        binding.textHappening.text = selectedHappening.text
+                    when (selectedHappening.type) {
+                        "text" -> {
+                            binding.textHappening.visibility = View.VISIBLE
+                            binding.textHappening.text = selectedHappening.text
+                        }
+                        "image" -> {
+                            binding.imgHappening.visibility = View.VISIBLE
+                            Glide.with(requireContext())
+                                .load("http://abp-politecnics.com/2024/DAM01/filesToServer/imgHappening/${selectedHappening.img}")
+                                .error(R.drawable.aventura2)
+                                .apply(RequestOptions().centerCrop())
+                                .into(binding.imgHappening)
+                        }
                     }
-                    "image" -> {
-                        binding.imgHappening.visibility = View.VISIBLE
-                        Glide.with(requireContext())
-                            .load("http://abp-politecnics.com/2024/DAM01/filesToServer/imgHappening/${selectedHappening.img}")
-                            .error(R.drawable.aventura2)
-                            .apply(RequestOptions().centerCrop())
-                            .into(binding.imgHappening)
-                    }
+
+                    // Remover el happening seleccionado para que no se vuelva a utilizar
+                    happenings.removeAt(randomHappeningNum)
                 }
 
-                // Remover el happening seleccionado para que no se vuelva a utilizar
-                happenings.removeAt(randomHappeningNum)
-            }
-            if (secondsHappening - randomSecondHappening >= 20){
-                binding.textHappening.visibility = View.GONE
-                binding.imgHappening.visibility = View.GONE
             }
         }
+
     }
 
     private fun updateUI() {
@@ -235,6 +251,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
                 binding.timeValueText.text = "0"
                 binding.stepsValueText.text = "0"
                 binding.arventureTitle.text = it.name.uppercase()
+                happenings = viewModel.arventureDetail.value.happenings.toMutableList()
             }
         }
 
@@ -243,6 +260,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
                 binding.nextStopValueText.text = it.name
                 nextStop = it
                 createNextStopMarker()
+
             }
         }
 
@@ -332,6 +350,8 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         map.animateCamera(
             CameraUpdateFactory.newLatLngZoom(coordinates, 18.75f), 1, null
         )
+        randomSecondHappening = 0
+        secondsHappening = 0
     }
 }
 
