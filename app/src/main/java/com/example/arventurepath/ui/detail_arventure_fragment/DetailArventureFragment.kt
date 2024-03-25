@@ -49,7 +49,7 @@ class DetailArventureFragment : Fragment() {
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.arventureDetail.collect {
-                binding.arventureTitle.text = it.name
+                binding.arventureTitle.text = it.name.uppercase()
                 binding.summaryArventure.text = it.summary
                 binding.distanceArventure.text = it.distance
                 binding.minutesArventure.text = it.time

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -11,9 +12,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.arventurepath.R
-import com.example.arventurepath.data.models.Achievement
 import com.example.arventurepath.data.models.Stop
-import com.example.arventurepath.data.models.UserToPlay
 import com.example.arventurepath.databinding.FragmentScoreBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -30,8 +29,6 @@ class ScoreFragment : Fragment(), OnMapReadyCallback {
     private val args: ScoreFragmentArgs by navArgs()
     private val viewModel = ScoreFragmentViewModel()
     private var stops = listOf<Stop>()
-    //private var achievements = mutableListOf<Achievement>()
-    private val idArventure = 100001
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +44,7 @@ class ScoreFragment : Fragment(), OnMapReadyCallback {
         createFragment()
 
         observedViewModel()
-        viewModel.getArventureScore(idArventure)
+        viewModel.getArventureScore(args.idArventure)
 
         binding.buttonAccept.setOnClickListener {
             findNavController().navigate(
@@ -61,14 +58,14 @@ class ScoreFragment : Fragment(), OnMapReadyCallback {
     private fun observedViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.arventureFinal.collect {
-                binding.arventureTitle.text = it.name
+                binding.arventureTitle.text = it.name.uppercase()
                 binding.distanceArventure.text = it.distance
                 binding.estimateTimeArventure.text = it.estimateTime
-                //binding.stepsArventure.text = args.steps.toString()
-                //binding.timeArventure.text = args.time
+                binding.stepsArventure.text = args.steps.toString()
+                binding.timeArventure.text = args.totalSeconds.toString()
                 binding.storyNameArventure.text = it.storyName
                 stops = it.stops
-                //achievements = args.achievements
+                setAchievements()
 
                 Glide.with(requireContext())
                     .load("http://abp-politecnics.com/2024/DAM01/filesToServer/imgStory/" + it.img)
@@ -92,10 +89,35 @@ class ScoreFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    private fun setAchievements() {
+        val marginInPixels = resources.getDimensionPixelOffset(R.dimen.smallMargin)
+        val marginLayoutParams = ViewGroup.MarginLayoutParams(
+            resources.getDimensionPixelOffset(R.dimen.achievementWidth),
+            resources.getDimensionPixelOffset(R.dimen.achievementHeight)
+        )
+        marginLayoutParams.setMargins(
+            marginInPixels,
+            marginInPixels,
+            marginInPixels,
+            marginInPixels
+        )
+
+        args.achievements.achievements.forEach { achievement ->
+            val imageView = ImageView(context).apply {
+                layoutParams = marginLayoutParams
+                Glide.with(requireContext())
+                    .load("http://abp-politecnics.com/2024/DAM01/filesToServer/imgAchievement/" + achievement.img)
+                    .error(R.drawable.aventura2)
+                    .apply(RequestOptions().centerCrop())
+                    .into(this)
+                setImageResource(R.drawable.logro)
+            }
+            binding.linearImgAchievement.addView(imageView)
+        }
+    }
+
     private fun createFragment() {
-
         binding.frgmntMap.getFragment<SupportMapFragment>().getMapAsync(this)
-
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
