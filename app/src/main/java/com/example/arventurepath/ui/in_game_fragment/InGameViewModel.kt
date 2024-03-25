@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.arventurepath.data.models.Achievement
 import com.example.arventurepath.data.models.ArventureToPlay
 import com.example.arventurepath.data.models.Stop
+import com.example.arventurepath.data.models.StoryFragment
 import com.example.arventurepath.data.remote.DataProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -25,11 +26,14 @@ class InGameViewModel() : ViewModel() {
 
     private val _stop = MutableSharedFlow<Stop>()
     val stop: SharedFlow<Stop> = _stop
+    private val _storyFragment = MutableSharedFlow<StoryFragment>()
+    val storyFragment: SharedFlow<StoryFragment> = _storyFragment
 
     private val _win = MutableStateFlow(false)
     val win: StateFlow<Boolean> = _win
 
     private val stops = mutableListOf<Stop>()
+    private val storyFragments = mutableListOf<StoryFragment>()
 
     private var achievements = mutableListOf<Achievement>()
 
@@ -39,6 +43,7 @@ class InGameViewModel() : ViewModel() {
                 async {
                     _arventureDetail.emit(DataProvider.getArventureToPlay(idArventure))
                     stops.addAll(_arventureDetail.value.route.stops)
+                    storyFragments.addAll(_arventureDetail.value.story.storyFragments)
                 }
             deferred.await()
             _loading.emit(false)
@@ -57,6 +62,20 @@ class InGameViewModel() : ViewModel() {
         }
     }
 
+    fun getStoryFragment() {
+        viewModelScope.launch {
+            if (storyFragments.isNotEmpty()) {
+                _storyFragment.emit(storyFragments[0])
+            }
+        }
+    }
+
+    fun removeStoryFragment() {
+        if (storyFragments.isNotEmpty()) {
+            storyFragments.removeAt(0)
+        }
+    }
+
     fun getStop() {
         viewModelScope.launch {
             if (stops.isNotEmpty()) {
@@ -69,7 +88,9 @@ class InGameViewModel() : ViewModel() {
     }
 
     fun removeStop() {
-        stops.removeAt(0)
+        if (stops.isNotEmpty()) {
+            stops.removeAt(0)
+        }
     }
 
 }

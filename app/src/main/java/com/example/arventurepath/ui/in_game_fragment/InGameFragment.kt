@@ -83,9 +83,8 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
             // TODO: inicializar el contador de pasos
             isFirstStop = false
             startTimer()
-            destinyMarker.remove()
-            viewModel.removeStop()
-            viewModel.getStop()
+            viewModel.getStoryFragment()
+
 
             with(binding) {
                 nextStopText.visibility = View.VISIBLE
@@ -97,6 +96,14 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
                 buttonStart.visibility = View.GONE
                 tvGoToStart.visibility = View.GONE
             }
+        }
+
+        binding.tvStoryFragment.setOnClickListener {
+            destinyMarker.remove()
+            viewModel.removeStop()
+            viewModel.getStop()
+            it.visibility = View.GONE
+            viewModel.removeStoryFragment()
         }
         startCheckMarkerTimer()
     }
@@ -151,6 +158,13 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.storyFragment.collect {
+                binding.tvStoryFragment.visibility = View.VISIBLE
+                binding.tvStoryFragment.text = it.content
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.win.collect {
                 if (it) {
                     Toast.makeText(
@@ -188,7 +202,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
                 // Actualizar la UI con los segundos transcurridos en formato de horas, minutos y segundos
                 updateUI()
                 // Ejecutar este Runnable nuevamente después de 1 segundo
-                handlerTime.postDelayed(this, 1000)
+                handlerTime.postDelayed(this, 5000)
             }
         })
     }
@@ -205,9 +219,10 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
                             binding.buttonStart.visibility = View.VISIBLE
                             binding.tvGoToStart.text = "Pulsa en empezar y... Allá vamos!"
                         } else {
-                            destinyMarker.remove()
+                            /*destinyMarker.remove()
                             viewModel.removeStop()
-                            viewModel.getStop()
+                            viewModel.getStop()*/
+                            viewModel.getStoryFragment()
                         }
                     }
                 }
