@@ -22,6 +22,7 @@ object DataProvider {
 
     private val remoteApiService = RetrofitClient.getApiServices()
 
+
     suspend fun getListArventures(): List<ItemArventure> {
         val arventuresListResponse = remoteApiService.getListArventures().body()!!
         val arventuresList = mutableListOf<ItemArventure>()
@@ -65,13 +66,16 @@ object DataProvider {
         val achievementsResponse = remoteApiService.getListAchievements().body()!!
         if (!achievementsResponse.isNullOrEmpty()) {
             achievementsResponse.forEach {
-                achievements.add(
-                    Achievement(
-                        it.id ?: 0,
-                        it.name ?: "",
-                        it.img ?: ""
+                if (it.arventure.isNullOrEmpty()) {
+                    achievements.add(
+                        Achievement(
+                            it.id ?: 0,
+                            it.name ?: "",
+                            it.img ?: ""
+                        )
                     )
-                )
+                }
+
             }
         }
         return achievements
@@ -160,7 +164,7 @@ object DataProvider {
                 )
             }
         }
-        
+
         return UserToPlay(
             userResponse.id ?: 0,
             userResponse.name ?: "",

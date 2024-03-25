@@ -1,7 +1,9 @@
 package com.example.arventurepath.ui.in_game_fragment
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.arventurepath.data.models.Achievement
 import com.example.arventurepath.data.models.ArventureToPlay
 import com.example.arventurepath.data.models.Stop
 import com.example.arventurepath.data.remote.DataProvider
@@ -29,6 +31,8 @@ class InGameViewModel() : ViewModel() {
 
     private val stops = mutableListOf<Stop>()
 
+    private var achievements = mutableListOf<Achievement>()
+
     fun getArventureDetail(idArventure: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             val deferred =
@@ -38,6 +42,18 @@ class InGameViewModel() : ViewModel() {
                 }
             deferred.await()
             _loading.emit(false)
+        }
+    }
+
+    fun getListAchievements() {
+        viewModelScope.launch(Dispatchers.IO) {
+            achievements = DataProvider.getListAchievements() as MutableList<Achievement>
+            Log.i(">", achievements.count().toString())
+            achievements.forEach {
+                Log.i(">", it.name)
+                Log.i(">", it.img)
+                Log.i(">", it.id.toString())
+            }
         }
     }
 

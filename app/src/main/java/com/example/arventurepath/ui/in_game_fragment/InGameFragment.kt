@@ -10,6 +10,7 @@ import android.location.Location
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,6 +58,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.i(">", "AAAAAAAAAAAAAAAAAAAAAAAA")
         binding = FragmentInGameBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -74,10 +76,12 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
 
         setMap()
         viewModel.getArventureDetail(args.idArventure)
+        viewModel.getListAchievements()
         observeViewModel()
         //startTimer()
         binding.buttonStart.setOnClickListener {
             // TODO: inicializar el contador de pasos
+            isFirstStop = false
             startTimer()
             destinyMarker.remove()
             viewModel.removeStop()
@@ -198,10 +202,8 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
                         checkIfIsNear(it.longitude, destinyMarker.position.longitude)
                     ) {
                         if (isFirstStop) {
-
                             binding.buttonStart.visibility = View.VISIBLE
                             binding.tvGoToStart.text = "Pulsa en empezar y... Allá vamos!"
-                            isFirstStop = false
                         } else {
                             destinyMarker.remove()
                             viewModel.removeStop()
