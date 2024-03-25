@@ -263,30 +263,30 @@
                         android:gravity="center"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="80dp"
-                            android:layout_height="50dp"
-                            android:src="@drawable/logro" />
+                        <!--                        <ImageView-->
+                        <!--                            android:layout_width="80dp"-->
+                        <!--                            android:layout_height="50dp"-->
+                        <!--                            android:src="@drawable/logro" />-->
 
-                        <ImageView
-                            android:layout_width="80dp"
-                            android:layout_height="50dp"
-                            android:src="@drawable/logro" />
+                        <!--                        <ImageView-->
+                        <!--                            android:layout_width="80dp"-->
+                        <!--                            android:layout_height="50dp"-->
+                        <!--                            android:src="@drawable/logro" />-->
 
-                        <ImageView
-                            android:layout_width="80dp"
-                            android:layout_height="50dp"
-                            android:src="@drawable/logro" />
+                        <!--                        <ImageView-->
+                        <!--                            android:layout_width="80dp"-->
+                        <!--                            android:layout_height="50dp"-->
+                        <!--                            android:src="@drawable/logro" />-->
 
-                        <ImageView
-                            android:layout_width="80dp"
-                            android:layout_height="50dp"
-                            android:src="@drawable/logro" />
+                        <!--                        <ImageView-->
+                        <!--                            android:layout_width="80dp"-->
+                        <!--                            android:layout_height="50dp"-->
+                        <!--                            android:src="@drawable/logro" />-->
 
-                        <ImageView
-                            android:layout_width="80dp"
-                            android:layout_height="50dp"
-                            android:src="@drawable/logro" />
+                        <!--                        <ImageView-->
+                        <!--                            android:layout_width="80dp"-->
+                        <!--                            android:layout_height="50dp"-->
+                        <!--                            android:src="@drawable/logro" />-->
 
                     </LinearLayout>
 
