@@ -53,6 +53,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
     private var running = false
     private var totalSteps = 0f
     private var i = 1
+    private var isFirstStop = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,7 +76,26 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         setMap()
         viewModel.getArventureDetail(args.idArventure)
         observeViewModel()
-        startTimer()
+        //startTimer()
+        binding.buttonStart.setOnClickListener {
+            // TODO: inicializar el contador de pasos
+            startTimer()
+            destinyMarker.remove()
+            viewModel.removeStop()
+            viewModel.getStop()
+
+            with(binding) {
+                nextStopText.visibility = View.VISIBLE
+                nextStopValueText.visibility = View.VISIBLE
+                timeText.visibility = View.VISIBLE
+                timeValueText.visibility = View.VISIBLE
+                stepsText.visibility = View.VISIBLE
+                stepsValueText.visibility = View.VISIBLE
+                buttonStart.visibility = View.GONE
+                tvGoToStart.visibility = View.GONE
+            }
+        }
+        startCheckMarkerTimer()
     }
 
 
@@ -119,7 +139,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         }
     }
 
-    private fun startTimer(){
+    private fun startTimer() {
         // Ejecutar un Runnable cada segundo para contar los segundos
         handlerTime.post(object : Runnable {
             override fun run() {
@@ -144,7 +164,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
     }
 
     private fun observeViewModel() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.arventureDetail.collect {
                 binding.timeValueText.text = "0"
                 binding.stepsValueText.text = "0"
@@ -152,15 +172,26 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
             }
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.stop.collect {
                 binding.nextStopValueText.text = it.name
                 nextStop = it
                 createNextStopMarker()
             }
         }
-    }
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.win.collect {
+                if (it) {
+                    Toast.makeText(
+                        requireContext(),
+                        "HAS GANADO LA PARTIDA, DESGRACIADO!",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+    }
 
     private fun setMap() {
         // Inicializar el cliente de ubicación fusionada
@@ -172,34 +203,52 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         viewModel.getStop()
-        //viewModel.getMyLocation(requireContext())
 
         // Habilitar el botón "Mi ubicación" en el mapa
         map.isMyLocationEnabled = true
+    }
 
-        // Obtener la última ubicación conocida del dispositivo y mover la cámara al marcador
+
+    private fun startCheckMarkerTimer() {
+        // Ejecutar un Runnable cada segundo para contar los segundos
+        handlerTime.post(object : Runnable {
+            override fun run() {
+                // Incrementar los segundos
+                checkIfComeToMark()
+                // Actualizar la UI con los segundos transcurridos en formato de horas, minutos y segundos
+                updateUI()
+                // Ejecutar este Runnable nuevamente después de 1 segundo
+                handlerTime.postDelayed(this, 1000)
+            }
+        })
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun checkIfComeToMark() {
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
             location?.let {
-                //userLocation = it
-                checkIfComeToMark(it)
-                val latLng = LatLng(it.latitude, it.longitude)
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18.75f))
+                if (::destinyMarker.isInitialized) {
+                    if (checkIfIsNear(it.latitude, destinyMarker.position.latitude) &&
+                        checkIfIsNear(it.longitude, destinyMarker.position.longitude)
+                    ) {
+                        if (isFirstStop) {
+
+                            binding.buttonStart.visibility = View.VISIBLE
+                            binding.tvGoToStart.text = "Pulsa en empezar y... Allá vamos!"
+                            isFirstStop = false
+                        } else {
+                            destinyMarker.remove()
+                            viewModel.removeStop()
+                            viewModel.getStop()
+                        }
+                    }
+                }
             }
         }
     }
 
-    private fun checkIfComeToMark(userLocation: Location) {
-        if (checkIfIsNear(userLocation.latitude, destinyMarker.position.latitude) &&
-            checkIfIsNear(userLocation.longitude, destinyMarker.position.longitude)
-        ) {
-            destinyMarker.remove()
-            viewModel.removeStop()
-            viewModel.getStop()
-        }
-    }
-
     private fun checkIfIsNear(myPosition: Double, destinyPosition: Double): Boolean {
-        return myPosition > destinyPosition - 0.0001 && myPosition < destinyPosition + 0.0001
+        return myPosition > destinyPosition - 0.0002010551 && myPosition < destinyPosition + 0.0002010551
     }
 
     private fun createNextStopMarker() {
@@ -210,6 +259,5 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
             CameraUpdateFactory.newLatLngZoom(coordinates, 18.75f), 1, null
         )
     }
-
 }
 

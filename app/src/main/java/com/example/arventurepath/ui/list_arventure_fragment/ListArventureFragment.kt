@@ -56,7 +56,7 @@ class ListArventureFragment : Fragment(), ArventureListListener {
     }
 
     private fun observeViewModel() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.listArventures.collect { arventuresList ->
                 if (arventuresList.isNotEmpty()) {
                     pagerAdapter.updateList(arventuresList)
@@ -65,7 +65,7 @@ class ListArventureFragment : Fragment(), ArventureListListener {
                 }
             }
         }
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.loading.collect { isLoading ->
                 if (!isLoading) {
                     binding.progressBar.visibility = View.GONE

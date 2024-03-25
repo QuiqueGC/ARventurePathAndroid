@@ -7,12 +7,12 @@ import kotlinx.parcelize.Parcelize
 data class ArventureFinal(
     val id: Int = 0,
     val name: String = "",
-    val time: String = "",
+    val estimateTime: String = "",
     val distance: String = "",
     val img: String = "",
     var steps: Int = 0,
-    var estimateTime: String = "",
+    var time: String = "",
     val storyName: String = "",
     val stops: List<Stop> = listOf(),
-    var achievements: List<Achievement> = listOf()
+    var achievements: MutableList<Achievement> = mutableListOf()
 ) : Parcelable
