@@ -29,8 +29,8 @@ class InGameViewModel() : ViewModel() {
     private val _storyFragment = MutableSharedFlow<StoryFragment>()
     val storyFragment: SharedFlow<StoryFragment> = _storyFragment
 
-    private val _win = MutableStateFlow(false)
-    val win: StateFlow<Boolean> = _win
+    private val _win = MutableSharedFlow<List<Achievement>>()
+    val win: SharedFlow<List<Achievement>> = _win
 
     private val stops = mutableListOf<Stop>()
     private val storyFragments = mutableListOf<StoryFragment>()
@@ -82,7 +82,8 @@ class InGameViewModel() : ViewModel() {
                 _stop.emit(stops[0])
 
             } else {
-                _win.emit(true)
+                achievements.add(_arventureDetail.value.achievement)
+                _win.emit(achievements)
             }
         }
     }

@@ -98,7 +98,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
             }
         }
 
-        binding.tvStoryFragment.setOnClickListener {
+        binding.tvTxtInGame.setOnClickListener {
             destinyMarker.remove()
             viewModel.removeStop()
             viewModel.getStop()
@@ -159,20 +159,22 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.storyFragment.collect {
-                binding.tvStoryFragment.visibility = View.VISIBLE
-                binding.tvStoryFragment.text = it.content
+                binding.tvTxtInGame.visibility = View.VISIBLE
+                binding.tvTxtInGame.text = it.content
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.win.collect {
-                if (it) {
-                    Toast.makeText(
-                        requireContext(),
-                        "HAS GANADO LA PARTIDA, DESGRACIADO!",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
+
+
+                /*if (it) {
+                        Toast.makeText(
+                            requireContext(),
+                            "HAS GANADO LA PARTIDA, DESGRACIADO!",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }*/
             }
         }
     }
