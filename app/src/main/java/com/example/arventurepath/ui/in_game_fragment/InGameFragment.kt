@@ -1,7 +1,9 @@
 package com.example.arventurepath.ui.in_game_fragment
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -11,11 +13,13 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -37,6 +41,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.launch
+import java.io.File
 import kotlin.random.Random
 
 
@@ -94,7 +99,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         //startTimer()
         binding.buttonStart.setOnClickListener {
             // TODO: inicializar el contador de pasos
-            isFirstStop = false
+            //isFirstStop = false
             //Contador de pasos
             sensorManager = requireContext().getSystemService(Context.SENSOR_SERVICE) as SensorManager
             val stepSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
@@ -116,11 +121,21 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         }
 
         binding.tvTxtInGame.setOnClickListener {
-            destinyMarker.remove()
+            if (!isFirstStop) {
+                launchExternalApk("com.DefaultCompany.Intento1")
+            } else {
+                destinyMarker.remove()
+                viewModel.removeStop()
+                viewModel.getStop()
+                it.visibility = View.GONE
+                viewModel.removeStoryFragment()
+            }
+            isFirstStop = false
+            /*destinyMarker.remove()
             viewModel.removeStop()
             viewModel.getStop()
             it.visibility = View.GONE
-            viewModel.removeStoryFragment()
+            viewModel.removeStoryFragment()*/
         }
         startCheckMarkerTimer()
 
@@ -373,6 +388,54 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         )
         randomSecondHappening = 0
         secondsHappening = 0
+    }
+
+
+    //RA--------------------------------------------------------------------------------------------
+    private val contractRA: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                destinyMarker.remove()
+                viewModel.removeStop()
+                viewModel.getStop()
+                binding.tvTxtInGame.visibility = View.GONE
+                viewModel.removeStoryFragment()
+            } else {
+                destinyMarker.remove()
+                viewModel.removeStop()
+                viewModel.getStop()
+                binding.tvTxtInGame.visibility = View.GONE
+                viewModel.removeStoryFragment()
+            }
+        }
+
+    private fun launchExternalApk(packageName: String) {
+        val intent = requireContext().packageManager.getLaunchIntentForPackage(packageName)
+        intent?.let {
+            contractRA.launch(it)
+        } ?: run {
+            // Manejar el caso en el que no se pueda lanzar la actividad
+            Toast.makeText(requireContext(), "No se pudo iniciar la aplicación", Toast.LENGTH_SHORT)
+                .show()
+        }
+    }
+
+    private fun tryingApk() {
+        val apkInputStream = resources.openRawResource(R.raw.apk_ra)
+        val apkFile = File(requireContext().filesDir, "apk_ra")
+        apkInputStream.copyTo(apkFile.outputStream())
+        val apkUri = FileProvider.getUriForFile(
+            requireContext(),
+            "com.example.arventurepath.ui.login_fragment.LoginFragment.FileProvider",
+            apkFile
+        )
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            setDataAndType(apkUri, "application/vnd.android.package-archive")
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        startActivity(intent)
     }
 }
 
