@@ -98,7 +98,13 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
             //Contador de pasos
             sensorManager = requireContext().getSystemService(Context.SENSOR_SERVICE) as SensorManager
             val stepSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
-            sensorManager?.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_UI)
+            if (stepSensor == null) {
+                // This will give a toast message to the user if there is no sensor in the device
+                Toast.makeText(requireContext(), "No sensor detected on this device", Toast.LENGTH_SHORT).show()
+            }else{
+                sensorManager?.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_UI)
+
+            }
             startTimer()
             viewModel.getStoryFragment()
 
@@ -173,7 +179,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
 
         if (stepSensor == null) {
             // This will give a toast message to the user if there is no sensor in the device
-            Toast.makeText(requireContext(), "No sensor detected on this device", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(requireContext(), "No sensor detected on this device", Toast.LENGTH_SHORT).show()
         } else {
             // Rate suitable for the user interface
             sensorManager?.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_UI)
