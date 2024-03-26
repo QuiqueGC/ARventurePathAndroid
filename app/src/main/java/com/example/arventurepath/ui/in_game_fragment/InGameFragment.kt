@@ -13,6 +13,7 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,6 +74,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
     private var showingHappening = false
     private lateinit var mediaPlayer: MediaPlayer
     private var audioURL = ""
+    private var currentSteps = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -101,12 +103,16 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
             // TODO: inicializar el contador de pasos
             //isFirstStop = false
             //Contador de pasos
-            sensorManager = requireContext().getSystemService(Context.SENSOR_SERVICE) as SensorManager
+            sensorManager =
+                requireContext().getSystemService(Context.SENSOR_SERVICE) as SensorManager
             val stepSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
             sensorManager?.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_UI)
             startTimer()
             viewModel.getStoryFragment()
 
+            binding.llAchievement.setOnClickListener {
+                it.visibility = View.GONE
+            }
 
             with(binding) {
                 nextStopText.visibility = View.VISIBLE
@@ -159,14 +165,20 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
     override fun onSensorChanged(event: SensorEvent?) {
 
         if (running) {
-                                            // i = 2
+            // i = 2
             totalSteps = event!!.values[0] // 11
             val steps = event.values[0] + i // 13
 
             // Current steps are calculated by taking the difference of total steps
             // and previous steps
-            val currentSteps = steps.toInt() - totalSteps.toInt() //  13 - 11 = 2
+            currentSteps = steps.toInt() - totalSteps.toInt() //  13 - 11 = 2
 
+            if (currentSteps == 100) {
+                viewModel.earn100StepsAchievement()
+            }
+            if (currentSteps == 500) {
+                viewModel.earn500StepsAchievement()
+            }
             // It will show the current steps to the user
             binding.stepsValueText.text = ("$currentSteps")
             i++
@@ -203,6 +215,10 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
                 totalSeconds++
                 // Actualizar la UI con los segundos transcurridos en formato de horas, minutos y segundos
                 updateUI()
+
+                if (totalSeconds == 1500) {
+                    viewModel.earnTimeAchievement()
+                }
                 // Ejecutar este Runnable nuevamente después de 1 segundo
                 handlerTime.postDelayed(this, 1000)
             }
@@ -307,11 +323,26 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.win.collect {
+            viewModel.achievementToShow.collect {
+                // TODO: mostrar aquí el logro
+                binding.llAchievement.visibility = View.VISIBLE
+                binding.tvAchievementContent.text = it.name
+                Glide.with(requireContext())
+                    .load("http://abp-politecnics.com/2024/DAM01/filesToServer/imgAchievement/${it.img}")
+                    .error(R.drawable.aventura2)
+                    .apply(RequestOptions().centerCrop())
+                    .into(binding.imgHappening)
+            }
+        }
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.win.collect {
+                it.achievements.forEach {
+                    Log.i(">", "Nombre del logro -> " + it.name)
+                }
                 findNavController().navigate(
                     InGameFragmentDirections.actionInGameFragmentToScoreFragment2(
-                        totalSteps,
+                        currentSteps,
                         it,
                         args.idUser,
                         args.idArventure,

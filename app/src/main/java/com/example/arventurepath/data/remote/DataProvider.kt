@@ -1,5 +1,6 @@
 package com.example.arventurepath.data.remote
 
+import android.util.Log
 import com.example.arventurepath.data.models.Achievement
 import com.example.arventurepath.data.models.ArventureDetail
 import com.example.arventurepath.data.models.ArventureFinal
@@ -75,7 +76,10 @@ object DataProvider {
                         )
                     )
                 }
-
+            }
+            achievements.removeAll { it.name.contains("Completa la aventura:") }
+            achievements.forEach {
+                Log.i(">", it.name)
             }
         }
         return achievements

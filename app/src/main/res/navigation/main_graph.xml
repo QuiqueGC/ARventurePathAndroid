@@ -92,7 +92,7 @@
             android:defaultValue="100001" />
         <argument
             android:name="steps"
-            app:argType="float" />
+            app:argType="integer" />
         <argument
             android:name="totalSeconds"
             app:argType="integer"

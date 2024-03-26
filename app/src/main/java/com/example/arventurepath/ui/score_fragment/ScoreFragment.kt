@@ -1,6 +1,7 @@
 package com.example.arventurepath.ui.score_fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -103,6 +104,7 @@ class ScoreFragment : Fragment(), OnMapReadyCallback {
         )
 
         args.achievements.achievements.forEach { achievement ->
+            Log.i(">", "Nombre del logro -> " + achievement.name)
             val imageView = ImageView(context).apply {
                 layoutParams = marginLayoutParams
                 Glide.with(requireContext())
