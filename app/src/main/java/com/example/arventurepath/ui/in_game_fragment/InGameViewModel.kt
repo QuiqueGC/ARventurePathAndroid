@@ -36,7 +36,10 @@ class InGameViewModel() : ViewModel() {
     private val storyFragments = mutableListOf<StoryFragment>()
 
     private var achievements = ListAchievements(mutableListOf())
+    private val achievementsToEarn = mutableListOf<Achievement>()
 
+    private val _achievementToShow = MutableSharedFlow<Achievement>()
+    val achievementToShow: SharedFlow<Achievement> = _achievementToShow
     fun getArventureDetail(idArventure: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             val deferred =
@@ -52,7 +55,7 @@ class InGameViewModel() : ViewModel() {
 
     fun getListAchievements() {
         viewModelScope.launch(Dispatchers.IO) {
-            achievements.achievements.addAll(DataProvider.getListAchievements() as MutableList<Achievement>)
+            achievementsToEarn.addAll(DataProvider.getListAchievements() as MutableList<Achievement>)
         }
     }
 
@@ -78,6 +81,7 @@ class InGameViewModel() : ViewModel() {
 
             } else {
                 achievements.achievements.add(_arventureDetail.value.achievement)
+                earnFirstArventureCompleteAchievement()
                 _win.emit(achievements)
             }
         }
@@ -86,6 +90,34 @@ class InGameViewModel() : ViewModel() {
     fun removeStop() {
         if (stops.isNotEmpty()) {
             stops.removeAt(0)
+        }
+    }
+
+    fun earnTimeAchievement() {
+        achievements.achievements.addAll(achievementsToEarn.filter { it.name == "Juega durante 5 minutos" })
+        viewModelScope.launch(Dispatchers.IO) {
+            _achievementToShow.emit(achievements.achievements.last())
+        }
+    }
+
+    fun earn100StepsAchievement() {
+        achievements.achievements.addAll(achievementsToEarn.filter { it.name == "Recorre 100 pasos" })
+        viewModelScope.launch(Dispatchers.IO) {
+            _achievementToShow.emit(achievements.achievements.last())
+        }
+    }
+
+    fun earn500StepsAchievement() {
+        achievements.achievements.addAll(achievementsToEarn.filter { it.name == "Recorre 500 pasos" })
+        viewModelScope.launch(Dispatchers.IO) {
+            _achievementToShow.emit(achievements.achievements.last())
+        }
+    }
+
+    fun earnFirstArventureCompleteAchievement() {
+        achievements.achievements.addAll(achievementsToEarn.filter { it.name == "Completa tu primera Arventure" })
+        viewModelScope.launch(Dispatchers.IO) {
+            _achievementToShow.emit(achievements.achievements.last())
         }
     }
 

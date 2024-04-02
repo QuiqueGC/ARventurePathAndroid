@@ -23,9 +23,107 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
+
+
+        //launchExternalApk("com.DefaultCompany.Intento1")
+
+
         return binding.root
 
     }
+
+    /*private val contractRA: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                // Aquí puedes manejar el resultado de la grabación de audio
+                val data: Intent? = result.data
+                // Procesar los datos si es necesario
+            } else {
+                // Si la acción se cancela o falla, aquí puedes manejarlo
+            }
+        }
+
+    private fun launchExternalApk(packageName: String) {
+        val intent = requireContext().packageManager.getLaunchIntentForPackage(packageName)
+        intent?.let {
+            contractRA.launch(it)
+        } ?: run {
+            // Manejar el caso en el que no se pueda lanzar la actividad
+            Toast.makeText(requireContext(), "No se pudo iniciar la aplicación", Toast.LENGTH_SHORT).show()
+        }
+    }*/
+
+    /*private fun startLikeRaceQuiz() {
+        val packageName = "com.DefaultCompany.Intento1"
+        val packageManager = requireActivity().packageManager
+        val launchIntent = packageManager.getLaunchIntentForPackage(packageName)
+        if(launchIntent != null){
+            startActivity(launchIntent)
+        }
+    }*/
+
+    /*private fun runApk(apkResourceId: Int) {
+        val apkInputStream = resources.openRawResource(apkResourceId)
+        val apkFile = File(requireContext().filesDir, "temp.apk") // Guarda temporalmente la APK
+        apkInputStream.copyTo(apkFile.outputStream())
+
+        val apkUri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.provider", apkFile)
+
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            setDataAndType(apkUri, "application/vnd.android.package-archive")
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) // Para abrir en una nueva tarea
+        }
+        startActivity(intent)
+    }*/
+
+    /*fun getPackageNameFromApk(apkResourceId: Int): String? {
+        val packageManager = requireContext().packageManager
+        val packageName: String?
+        val packageArchiveInfo = packageManager.getPackageArchiveInfo(
+            "android.resource://" + requireContext().packageName + "/" + apkResourceId,
+            PackageManager.GET_META_DATA
+        )
+        if (packageArchiveInfo != null) {
+            packageName = packageArchiveInfo.packageName
+        } else {
+            packageName = null
+        }
+        return packageName
+    }*/
+
+    /*fun launchUnityApp(view: View) {
+        val unityPackageUri = Uri.parse("android.resource://" + packageName + "/" + R.raw.your_unity_apk)
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            setDataAndType(unityPackageUri, "application/vnd.android.package-archive")
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        startActivity(intent)
+    }*/
+    /* private fun tryingApk() {
+         val apkInputStream = resources.openRawResource(R.raw.apk_ra)
+         val apkFile = File(requireContext().filesDir, "apk_ra")
+         apkInputStream.copyTo(apkFile.outputStream())
+         val apkUri = FileProvider.getUriForFile(requireContext(), "com.example.arventurepath.ui.login_fragment.LoginFragment.FileProvider", apkFile)
+         val intent = Intent(Intent.ACTION_VIEW).apply {
+             setDataAndType(apkUri, "application/vnd.android.package-archive")
+             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+         }
+         startActivity(intent)
+     }*/
+
+    /*private fun launchInstalledApp(packageName: String) {
+        val packageManager = requireActivity().packageManager
+        val intent = packageManager.getLaunchIntentForPackage(packageName)
+        if (intent != null) {
+            intent.addCategory(Intent.CATEGORY_LAUNCHER)
+            startActivity(intent)
+        } else {
+            // La aplicación no está instalada
+            Toast.makeText(requireContext(), "La aplicación no está instalada", Toast.LENGTH_SHORT).show()
+        }
+    }*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,9 +131,9 @@ class LoginFragment : Fragment() {
         viewModel.getListUsers()
         registerUser()
         binding.buttonLogin.setOnClickListener {
-            if (!isEditTextBlank()){
-                if (register){
-                    if(!viewModel.isEmailRegistered(binding.editTextEmail.text.toString())){
+            if (!isEditTextBlank()) {
+                if (register) {
+                    if (!viewModel.isEmailRegistered(binding.editTextEmail.text.toString())) {
                         if(binding.editTextPasswordRepeat.text.toString() == binding.editTextPassword.text.toString()){
                             val emailUser = binding.editTextEmail.text.toString()
                             val password = binding.editTextPassword.text.toString()

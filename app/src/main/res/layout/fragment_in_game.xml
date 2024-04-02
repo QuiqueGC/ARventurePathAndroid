@@ -141,28 +141,28 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonStart"
-        android:visibility="gone"
-        android:fontFamily="@font/elianto_regular"
         android:layout_width="170dp"
         android:layout_height="56dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/background_gradient"
+        android:fontFamily="@font/elianto_regular"
         android:text="COMENZAR"
-        android:textSize="@dimen/subtitleSize"
         android:textColor="#F2B366"
+        android:textSize="@dimen/subtitleSize"
         android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvGoToStart"
         style="@style/appTextStyle"
-        android:textAlignment="center"
-        android:text="Dirígete a la marca en el mapa para comenzar la arventure!"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Dirígete a la marca en el mapa para comenzar la arventure!"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -171,13 +171,13 @@
     <TextView
         android:id="@+id/stepsText"
         style="@style/appTextStyle"
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/smallMargin"
         android:paddingStart="@dimen/commonMargin"
         android:paddingEnd="@dimen/commonMargin"
         android:text="@string/steps"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/timeText"
         app:layout_constraintEnd_toEndOf="@id/nextStopText"
         app:layout_constraintTop_toBottomOf="@id/nextStopText" />
@@ -185,13 +185,13 @@
     <TextView
         android:id="@+id/timeText"
         style="@style/appTextStyle"
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/smallMargin"
         android:paddingStart="@dimen/commonMargin"
         android:paddingEnd="@dimen/commonMargin"
         android:text="@string/timeInGame"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/viewInGameDetails"
         app:layout_constraintEnd_toEndOf="@id/nextStopText"
         app:layout_constraintTop_toBottomOf="@id/stepsText" />
@@ -211,10 +211,10 @@
     <TextView
         android:id="@+id/stepsValueText"
         style="@style/appTextStyle"
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="45"
+        android:text="0"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/stepsText"
         app:layout_constraintStart_toStartOf="@id/nextStopValueText"
         app:layout_constraintTop_toTopOf="@id/stepsText" />
@@ -222,12 +222,52 @@
     <TextView
         android:id="@+id/timeValueText"
         style="@style/appTextStyle"
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0 min"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/timeText"
         app:layout_constraintStart_toStartOf="@id/nextStopValueText"
         app:layout_constraintTop_toTopOf="@id/timeText" />
+
+    <LinearLayout
+        android:id="@+id/llAchievement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_gradient"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/glBotTextHappening"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/glTopTextHappening">
+
+        <TextView
+            android:id="@+id/tvAchievement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/commonMargin"
+            android:fontFamily="@font/elianto_regular"
+            android:text="LOGRO DESBLOQUEADO!"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/tvAchievementContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/commonMargin"
+            android:fontFamily="@font/merienda_regular"
+            android:text="El texto del logro"
+            android:textColor="@color/white" />
+
+        <ImageView
+            android:id="@+id/imgAchievement"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/commonMargin" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
