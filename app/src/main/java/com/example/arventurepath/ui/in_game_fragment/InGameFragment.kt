@@ -75,6 +75,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
     private lateinit var mediaPlayer: MediaPlayer
     private var audioURL = ""
     private var currentSteps = 0
+    private var startButtonPressed = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -216,7 +217,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
                 // Actualizar la UI con los segundos transcurridos en formato de horas, minutos y segundos
                 updateUI()
 
-                if (totalSeconds == 1500) {
+                if (totalSeconds == 300) {
                     viewModel.earnTimeAchievement()
                 }
                 // Ejecutar este Runnable nuevamente después de 1 segundo
@@ -331,7 +332,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
                     .load("http://abp-politecnics.com/2024/DAM01/filesToServer/imgAchievement/${it.img}")
                     .error(R.drawable.aventura2)
                     .apply(RequestOptions().centerCrop())
-                    .into(binding.imgHappening)
+                    .into(binding.imgAchievement)
             }
         }
 
@@ -391,7 +392,8 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
                     if (checkIfIsNear(it.latitude, destinyMarker.position.latitude) &&
                         checkIfIsNear(it.longitude, destinyMarker.position.longitude)
                     ) {
-                        if (isFirstStop) {
+                        if (isFirstStop && !startButtonPressed) {
+                            startButtonPressed = true
                             binding.buttonStart.visibility = View.VISIBLE
                             binding.tvGoToStart.text = "Pulsa en empezar y... Allá vamos!"
                         } else {
