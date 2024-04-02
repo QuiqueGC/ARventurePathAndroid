@@ -202,17 +202,18 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         handlerHappening.post(object : Runnable {
             override fun run() {
                 if (randomSecondHappening == 0){
-                    randomSecondHappening = Random.nextInt(120, 301)
-                    //randomSecondHappening = 20
-                }
-                if (secondsHappening - randomSecondHappening >= 20){
-                    restartHappening()
+                    randomSecondHappening = Random.nextInt(60, 181)
                 }
                 if (!showingHappening){
                     randomHappening()
                 }
-                secondsHappening++
-                handlerHappening.postDelayed(this, 1000)
+
+                if (secondsHappening - randomSecondHappening >= 11){
+                    restartHappening()
+                }
+                secondsHappening+=5
+
+                handlerHappening.postDelayed(this, 5000)
             }
         })
     }
