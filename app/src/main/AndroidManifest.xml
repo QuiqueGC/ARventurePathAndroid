@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <!-- Para la implementación de la RA -->
     <queries>
-        <package android:name="com.DefaultCompany.Intento1" />
+        <package android:name="com.unity.template.ar_mobile" />
     </queries>
     <!-- Para la implementación de la RA -->
 

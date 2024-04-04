@@ -135,7 +135,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
 
         binding.tvTxtInGame.setOnClickListener {
             if (!isFirstStop) {
-                launchExternalApk("com.DefaultCompany.Intento1")
+                launchExternalApk("com.unity.template.ar_mobile")
             } else {
                 destinyMarker.remove()
                 viewModel.removeStop()
