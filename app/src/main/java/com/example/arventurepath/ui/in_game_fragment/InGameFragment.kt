@@ -32,6 +32,7 @@ import com.example.arventurepath.data.models.Happening
 import com.example.arventurepath.data.models.Stop
 import com.example.arventurepath.databinding.FragmentInGameBinding
 import com.example.arventurepath.ui.detail_arventure_fragment.DetailArventureFragmentArgs
+import com.example.arventurepath.utils.Constants
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -135,7 +136,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
 
         binding.tvTxtInGame.setOnClickListener {
             if (!isFirstStop) {
-                launchExternalApk("com.unity.template.ar_mobile")
+                launchExternalApk(Constants.FENIX_PACKAGE)
             } else {
                 destinyMarker.remove()
                 viewModel.removeStop()
@@ -345,9 +346,6 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.win.collect {
-                it.achievements.forEach {
-                    Log.i(">", "Nombre del logro -> " + it.name)
-                }
                 findNavController().navigate(
                     InGameFragmentDirections.actionInGameFragmentToScoreFragment2(
                         currentSteps,
@@ -402,7 +400,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
                         if (isFirstStop && !startButtonPressed) {
                             startButtonPressed = true
                             binding.buttonStart.visibility = View.VISIBLE
-                            binding.tvGoToStart.text = "Pulsa en empezar y... Allá vamos!"
+                            binding.tvGoToStart.text = "Pulsa en comenzar y... Allá vamos!"
                         } else {
                             /*destinyMarker.remove()
                             viewModel.removeStop()

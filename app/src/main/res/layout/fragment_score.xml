@@ -261,8 +261,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:orientation="horizontal">
-                    </LinearLayout>
+                        android:orientation="horizontal"/>
 
                 </HorizontalScrollView>
 

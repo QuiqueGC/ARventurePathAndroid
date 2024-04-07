@@ -105,8 +105,13 @@ class ScoreFragment : Fragment(), OnMapReadyCallback {
             marginInPixels
         )
 
+        Log.i(">", "TAMAÑO DE LA LISTA ->" + args.achievements.achievements.count())
+        Log.i(">", "ENTRA EN EL BUCLE")
+        binding.linearImgAchievement.removeAllViews()
         args.achievements.achievements.forEach { achievement ->
-            Log.i(">", "Nombre del logro -> " + achievement.name)
+            Log.i(">", "DA UNA VUELTA")
+            Log.i(">", "NOMBRE DEL LOGRO -> " + achievement.name)
+
             val imageView = ImageView(context).apply {
                 layoutParams = marginLayoutParams
                 Glide.with(requireContext())
@@ -114,7 +119,6 @@ class ScoreFragment : Fragment(), OnMapReadyCallback {
                     .error(R.drawable.aventura2)
                     .apply(RequestOptions().centerCrop())
                     .into(this)
-                setImageResource(R.drawable.logro)
             }
             binding.linearImgAchievement.addView(imageView)
         }
