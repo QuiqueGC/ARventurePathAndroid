@@ -164,10 +164,12 @@ class LoginFragment : Fragment() {
                         }else{
                             Toast.makeText(context,"Contraseña incorrecta.",Toast.LENGTH_SHORT).show()
                         }
+                    }else{
+                        Toast.makeText(context,"Email no encontrado.",Toast.LENGTH_SHORT).show()
                     }
                 }
             }else{
-                Toast.makeText(context,"Email no encontrado.",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"Rellene todos los campos.",Toast.LENGTH_SHORT).show()
             }
 
 
