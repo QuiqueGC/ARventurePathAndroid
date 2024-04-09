@@ -81,7 +81,6 @@ class InGameViewModel() : ViewModel() {
 
             } else {
                 achievements.achievements.add(_arventureDetail.value.achievement)
-                earnFirstArventureCompleteAchievement()
                 _win.emit(achievements)
             }
         }
@@ -109,13 +108,6 @@ class InGameViewModel() : ViewModel() {
 
     fun earn500StepsAchievement() {
         achievements.achievements.addAll(achievementsToEarn.filter { it.name == "Recorre 500 pasos" })
-        viewModelScope.launch(Dispatchers.IO) {
-            _achievementToShow.emit(achievements.achievements.last())
-        }
-    }
-
-    fun earnFirstArventureCompleteAchievement() {
-        achievements.achievements.addAll(achievementsToEarn.filter { it.name == "Completa tu primera Arventure" })
         viewModelScope.launch(Dispatchers.IO) {
             _achievementToShow.emit(achievements.achievements.last())
         }

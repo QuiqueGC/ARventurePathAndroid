@@ -22,6 +22,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.launch
+import java.sql.Time
 
 class ScoreFragment : Fragment(), OnMapReadyCallback {
 
@@ -63,7 +64,8 @@ class ScoreFragment : Fragment(), OnMapReadyCallback {
                 binding.distanceArventure.text = it.distance
                 binding.estimateTimeArventure.text = it.estimateTime
                 binding.stepsArventure.text = args.steps.toString()
-                binding.timeArventure.text = args.totalSeconds.toString()
+                binding.timeArventure.text = getFormattedTime(args.totalSeconds)
+                //binding.timeArventure.text = args.totalSeconds.toString()
                 binding.storyNameArventure.text = it.storyName
                 stops = it.stops
                 setAchievements()
@@ -103,8 +105,13 @@ class ScoreFragment : Fragment(), OnMapReadyCallback {
             marginInPixels
         )
 
+        Log.i(">", "TAMAÑO DE LA LISTA ->" + args.achievements.achievements.count())
+        Log.i(">", "ENTRA EN EL BUCLE")
+        binding.linearImgAchievement.removeAllViews()
         args.achievements.achievements.forEach { achievement ->
-            Log.i(">", "Nombre del logro -> " + achievement.name)
+            Log.i(">", "DA UNA VUELTA")
+            Log.i(">", "NOMBRE DEL LOGRO -> " + achievement.name)
+
             val imageView = ImageView(context).apply {
                 layoutParams = marginLayoutParams
                 Glide.with(requireContext())
@@ -112,7 +119,6 @@ class ScoreFragment : Fragment(), OnMapReadyCallback {
                     .error(R.drawable.aventura2)
                     .apply(RequestOptions().centerCrop())
                     .into(this)
-                setImageResource(R.drawable.logro)
             }
             binding.linearImgAchievement.addView(imageView)
         }
@@ -137,6 +143,18 @@ class ScoreFragment : Fragment(), OnMapReadyCallback {
                 CameraUpdateFactory.newLatLngZoom(coordinates, 11.8f),4000, null
             )
         }
+    }
+
+    private fun getFormattedTime(timeInSeconds: Int): String {
+        val hours = timeInSeconds / 3600
+        val minutes = (timeInSeconds % 3600) / 60
+        val seconds = timeInSeconds % 60
+
+        val timeString = String.format("%02d:%02d:%02d", hours, minutes, seconds)
+
+        //binding.timeArventure.text = timeString
+
+        return timeString
     }
 
 }
