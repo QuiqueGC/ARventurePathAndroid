@@ -109,7 +109,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/editTextPassword"
         app:layout_constraintEnd_toStartOf="@+id/editTextPassword"
         app:layout_constraintTop_toTopOf="@+id/editTextPassword"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintStart_toStartOf="@id/viewLogin"/>
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"
@@ -157,7 +158,8 @@
         android:layout_margin="@dimen/minMargin"
         app:layout_constraintBottom_toBottomOf="@+id/editTextEmail"
         app:layout_constraintEnd_toStartOf="@+id/editTextEmail"
-        app:layout_constraintTop_toTopOf="@+id/editTextEmail" />
+        app:layout_constraintTop_toTopOf="@+id/editTextEmail"
+        app:layout_constraintStart_toStartOf="@id/viewLogin"/>
 
     <TextView
         android:id="@+id/textViewRegister"
