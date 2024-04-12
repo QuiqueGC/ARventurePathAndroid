@@ -235,7 +235,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         handlerHappening.post(object : Runnable {
             override fun run() {
                 if (randomSecondHappening == 0){
-                    randomSecondHappening = Random.nextInt(60, 181)
+                    randomSecondHappening = Random.nextInt(30, 120)
                 }
                 if (!showingHappening){
                     randomHappening()
