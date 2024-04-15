@@ -8,17 +8,24 @@ plugins {
 }
 
 android {
+    //ndkVersion = "26.3.11579264"
+    ndkVersion = "23.1.7779620"
+    ndkPath = "C:/Program Files/Unity/Hub/Editor/2022.3.2f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK"
     namespace = "com.example.arventurepath"
     compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.arventurepath"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters.addAll(listOf("armeabi-v7a", "arm64-v8a","x86", "x86_64"))
+        }
     }
 
     buildTypes {
@@ -45,7 +52,16 @@ android {
 
 dependencies {
 
+    implementation("androidx.activity:activity-ktx:1.8.2")
     val nav_version = "2.7.7"
+
+    implementation ("androidx.games:games-activity:3.0.2")
+    implementation ("androidx.core:core-ktx:1.12.0")
+    //implementation ("com.google.ar:core:1.42.0")
+
+    implementation (project(":unityLibrary"))
+    implementation (fileTree(project(":unityLibrary").dependencyProject.projectDir.toString() + ("\\libs")){ include("*.jar") })
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     // para cifrar con bcrypt
     implementation("org.mindrot:jbcrypt:0.4")
@@ -98,6 +114,7 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
+
 kapt {
     correctErrorTypes = true
 }

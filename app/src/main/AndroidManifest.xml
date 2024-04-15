@@ -4,13 +4,14 @@
     <!-- Para la implementación de la RA -->
     <queries>
         <package android:name="com.unity.fenix" />
-    </queries>
-    <!-- Para la implementación de la RA -->
-
+    </queries> <!-- Para la implementación de la RA -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera.ar" />
+
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
@@ -24,7 +25,6 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -44,19 +44,33 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/googleMapsKey" />
+
         <activity
-            android:screenOrientation="portrait"
             android:name=".ui.main_activity.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.FenixActivity"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale|layoutDirection|density"
+            android:hardwareAccelerated="false"
+            android:process=":Unity"
+            android:screenOrientation="fullSensor"/>
+
+        <activity
+            android:name=".ui.MainUnityActivity"
+            android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale|layoutDirection|density"
+            android:hardwareAccelerated="false"
+            android:process=":Unity"
+            android:screenOrientation="fullSensor"/>
         <provider
-            android:authorities="com.example.arventurepath.ui.login_fragment.LoginFragment.FileProvider"
             android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.arventurepath.ui.login_fragment.LoginFragment.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

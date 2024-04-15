@@ -13,5 +13,6 @@
     <dimen name="viewpager_current_item_horizontal_margin">42dp</dimen>
     <dimen name="achievementWidth">80dp</dimen>
     <dimen name="achievementHeight">50dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 
 </resources>

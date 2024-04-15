@@ -1,5 +1,6 @@
 package com.example.arventurepath.ui.in_game_fragment
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
@@ -13,7 +14,6 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +32,6 @@ import com.example.arventurepath.data.models.Happening
 import com.example.arventurepath.data.models.Stop
 import com.example.arventurepath.databinding.FragmentInGameBinding
 import com.example.arventurepath.ui.detail_arventure_fragment.DetailArventureFragmentArgs
-import com.example.arventurepath.utils.Constants
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -136,7 +135,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
 
         binding.tvTxtInGame.setOnClickListener {
             if (!isFirstStop) {
-                launchExternalApk(Constants.FENIX_PACKAGE)
+                checkCameraPermissions()
             } else {
                 destinyMarker.remove()
                 viewModel.removeStop()
@@ -447,16 +446,53 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
                 viewModel.removeStoryFragment()
             }
         }
+    private fun checkCameraPermissions() {
+        requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+    }
 
-    private fun launchExternalApk(packageName: String) {
-        val intent = requireContext().packageManager.getLaunchIntentForPackage(packageName)
+    private val requestCameraPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                launchExternalApk()
+            } else {
+                Toast.makeText(requireContext(), "No has aceptado los permisos", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+    private fun launchExternalApk() {
+        /*val intent = requireContext().packageManager.getLaunchIntentForPackage(packageName)
         intent?.let {
             contractRA.launch(it)
         } ?: run {
             // Manejar el caso en el que no se pueda lanzar la actividad
             Toast.makeText(requireContext(), "No se pudo iniciar la aplicación", Toast.LENGTH_SHORT)
                 .show()
+        }*/
+
+        /*val intent = Intent(requireContext(), FenixActivity::class.java)
+        startActivity(intent)*/
+
+        startUnityWithClass(getMainUnityActivityClass())
+
+    }
+    private fun startUnityWithClass(activityDestination: Class<*>?) {
+        if (activityDestination != null){
+            val intent = Intent(requireContext(), activityDestination)
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+            startActivityForResult(intent, 1)
         }
+    }
+
+    private fun getMainUnityActivityClass(): Class<*>? {
+        return findClassUsingReflection("com.example.arventurepath.ui.MainUnityActivity")
+    }
+    private fun findClassUsingReflection(className: String): Class<*>? {
+        try {
+            return Class.forName(className)
+        } catch (e: ClassNotFoundException) {
+            e.printStackTrace()
+        }
+        return null
     }
 
     private fun tryingApk() {
