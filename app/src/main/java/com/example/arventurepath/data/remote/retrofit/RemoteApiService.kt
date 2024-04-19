@@ -42,7 +42,7 @@ interface RemoteApiService {
     suspend fun updateUser(
         @Path("id") id: Int,
         @Body userToPlay: UserToPlay
-    ): Response<Any>
+    )
 
 
 }
