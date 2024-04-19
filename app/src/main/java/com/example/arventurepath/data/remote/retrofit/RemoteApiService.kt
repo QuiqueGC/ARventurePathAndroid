@@ -1,5 +1,6 @@
 package com.example.arventurepath.data.remote.retrofit
 
+import android.util.Log
 import com.example.arventurepath.data.models.UserToPlay
 import com.example.arventurepath.data.models.UserToRegister
 import com.example.arventurepath.data.remote.responses.AchievementResponse
@@ -42,7 +43,5 @@ interface RemoteApiService {
     suspend fun updateUser(
         @Path("id") id: Int,
         @Body userToPlay: UserToPlay
-    )
-
-
+    ): Response<Unit>
 }

@@ -1,5 +1,6 @@
 package com.example.arventurepath.ui.in_game_fragment
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.arventurepath.data.models.Achievement
@@ -9,7 +10,6 @@ import com.example.arventurepath.data.models.Stop
 import com.example.arventurepath.data.models.StoryFragment
 import com.example.arventurepath.data.models.UserToPlay
 import com.example.arventurepath.data.remote.DataProvider
-import com.example.arventurepath.data.remote.retrofit.RemoteApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -62,10 +62,9 @@ class InGameViewModel() : ViewModel() {
     private fun getListAchievements() {
         viewModelScope.launch(Dispatchers.IO) {
             achievementsToEarn.addAll(DataProvider.getListAchievements() as MutableList<Achievement>)
-            achievementsToEarn.removeAll{ achievement -> achievement in _user.achievements  }
+            achievementsToEarn.removeAll{ achievement -> achievement in _user.achievement  }
         }
     }
-
 
     fun getStoryFragment() {
         viewModelScope.launch {
@@ -87,10 +86,10 @@ class InGameViewModel() : ViewModel() {
                 _stop.emit(stops[0])
 
             } else {
-                _user.achievements.add(_arventureDetail.value.achievement)
+                _user.achievement.add(_arventureDetail.value.achievement)
                 achievements.achievements.add(_arventureDetail.value.achievement)
-                _win.emit(achievements)
                 DataProvider.updateUser(_user.id, _user)
+                _win.emit(achievements)
             }
         }
     }
@@ -102,7 +101,7 @@ class InGameViewModel() : ViewModel() {
     }
 
     fun earnTimeAchievement() {
-        _user.achievements.addAll(achievementsToEarn.filter { it.name == "Juega durante 5 minutos" })
+        _user.achievement.addAll(achievementsToEarn.filter { it.name == "Juega durante 5 minutos" })
         achievements.achievements.addAll(achievementsToEarn.filter { it.name == "Juega durante 5 minutos" })
         viewModelScope.launch(Dispatchers.IO) {
             _achievementToShow.emit(achievements.achievements.last())
@@ -110,7 +109,7 @@ class InGameViewModel() : ViewModel() {
     }
 
     fun earn100StepsAchievement() {
-        _user.achievements.addAll(achievementsToEarn.filter { it.name == "Recorre 100 pasos" })
+        _user.achievement.addAll(achievementsToEarn.filter { it.name == "Recorre 100 pasos" })
         achievements.achievements.addAll(achievementsToEarn.filter { it.name == "Recorre 100 pasos" })
         viewModelScope.launch(Dispatchers.IO) {
             _achievementToShow.emit(achievements.achievements.last())
@@ -119,7 +118,7 @@ class InGameViewModel() : ViewModel() {
     }
 
     fun earn500StepsAchievement() {
-        _user.achievements.addAll(achievementsToEarn.filter { it.name == "Recorre 500 pasos" })
+        _user.achievement.addAll(achievementsToEarn.filter { it.name == "Recorre 500 pasos" })
         achievements.achievements.addAll(achievementsToEarn.filter { it.name == "Recorre 500 pasos" })
         viewModelScope.launch(Dispatchers.IO) {
             _achievementToShow.emit(achievements.achievements.last())
