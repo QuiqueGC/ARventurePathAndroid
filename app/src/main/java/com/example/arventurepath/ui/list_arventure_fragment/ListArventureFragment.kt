@@ -126,7 +126,7 @@ class ListArventureFragment : Fragment(), ArventureListListener {
         findNavController().navigate(
             ListArventureFragmentDirections
                 .actionListArventureFragment3ToDetailArventureFragment(
-                    //idUser = args.idUser,
+                    idUser = args.idUser,
                     idArventure = idArventure
                 )
         )
