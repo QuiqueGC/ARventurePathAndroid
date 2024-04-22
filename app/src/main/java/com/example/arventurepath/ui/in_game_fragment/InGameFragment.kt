@@ -13,7 +13,6 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -97,8 +96,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         mediaPlayer = MediaPlayer()
 
         setMap()
-        viewModel.getArventureDetail(args.idArventure)
-        viewModel.getListAchievements()
+        viewModel.getArventureDetailUser(args.idArventure, args.idUser)
         observeViewModel()
         //startTimer()
         binding.buttonStart.setOnClickListener {

@@ -12,4 +12,11 @@
         <item name="android:fontFamily">@font/merienda_regular</item>
     </style>
 
+    <style name="editTextStyle">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:layout_width">212dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:background">@drawable/edit_text_rounded_border</item>
+        <item name="android:padding">@dimen/smallMargin</item>
+    </style>
 </resources>

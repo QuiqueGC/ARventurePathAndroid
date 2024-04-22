@@ -181,6 +181,10 @@ object DataProvider {
         )
     }
 
+    suspend fun updateUser(idUser: Int, user: UserToPlay){
+        remoteApiService.updateUser(idUser, user)
+    }
+
     suspend fun getArventureToPlay(idArventure: Int): ArventureToPlay {
         val arventureResponse = remoteApiService.getArventureById(idArventure).body()!!
 
