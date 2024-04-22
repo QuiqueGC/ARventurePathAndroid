@@ -62,7 +62,11 @@ class InGameViewModel() : ViewModel() {
     private fun getListAchievements() {
         viewModelScope.launch(Dispatchers.IO) {
             achievementsToEarn.addAll(DataProvider.getListAchievements() as MutableList<Achievement>)
-            achievementsToEarn.removeAll{ achievement -> achievement in _user.achievement  }
+            achievementsToEarn.removeAll { achievementEarn ->
+                _user.achievement.any { achievementUser ->
+                    achievementEarn.name == achievementUser.name
+                }
+            }
         }
     }
 
