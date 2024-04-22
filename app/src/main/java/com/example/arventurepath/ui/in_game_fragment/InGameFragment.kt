@@ -76,6 +76,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
     private var audioURL = ""
     private var currentSteps = 0
     private var startButtonPressed = false
+    private var choiceRA = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -108,8 +109,12 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
             val stepSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
             if (stepSensor == null) {
                 // This will give a toast message to the user if there is no sensor in the device
-                Toast.makeText(requireContext(), "No sensor detected on this device", Toast.LENGTH_SHORT).show()
-            }else{
+                Toast.makeText(
+                    requireContext(),
+                    "No sensor detected on this device",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
                 sensorManager?.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_UI)
 
             }
@@ -134,7 +139,16 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
 
         binding.tvTxtInGame.setOnClickListener {
             if (!isFirstStop) {
-                launchExternalApk(Constants.FENIX_PACKAGE)
+                when (choiceRA) {
+                    0 -> launchExternalApk(Constants.FENIX_PACKAGE)
+                    1 -> launchExternalApk(Constants.DRAGON_PACKAGE)
+                    2 -> launchExternalApk(Constants.ROBOT_PACKAGE)
+                }
+                choiceRA++
+                if(choiceRA >= 3){
+                    choiceRA = 0
+                }
+
             } else {
                 destinyMarker.remove()
                 viewModel.removeStop()
@@ -154,13 +168,13 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         binding.textHappening.setOnClickListener {
             restartHappening()
         }
-        binding.imgHappening.setOnClickListener{
+        binding.imgHappening.setOnClickListener {
             restartHappening()
         }
     }
 
 
-    private fun restartHappening(){
+    private fun restartHappening() {
         binding.imgHappening.visibility = View.GONE
         binding.textHappening.visibility = View.GONE
         showingHappening = false
@@ -232,17 +246,17 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
 
         handlerHappening.post(object : Runnable {
             override fun run() {
-                if (randomSecondHappening == 0){
+                if (randomSecondHappening == 0) {
                     randomSecondHappening = Random.nextInt(30, 120)
                 }
-                if (!showingHappening){
+                if (!showingHappening) {
                     randomHappening()
                 }
 
-                if (secondsHappening - randomSecondHappening >= 11){
+                if (secondsHappening - randomSecondHappening >= 11) {
                     restartHappening()
                 }
-                secondsHappening+=5
+                secondsHappening += 5
 
                 handlerHappening.postDelayed(this, 5000)
             }
@@ -250,7 +264,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
     }
 
     private fun randomHappening() {
-        if(!isOnStop){
+        if (!isOnStop) {
             if (secondsHappening >= randomSecondHappening) {
                 if (happenings.isNotEmpty()) {
                     showingHappening = true
@@ -262,6 +276,7 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
                             binding.textHappening.visibility = View.VISIBLE
                             binding.textHappening.text = selectedHappening.text
                         }
+
                         "image" -> {
                             binding.imgHappening.visibility = View.VISIBLE
                             Glide.with(requireContext())
@@ -270,16 +285,26 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
                                 .apply(RequestOptions().centerCrop())
                                 .into(binding.imgHappening)
                         }
+
                         "audio" -> {
-                            audioURL = "http://abp-politecnics.com/2024/DAM01/filesToServer/audioHappening/${selectedHappening.img}"
+                            audioURL =
+                                "http://abp-politecnics.com/2024/DAM01/filesToServer/audioHappening/${selectedHappening.img}"
                             try {
                                 mediaPlayer.setDataSource(audioURL)
                                 mediaPlayer.prepare()
                                 mediaPlayer.start()
                             } catch (e: Exception) {
-                                Toast.makeText(requireContext(), "Ha habido un problema al intentar reproducir el audio", Toast.LENGTH_LONG).show()
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Ha habido un problema al intentar reproducir el audio",
+                                    Toast.LENGTH_LONG
+                                ).show()
                             }
-                            Toast.makeText(requireContext(), "Audio en reproducción", Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "Audio en reproducción",
+                                Toast.LENGTH_LONG
+                            ).show()
 
                         }
                     }

@@ -4,6 +4,9 @@
     <!-- Para la implementación de la RA -->
     <queries>
         <package android:name="com.unity.fenix" />
+        <package android:name="com.unity.template.dragon" />
+        <package android:name="com.unity.template.ar_robot" />
+
     </queries>
     <!-- Para la implementación de la RA -->
 
