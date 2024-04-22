@@ -45,10 +45,12 @@ class ListArventureFragment : Fragment(), ArventureListListener {
             if (!isListScreen) {
                 binding.constraintRecycler.visibility = View.VISIBLE
                 binding.viewPager.visibility = View.GONE
+                binding.tabLayout.visibility = View.GONE
                 binding.btnGetList.text = getString(R.string.back)
             } else {
                 binding.constraintRecycler.visibility = View.GONE
                 binding.viewPager.visibility = View.VISIBLE
+                binding.tabLayout.visibility = View.VISIBLE
                 binding.btnGetList.text = getString(R.string.seeMoreArventures)
             }
             isListScreen = !isListScreen
