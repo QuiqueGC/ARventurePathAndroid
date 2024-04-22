@@ -12,6 +12,7 @@ import com.example.arventurepath.data.models.ItemArventure
 import com.example.arventurepath.databinding.ItemViewpagerBinding
 import com.example.arventurepath.ui.list_arventure_fragment.ArventureListListener
 import java.util.Locale
+import kotlin.random.Random
 
 class ArventurePagerAdapter(
     private val context: Context,
@@ -58,9 +59,21 @@ class ArventurePagerAdapter(
 
     fun updateList(arventuresList: List<ItemArventure>) {
         arventures.clear()
+        val listIndexes = mutableListOf<Int>()
+
         if (arventuresList.count() > 6) {
             for (i in 0 until 6) {
-                arventures.add(arventuresList[i])
+                var isArventureAdded : Boolean
+                do {
+                    val randomIndex = Random.nextInt(0, arventuresList.size)
+                    if(!listIndexes.contains(randomIndex)){
+                        listIndexes.add(randomIndex)
+                        arventures.add(arventuresList[randomIndex])
+                        isArventureAdded = true
+                    }else{
+                        isArventureAdded = false
+                    }
+                }while(isArventureAdded)
             }
         } else {
             for (arventure in arventuresList) {
