@@ -290,6 +290,9 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
                             audioURL =
                                 "http://abp-politecnics.com/2024/DAM01/filesToServer/audioHappening/${selectedHappening.img}"
                             try {
+                                mediaPlayer.stop()
+                                mediaPlayer.release()
+                                mediaPlayer = MediaPlayer()
                                 mediaPlayer.setDataSource(audioURL)
                                 mediaPlayer.prepare()
                                 mediaPlayer.start()
