@@ -147,6 +147,12 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
                 choiceRA++
                 if(choiceRA >= 3){
                     choiceRA = 0
+                    destinyMarker.remove()
+                    viewModel.removeStop()
+                    viewModel.getStop()
+                    binding.tvTxtInGame.visibility = View.GONE
+                    viewModel.removeStoryFragment()
+
                 }
 
             } else {
