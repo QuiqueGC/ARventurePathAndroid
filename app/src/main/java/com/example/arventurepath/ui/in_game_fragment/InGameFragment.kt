@@ -444,11 +444,11 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
                             startButtonPressed = true
                             binding.buttonStart.visibility = View.VISIBLE
                             binding.tvGoToStart.text = "Pulsa en comenzar y... Allá vamos!"
-                        } else {
+                        } else if (!isFirstStop) {
+                            viewModel.getStoryFragment()
                             /*destinyMarker.remove()
                             viewModel.removeStop()
                             viewModel.getStop()*/
-                            viewModel.getStoryFragment()
                         }
                     }
                 }
