@@ -73,7 +73,7 @@ class ArventurePagerAdapter(
                     }else{
                         isArventureAdded = false
                     }
-                }while(isArventureAdded)
+                } while (!isArventureAdded)
             }
         } else {
             for (arventure in arventuresList) {

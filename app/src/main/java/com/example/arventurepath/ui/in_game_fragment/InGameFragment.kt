@@ -140,14 +140,31 @@ class InGameFragment : Fragment(), OnMapReadyCallback, SensorEventListener {
         binding.tvTxtInGame.setOnClickListener {
             if (!isFirstStop) {
                 when (choiceRA) {
-                    0 -> launchExternalApk(Constants.FENIX_PACKAGE)
-                    1 -> launchExternalApk(Constants.DRAGON_PACKAGE)
-                    2 -> launchExternalApk(Constants.ROBOT_PACKAGE)
+                    0 -> {
+                        launchExternalApk(Constants.FENIX_PACKAGE)
+                        choiceRA++
+                    }
+
+                    1 -> {
+                        launchExternalApk(Constants.DRAGON_PACKAGE)
+                        choiceRA++
+                    }
+
+                    2 -> {
+                        launchExternalApk(Constants.ROBOT_PACKAGE)
+                        choiceRA++
+                    }
+
+                    else -> {
+                        choiceRA = 0
+                        destinyMarker.remove()
+                        viewModel.removeStop()
+                        viewModel.getStop()
+                        binding.tvTxtInGame.visibility = View.GONE
+                        viewModel.removeStoryFragment()
+                    }
                 }
-                choiceRA++
-                if(choiceRA >= 3){
-                    choiceRA = 0
-                }
+
 
             } else {
                 destinyMarker.remove()
